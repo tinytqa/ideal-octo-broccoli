@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admin_styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar với menu điều hướng -->
+        <div class="sidebar">
+            <div class="logo">Learning English Website - Admin Page</div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="dashboard.html">
+                    <span>Overview</span>
+                </li> 
+                <li class="nav-item" data-page="instructor.html">
+                    <span>Instructor management</span>
+                </li>
+                <li class="nav-item" data-page="student.html">
+                    <span>Student management</span>
+                </li>
+                <li class="nav-item" data-page="studentbuycourse.html">
+                    <span>Buying course management</span>
+                </li>
+                <li class="nav-item" data-page="user.html">
+                    <span>User management</span>
+                </li>
+                <li class="nav-item" data-page="payment.html">
+                    <span>Payment management</span>
+                </li>
+                <li class="nav-item" data-page="notifications.html">
+                    <span>Notification</span>
+                </li>
+                <li class="nav-item" data-page="settings.html">
+                    <span>Setting</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Khu vực nội dung chính -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Overview</h1>
+            </div>
+            <!-- iframe để hiển thị nội dung -->
+            <iframe id="content-frame" class="content-frame" src="dashboard.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Lấy các phần tử DOM cần thiết
+        const iframe = document.getElementById('content-frame');
+        const pageTitle = document.querySelector('.page-title');
+        const menuItems = document.querySelectorAll('.nav-item');
+
+        // Xử lý sự kiện click trên menu
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Xóa trạng thái active từ tất cả các menu items
+                menuItems.forEach(i => i.classList.remove('active'));
+                
+                // Thêm trạng thái active cho item được click
+                this.classList.add('active');
+                
+                // Cập nhật tiêu đề trang
+                pageTitle.textContent = this.querySelector('span').textContent;
+                
+                // Cập nhật src của iframe để load trang mới
+                const page = this.getAttribute('data-page');
+                iframe.src = page;
+            });
+        });
+    </script>
+</body>
+</html>

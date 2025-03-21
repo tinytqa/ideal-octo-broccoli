@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Course management</h2>
+        <div class="row mt-2">
+            <div class="col-md-10">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search course...">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="openDialog()">Add course</button>
+            </div>
+        </div>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Course Id</th>
+                    <th>Instructor Id</th>
+                    <th>Course Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable"></tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Course information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Course Id</label>
+                        <input type="text" id="courseId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Instructor Id</label>
+                        <input type="text" id="instructorId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Course Name</label>
+                        <input type="text" id="courseName" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea id="description" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="number" id="price" class="form-control" step="0.01">
+                    </div>
+                    <button class="btn btn-success" onclick="saveCourse()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter Modal -->
+    <div class="modal fade" id="chapterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chapters</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Chapter Id</th>
+                                <th>Chapter Title</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="chapterTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson Modal -->
+    <div class="modal fade" id="lessonModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lessons</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Lesson Id</th>
+                                <th>Lesson Title</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lessonTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson Content Modal -->
+    <div class="modal fade" id="lessonContentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lesson Content</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="lessonContentBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = 'https://localhost:7026/api/Course';
+
+        $(document).ready(function () {
+            loadData();
+        });
+
+        function loadData() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    renderTable(data);
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải dữ liệu');
+                    console.error(error);
+                }
+            });
+        }
+
+        function renderTable(data) {
+            let html = '';
+            data.forEach((item) => {
+                html += `
+                    <tr>
+                        <td>${item.courseId}</td>
+                        <td>${item.instructorId}</td>
+                        <td>${item.courseName}</td>
+                        <td>${item.description}</td>
+                        <td>${item.price}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.courseId}')">Fix</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCourse('${item.courseId}')">Delete</button>
+                            <button class="btn btn-danger btn-sm" onclick="showChapter('${item.courseId}')">Show chapter</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#dataTable').html(html);
+        }
+
+        function openDialog(id = null) {
+            $("#editModal").modal("show");
+
+            if (id) {
+                $.ajax({
+                    url: `${baseUrl}/GetList`,
+                    method: 'GET',
+                    success: function (data) {
+                        const course = data.find(x => x.courseId === id);
+                        if (course) {
+                            $("#courseId").val(course.courseId).prop("readonly", true);
+                            $("#instructorId").val(course.instructorId);
+                            $("#courseName").val(course.courseName);
+                            $("#description").val(course.description);
+                            $("#price").val(course.price);
+                        }
+                    }
+                });
+            } else {
+                $("#courseId").val("").prop("readonly", false);
+                $("#instructorId").val("");
+                $("#courseName").val("");
+                $("#description").val("");
+                $("#price").val("");
+            }
+        }
+
+        function saveCourse() {
+            var courseId = $("#courseId").val();
+            var instructorId = $("#instructorId").val();
+            var courseName = $("#courseName").val();
+            var description = $("#description").val();
+            var price = $("#price").val();
+
+            if (!courseId || !courseName || !price || !instructorId || !description) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            if ($("#courseId").prop("readonly")) {
+                updateCourse(courseId, instructorId, courseName, description, price);
+            } else {
+                insertCourse(courseId, instructorId, courseName, description, price);
+            }
+        }
+
+        function insertCourse(courseId, instructorId, courseName, description, price) {
+            const url = `courseId=${courseId}&instructorId=${instructorId}&courseName=${encodeURIComponent(courseName)}&description=${encodeURIComponent(description)}&price=${price}`;
+
+            $.post(`${baseUrl}/Insert?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Thêm mới thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi thêm dữ liệu');
+                    console.error(error);
+                });
+        }
+
+        function updateCourse(courseId, instructorId, courseName, description, price) {
+            const url = `courseId=${courseId}&instructorId=${instructorId}&courseName=${encodeURIComponent(courseName)}&description=${encodeURIComponent(description)}&price=${price}`;
+
+            $.post(`${baseUrl}/Update?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Cập nhật thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi cập nhật dữ liệu');
+                    console.error(error);
+                });
+        }
+        function deleteCourse(courseId) {
+            if (confirm('Bạn có chắc muốn xóa khóa học?')) {
+                $.post(`${baseUrl}/Delete?courseId=${courseId}`)
+                    .done(() => {
+                        loadData();
+                        alert('Xóa khoá học thành công!');
+                    })
+                    .fail(error => {
+                        alert('Lỗi khi xóa khóa học');
+                        console.error(error);
+                    });
+            }
+        }
+        // Hàm tìm kiếm
+        $("#searchInput").on("keyup", function () {
+            let value = $(this).val().toLowerCase();
+            $("#dataTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+        const itemBaseUrl = 'https://localhost:7026/api/GetItemByForeignKey';
+
+        function showChapter(courseId) {
+            $.ajax({
+                url: `${itemBaseUrl}/GetChapters/${courseId}`,
+                method: 'GET',
+                success: function (data) {
+                    renderChapterTable(data, courseId);
+                    $('#chapterModal').modal('show');
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải chapter');
+                    console.error(error);
+                }
+            });
+        }
+
+        function renderChapterTable(chapters, courseId) {
+            let html = '';
+            chapters.forEach((chapter) => {
+                html += `
+                <tr>
+                    <td>${chapter.chapterId}</td>
+                    <td>${chapter.chapterTitle}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="openLesson('${chapter.chapterId}')">Show Lesson</button>
+                    </td>
+                </tr>
+            `;
+            });
+            $('#chapterTable').html(html);
+        }
+
+        function openLesson(chapterId) {
+            $.ajax({
+                url: `${itemBaseUrl}/GetLessons/${chapterId}`,
+                method: 'GET',
+                success: function (data) {
+                    renderLessonTable(data);
+                    $('#lessonModal').modal('show');
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải lesson');
+                    console.error(error);
+                }
+            });
+        }
+
+        function renderLessonTable(lessons) {
+            let html = '';
+            lessons.forEach((lesson) => {
+                html += `
+                <tr>
+                    <td>${lesson.lessonId}</td>
+                    <td>${lesson.lessonTitle}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" onclick="showLessonContent('${lesson.lessonId}')">Show Content</button>
+                    </td>
+                </tr>
+            `;
+            });
+            $('#lessonTable').html(html);
+        }
+
+        function showLessonContent(lessonId) {
+            $.ajax({
+                url: `${itemBaseUrl}/GetLessonContent/${lessonId}`,
+                method: 'GET',
+                success: function (data) {
+                    if (Array.isArray(data) && data.length > 0) {
+                        let contentHtml = data.map(item => `
+                            <div>
+                                <p>Type: ${item.contentType}</p>
+                                <p>Title: ${item.contentTitle}</p>
+                                ${item.fileUrl ? `<a href="${item.fileUrl}" target="_blank">View Content</a>` : ''}
+                            </div>
+                            <hr>
+                        `).join('');
+                        $('#lessonContentBody').html(contentHtml);
+                    } else {
+                        $('#lessonContentBody').html('<p>No lesson content available</p>');
+                    }
+                    $('#lessonContentModal').modal('show');
+                },
+                error: function (error) {
+                    alert('Error loading lesson content');
+                    console.error(error);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

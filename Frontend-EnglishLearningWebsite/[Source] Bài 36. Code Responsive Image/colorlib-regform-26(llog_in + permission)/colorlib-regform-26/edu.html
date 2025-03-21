@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SelfLearn - High Quality Online Courses</title>
+    <link rel="stylesheet" href="css/edu_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Self<span>Learn</span></div>
+            <nav>
+                <ul>
+                    <li><a href="mainpage.html">Home</a></li>
+                    <li><a href="#courses">Course</a></li>
+                    <li><a href="#features">Feature</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="login-btn" onclick="Logout(event)" style="display: none;" id="btnLogout">Logout</a>
+                <a href="edu_login.html" class="login-btn" style="display: inline-block;" id="btnLogin">Login</a>
+                <a href="edu_register.html" class="signup-btn" style="display: inline-block;"
+                    id="btnRegister">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Study anytime, anywhere with SelfLearn</h1>
+            <p>Explore thousands of quality courses from leading experts to enhance your skills and knowledge.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for courses...">
+                <button>Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses" id="courses">
+        <div class="section-header">
+            <h2>Featured Courses</h2>
+            <a href="#" class="view-all">See all</a>
+        </div>
+        <div class="courses-container">
+            <div class="course-card">
+                <div class="course-image">
+                    <img src="/api/placeholder/350/180" alt="Javascript">
+                </div>
+                <div class="course-details">
+                    <h3 class="course-title">JavaScript Toàn Tập Từ Cơ Bản Đến Nâng Cao</h3>
+                    <div class="course-info">
+                        <div class="course-lessons">
+                            <i class="fas fa-book"></i> 42 bài học
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            <span class="original-price">999.000đ</span>
+                            599.000đ
+                        </div>
+                        <button class="buy-btn">Mua Ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <img src="/api/placeholder/350/180" alt="Marketing">
+                </div>
+                <div class="course-details">
+                    <h3 class="course-title">Digital Marketing Từ A-Z Cho Người Mới Bắt Đầu</h3>
+                    <div class="course-info">
+                        <div class="course-lessons">
+                            <i class="fas fa-book"></i> 35 bài học
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            <span class="original-price">899.000đ</span>
+                            499.000đ
+                        </div>
+                        <button class="buy-btn">Mua Ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <img src="/api/placeholder/350/180" alt="English">
+                </div>
+                <div class="course-details">
+                    <h3 class="course-title">Tiếng Anh Giao Tiếp Thực Tế Cho Người Đi Làm</h3>
+                    <div class="course-info">
+                        <div class="course-lessons">
+                            <i class="fas fa-book"></i> 50 bài học
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            <span class="original-price">1.200.000đ</span>
+                            699.000đ
+                        </div>
+                        <button class="buy-btn">Mua Ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <img src="/api/placeholder/350/180" alt="Design">
+                </div>
+                <div class="course-details">
+                    <h3 class="course-title">Thiết Kế Đồ Họa với Adobe Photoshop và Illustrator</h3>
+                    <div class="course-info">
+                        <div class="course-lessons">
+                            <i class="fas fa-book"></i> 38 bài học
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            <span class="original-price">1.100.000đ</span>
+                            649.000đ
+                        </div>
+                        <button class="buy-btn">Mua Ngay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2>Why Choose SelfLearn?</h2>
+            <p>We provide high quality learning experience with many outstanding features</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Learn Anytime Anywhere</h3>
+                    <p>Access the course from your computer, tablet or phone. Study flexibly on your schedule.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>High Quality Teachers</h3>
+                    <p>The faculty are leading experts in the field, experienced and passionate about teaching.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certificate of Value</h3>
+                    <p>Receive a valuable certificate upon completion of the course, enhancing your profile and career
+                        opportunities.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Interactive Support</h3>
+                    <p>Interact directly with instructors and other students through online discussion forums and Q&A
+                        sessions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Regular Updates</h3>
+                    <p>Course content is constantly updated to ensure knowledge is always up-to-date and relevant to the
+                        market.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Reasonable Price</h3>
+                    <p>We are committed to providing quality courses at affordable prices, with many incentives and
+                        scholarships.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About SelfLearn</h3>
+                <p>SelfLearn is Vietnam's leading online learning platform, providing high-quality courses at affordable
+                    prices, helping everyone access the necessary knowledge and skills.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="mainpage.html">Home</a></li>
+                    <li><a href="#courses">Course</a></li>
+                    <li><a href="#features">Feature</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Nguyễn Huệ, Quận 1, TP. HCM</li>
+                    <li><i class="fas fa-phone"></i> +84 28 1234 5678</li>
+                    <li><i class="fas fa-envelope"></i> info@selflearn.vn</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EduViet. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script>
+        // JavaScript có thể được thêm vào đây
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hiệu ứng trượt mượt cho các liên kết menu
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId.startsWith('#')) {
+                        // Only prevent default for anchor links
+                        e.preventDefault();
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                    // For non-anchor links, let the default behavior happen (navigate to the page)
+                });
+            });
+        });
+
+        // Đăng nhập và đăng xuất
+        $(document).ready(function () {
+            var user = JSON.parse(window.sessionStorage.getItem("user"));
+            function pagePermission() {
+                if (user.role == "Instructor") {
+                    location.href = "../../instructorPage.html";
+                    return;
+                }
+                if (user.role == "Administrator") {
+                    location.href = "../../adminPage.html";
+                    return;
+                }
+                if (user.role == "Student") {
+                    document.getElementById("btnLogin").style.display = "none";
+                    document.getElementById("btnRegister").style.display = "none";
+                    document.getElementById("btnLogout").style.display = "inline-block";
+                }
+            }
+            pagePermission();
+        });
+
+        function Logout(event) {
+            event.preventDefault();
+
+            window.sessionStorage.removeItem("user");
+            window.location.href = "edu.html";
+        }
+
+        // Mảng dữ liệu mẫu cho các khóa học
+        const courses = [
+            {
+                id: 1,
+                title: "JavaScript Toàn Tập Từ Cơ Bản Đến Nâng Cao",
+                price: 599000,
+                originalPrice: 999000,
+                lessons: 42,
+                image: "/api/placeholder/350/180",
+                description: "Học JavaScript từ cơ bản đến nâng cao với các bài tập thực hành"
+            },
+            {
+                id: 2,
+                title: "Digital Marketing Từ A-Z Cho Người Mới Bắt Đầu",
+                price: 499000,
+                originalPrice: 899000,
+                lessons: 35,
+                image: "/api/placeholder/350/180",
+                description: "Khóa học toàn diện về Digital Marketing"
+            },
+            {
+                id: 3,
+                title: "Tiếng Anh Giao Tiếp Thực Tế Cho Người Đi Làm",
+                price: 699000,
+                originalPrice: 1200000,
+                lessons: 50,
+                image: "/api/placeholder/350/180",
+                description: "Nâng cao kỹ năng giao tiếp tiếng Anh trong môi trường công việc"
+            },
+            {
+                id: 4,
+                title: "Thiết Kế Đồ Họa với Adobe Photoshop và Illustrator",
+                price: 649000,
+                originalPrice: 1100000,
+                lessons: 38,
+                image: "/api/placeholder/350/180",
+                description: "Làm chủ các kỹ năng thiết kế với Adobe Photoshop và Illustrator"
+            },
+            {
+                id: 5,
+                title: "Python cho Data Science và AI",
+                price: 799000,
+                originalPrice: 1300000,
+                lessons: 55,
+                image: "/api/placeholder/350/180",
+                description: "Học Python và ứng dụng vào phân tích dữ liệu và AI"
+            },
+            {
+                id: 6,
+                title: "Kế Toán Doanh Nghiệp Thực Hành",
+                price: 549000,
+                originalPrice: 950000,
+                lessons: 40,
+                image: "/api/placeholder/350/180",
+                description: "Khóa học thực hành kế toán từ A-Z dành cho người mới bắt đầu"
+            }
+        ];
+
+        // Tạo dropdown filter và gắn sự kiện cho search bar
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy phần tử search bar
+            const searchBar = document.querySelector('.search-bar');
+            const searchInput = searchBar.querySelector('input');
+            const searchButton = searchBar.querySelector('button');
+
+            // Thêm lựa chọn filter vào thanh tìm kiếm
+            const filterDropdown = document.createElement('div');
+            filterDropdown.className = 'filter-dropdown';
+            filterDropdown.innerHTML = `
+        <select id="price-filter">
+            <option value="">All prices</option>
+            <option value="low">Under 500,000 VND</option>
+            <option value="medium">500.000đ - 700.000đ</option>
+            <option value="high">Over 700,000 VND</option>
+        </select>
+    `;
+
+            // Thêm dropdown vào sau input và trước button
+            searchInput.insertAdjacentElement('afterend', filterDropdown);
+
+            // Tạo div để hiển thị kết quả tìm kiếm
+            const searchResults = document.createElement('div');
+            searchResults.className = 'search-results';
+            searchResults.style.display = 'none';
+            searchBar.appendChild(searchResults);
+
+            // Hàm tìm kiếm và lọc khóa học
+            function searchCourses() {
+                const searchText = searchInput.value.toLowerCase().trim();
+                const priceFilter = document.getElementById('price-filter').value;
+
+                // Lọc khóa học theo điều kiện
+                const filteredCourses = courses.filter(course => {
+                    // Nếu không có text tìm kiếm, bỏ qua điều kiện text
+                    if (searchText === '') {
+                        // Lọc theo giá
+                        let matchPrice = true;
+                        if (priceFilter === 'low') {
+                            matchPrice = course.price < 500000;
+                        } else if (priceFilter === 'medium') {
+                            matchPrice = course.price >= 500000 && course.price <= 700000;
+                        } else if (priceFilter === 'high') {
+                            matchPrice = course.price > 700000;
+                        }
+
+                        return matchPrice;
+                    }
+
+                    // Tìm kiếm theo từ khóa - tìm từng từ riêng biệt
+                    const words = searchText.split(/\s+/);
+                    const titleMatch = words.every(word => {
+                        return course.title.toLowerCase().includes(word);
+                    });
+
+                    // Lọc theo giá
+                    let matchPrice = true;
+                    if (priceFilter === 'low') {
+                        matchPrice = course.price < 500000;
+                    } else if (priceFilter === 'medium') {
+                        matchPrice = course.price >= 500000 && course.price <= 700000;
+                    } else if (priceFilter === 'high') {
+                        matchPrice = course.price > 700000;
+                    }
+
+                    return titleMatch && matchPrice;
+                });
+
+                // Hiển thị kết quả
+                displayResults(filteredCourses);
+            }
+
+            // Hàm hiển thị kết quả tìm kiếm
+            function displayResults(results) {
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<p class="no-results">Không tìm thấy khóa học phù hợp</p>';
+                } else {
+                    searchResults.innerHTML = results.map(course => `
+                <div class="search-result-item">
+                    <img src="${course.image}" alt="${course.title}">
+                    <div class="search-result-info">
+                        <h4>${course.title}</h4>
+                        <div class="search-result-details">
+                            <span class="search-result-lessons">${course.lessons} bài học</span>
+                        </div>
+                        <div class="search-result-price">
+                            <span class="search-result-original-price">${formatPrice(course.originalPrice)}</span>
+                            <span class="search-result-current-price">${formatPrice(course.price)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+                }
+
+                searchResults.style.display = 'block';
+            }
+
+            // Format giá tiền
+            function formatPrice(price) {
+                return price.toLocaleString('vi-VN') + 'đ';
+            }
+
+            // Sự kiện tìm kiếm khi nhấn nút hoặc Enter
+            searchButton.addEventListener('click', searchCourses);
+            searchInput.addEventListener('keyup', function (event) {
+                if (event.key === 'Enter') {
+                    searchCourses();
+                }
+            });
+
+            // Sự kiện khi thay đổi bộ lọc
+            document.getElementById('price-filter').addEventListener('change', searchCourses);
+
+            // Ẩn kết quả khi click ra ngoài
+            document.addEventListener('click', function (event) {
+                if (!searchBar.contains(event.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+
+            // Hiển thị lại kết quả khi focus vào ô tìm kiếm
+            searchInput.addEventListener('focus', function () {
+                if (searchResults.innerHTML !== '') {
+                    searchResults.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">User management</h2>
+
+        <!-- Thanh tìm kiếm và nút thêm mới -->
+        <div class="row mt-2">
+            <div class="col-md-10">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search user...">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="openDialog()">Add user</button>
+            </div>
+        </div>
+
+        <!-- Bảng hiển thị dữ liệu -->
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Full name</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable"></tbody>
+        </table>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">User Id</label>
+                        <input type="text" id="userId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" id="username" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="text" id="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Full name</label>
+                        <input type="text" id="fullName" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="text" id="email" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone number</label>
+                        <input type="text" id="phoneNumber" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="role">Role</label>
+                        <select id="role" class="form-control">
+                            <option value="">Select role</option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Student">Student</option>
+                            <option value="Instructor">Instructor</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success" onclick="saveUser()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Khai báo URL cơ bản của API
+        const baseUrl = 'https://localhost:7026/api/User';
+
+        // Tải dữ liệu khi trang được load
+        $(document).ready(function () {
+            loadData();
+        });
+
+        // Hàm tải dữ liệu từ API
+        function loadData() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    renderTable(data);
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải dữ liệu');
+                    console.error(error);
+                }
+            });
+        }
+
+        // Hàm render bảng với dữ liệu
+        function renderTable(data) {
+            let html = '';
+            data.forEach((item) => {
+                html += `
+                    <tr>
+                        <td>${item.userId}</td>
+                        <td>${item.username}</td>
+                        <td>${item.password}</td>
+                        <td>${item.fullName}</td>
+                        <td>${item.email}</td>
+                        <td>${item.phoneNumber}</td>
+                        <td>${item.role}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.userId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${item.userId}')">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#dataTable').html(html);
+        }
+
+        // Hàm mở dialog
+        function openDialog(id = null) {
+            $("#editModal").modal("show");
+
+            if (id) {
+                // Chế độ sửa - load dữ liệu và khóa User Id
+                $.ajax({
+                    url: `${baseUrl}/GetList`,
+                    method: 'GET',
+                    success: function (data) {
+                        const user = data.find(x => x.userId === id);
+                        if (user) {
+                            $("#userId").val(user.userId).prop("readonly", true);
+                            $("#username").val(user.username);
+                            $("#password").val(user.password);
+                            $("#fullName").val(user.fullName);
+                            $("#email").val(user.email);
+                            $("#phoneNumber").val(user.phoneNumber);
+                            $("#role").val(user.role);
+                        }
+                    }
+                });
+            } else {
+                // Chế độ thêm mới - xóa form và cho phép nhập User Id
+                $("#userId").val("").prop("readonly", false);
+                $("#username").val("");
+                $("#password").val("");
+                $("#fullName").val("");
+                $("#email").val("");
+                $("#phoneNumber").val("");
+                $("#role").val("");
+            }
+        }
+
+        // Hàm lưu User
+        function saveUser() {
+            var userId = $("#userId").val();
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var fullName = $("#fullName").val();
+            var email = $("#email").val();
+            var phoneNumber = $("#phoneNumber").val();
+            var role = $("#role").val();
+
+            if (!userId || !username || !password || !fullName || !email || !phoneNumber || !role) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            if ($("#userId").prop("readonly")) {
+                updateUser(userId, username, password, fullName, email, phoneNumber, role);
+            } else {
+                insertUser(userId, username, password, fullName, email, phoneNumber, role);
+            }
+        }
+
+        // Hàm thêm mới User
+        function insertUser(userId, username, password, fullName, email, phoneNumber, role) {
+            const url = `${baseUrl}/Insert?userId=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&fullName=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&phoneNumber=${encodeURIComponent(phoneNumber)}&role=${encodeURIComponent(role)}`;
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                success: function (response) {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Thêm mới thành công!');
+                },
+                error: function (error) {
+                    alert('Lỗi khi thêm dữ liệu');
+                    console.error(error);
+                }
+            });
+        }
+
+        // Hàm cập nhật User
+        function updateUser(userId, username, password, fullName, email, phoneNumber, role) {
+            const url = `${baseUrl}/Update?userId=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&fullName=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&phoneNumber=${encodeURIComponent(phoneNumber)}&role=${encodeURIComponent(role)}`;
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                success: function (response) {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Cập nhật thành công!');
+                },
+                error: function (error) {
+                    alert('Lỗi khi cập nhật dữ liệu');
+                    console.error(error);
+                }
+            });
+        }
+
+        // Hàm xóa User
+        function deleteUser(id) {
+            if (confirm('Bạn có chắc muốn xóa?')) {
+                $.ajax({
+                    url: `${baseUrl}/Delete?userId=${encodeURIComponent(id)}`,
+                    method: 'POST',
+                    success: function (response) {
+                        loadData();
+                        alert('Xóa thành công!');
+                    },
+                    error: function (error) {
+                        alert('Lỗi khi xóa dữ liệu');
+                        console.error(error);
+                    }
+                });
+            }
+        }
+
+        // Hàm tìm kiếm
+        $("#searchInput").on("keyup", function () {
+            let value = $(this).val().toLowerCase();
+            $("#dataTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

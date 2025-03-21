@@ -1,0 +1,30 @@
+@import './abstracts/variables';
+@import './abstracts/mixins';
+
+@import './base/animations';
+@import './base/base';
+@import './base/typography';
+@import './base/utilities';
+
+@import './components/buttons';
+@import './components/composition';
+@import './components/skill-box';
+@import './components/card';
+@import './components/testimonials';
+@import './components/bg-video';
+// main.scss
+@import './components/form';
+@import './components/popup';
+
+@import './layout/header';
+@import './layout/grid';
+@import './layout/footer';
+@import './layout/navigation';
+
+
+@import './pages/home';
+
+
+
+
+

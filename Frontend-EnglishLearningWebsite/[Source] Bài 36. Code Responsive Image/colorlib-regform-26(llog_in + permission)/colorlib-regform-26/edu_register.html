@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Register</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- LINEARICONS -->
+	<link rel="stylesheet" href="fonts/linearicons/style.css">
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<div class="inner">
+			<img src="images/image-1.png" alt="" class="image-1">
+			<form action="">
+				<h3>Register</h3>
+				<div class="form-holder">
+					<span class="lnr lnr-user"></span>
+					<input id="txtuser" type="text" class="form-control" placeholder="Username">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-lock"></span>
+					<input id="txtpw" type="password" class="form-control" placeholder="Password">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-user"></span>
+					<input id="txtfullname" type="text" class="form-control" placeholder="Full Name">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-envelope"></span>
+					<input id="txtemail" type="email" class="form-control" placeholder="Email">
+				</div>
+				<div class="form-holder">
+					<span class="lnr lnr-phone-handset"></span>
+					<input id="txtphone" type="text" class="form-control" placeholder="Phone Number">
+				</div>
+				<button id="btnregister" onclick="saveUser(event)">
+					<span>Register</span>
+				</button>
+			</form>
+			<img src="images/image-2.png" alt="" class="image-2">
+		</div>
+
+	</div>
+
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script>
+		// Khai báo URL cơ bản của API
+		const baseUrl = 'https://localhost:7026/api/User';
+
+		// Hàm lưu User
+		function saveUser(event) {
+			event.preventDefault();
+			
+			var userId = null;
+			var username = $("#txtuser").val();
+			var password = $("#txtpw").val();
+			var fullName = $("#txtfullname").val();
+			var email = $("#txtemail").val();
+			var phoneNumber = $("#txtphone").val();
+			var role = "Student";
+
+			if (!username || !password || !fullName || !email || !phoneNumber) {
+				alert('Vui lòng nhập đầy đủ thông tin!');
+				return;
+			}
+			insertUser(userId, username, password, fullName, email, phoneNumber, role);
+			alert('User saved!');
+			location.href = "login.html";
+		}
+
+		// Hàm thêm mới User
+		function insertUser(userId, username, password, fullName, email, phoneNumber, role) {
+			const url = `${baseUrl}/Insert?userId=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&fullName=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&phoneNumber=${encodeURIComponent(phoneNumber)}&role=${encodeURIComponent(role)}`;
+
+			$.ajax({
+				url: url,
+				method: 'POST',
+				success: function (response) {
+					alert('Register successfully!');
+					$("#username").val("");
+					$("#password").val("");
+					$("#fullName").val("");
+					$("#email").val("");
+					$("#phoneNumber").val("");
+				},
+				error: function (error) {
+					alert('Lỗi khi thêm dữ liệu');
+					console.error(error);
+				}
+			});
+		}
+	</script>
+</body>
+
+</html>

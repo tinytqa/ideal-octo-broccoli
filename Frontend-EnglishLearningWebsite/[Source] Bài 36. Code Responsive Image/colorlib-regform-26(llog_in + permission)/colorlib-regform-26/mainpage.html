@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/stylemainpage.css" />
+    <!--Add this-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+    <!--Add this-->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!--Add this-->
+
+
+    <title>SELFTAUGHT | Skill Website</title>
+
+</head>
+
+<body>
+    <div class="navigation">
+        <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
+        <label for="navi-toggle" class="navigation__button">
+            <span class="navigation__icon">&nbsp;</span>
+        </label>
+        <div class="navigation__background">&nbsp;</div>
+        <div class="navigation__nav">
+            <ul class="navigation__list">
+                <li id="navi_about" class="navigation__item"><a href="#about" class="navigation__link">About us</a></li>
+                <li id="navi_skill" class="navigation__item"><a href="#skills" class="navigation__link">Our Skills</a>
+                </li>
+                <li id="navi_courses" class="navigation__item"><a href="#section-courses" class="navigation__link">Our
+                        courses</a></li>
+                <li id="navi_test" class="navigation__item"><a href="#testimonials"
+                        class="navigation__link">Testimonials</a></li>
+                <li id="navi_enroll" class="navigation__item"><a href="#enroll" class="navigation__link">Enroll form</a>
+                </li>
+                <li id="navi_admin" class="navigation__item"><a href="../../adminPage.html"
+                        class="navigation__link">Administrator page</a></li>
+                <li id="navi_student" class="navigation__item"><a href="../../studentPage.html"
+                        class="navigation__link">Student page</a></li>
+                <li id="navi_instructor" class="navigation__item"><a href="../../instructorPage.html"
+                        class="navigation__link">Instructor page</a></li>
+                <li id="navi_logout" class="navigation__item"><a href="#" class="navigation__link">Log out</a></li>
+                <li id="navi_login" class="navigation__item"><a href="login.html" class="navigation__link">Log in</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <header class="header">
+        <div class="header__logo-box">
+            <img src="./img/logooutline.png" class="header__logo" alt="logo">
+        </div>
+        <div class="header__text-box">
+            <h3 class="heading-primary">
+                <span class="heading-primary--main">
+                    selftaught
+                </span>
+                <span class="heading-primary--sub">
+                    is how you survive
+                </span>
+            </h3>
+            <a href="edu.html" class="btn btn--white btn--animated">See our courses</a>
+        </div>
+    </header>
+    <main>
+        <section class="section-about" id="about">
+            <div class="u-center-text u-margin-bottom-big">
+                <h2 class="heading-secondary">
+                    story about us
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-1-of-2">
+                    <h3 class="heading-tertiary u-margin-bottom-small">
+                        From Beginner to Expert
+                    </h3>
+                    <p class="paragraph">
+                        The journey to conquer English has never been easy, but with the right learning method and
+                        perseverance,
+                        you can do it. Whether you are starting with basic knowledge or want to improve your skills, we
+                        are
+                        always with you every step of the way. Every day of study is a step closer to mastering English.
+                    </p>
+                    <h3 class="heading-tertiary u-margin-bottom-small">
+                        Improve your skills
+                    </h3>
+                    <p class="paragraph">
+                        We believe that everyone has the ability to develop and perfect themselves. With scientifically
+                        designed courses, rich and practical content, you will not only learn English but also practice
+                        communication skills, thinking and use the language confidently. Let us help you turn English
+                        into a
+                        powerful tool in life and work.
+                    </p>
+                    <a href="#" class="btn-text">Learn more &rarr;</a>
+                </div>
+                <div class="col-1-of-2">
+                    <div class="composition">
+                        <img srcset="img/humangroups1.png 1920w, img/humangroups1-small.png 600w"
+                            sizes="(max-width: 900px) 13vw, (max-width: 600px) 20vw, 270px" src="./img/humangroups1.jpg"
+                            alt="photo1" class="composition__photo composition__photo--p1">
+                        <img src="./img/humangroups2.jpg" alt="photo2"
+                            class="composition__photo composition__photo--p2">
+                        <img src="./img/humangroups3.jpg" alt="photo3"
+                            class="composition__photo composition__photo--p3">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-skills" id="skills">
+            <div class="row">
+                <div class="col-1-of-4">
+                    <div class="skill-box">
+                        <i class=" skill-box__icon fas fa-globe-americas"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Global integration skills</h3>
+                        <div class="skill-box__text">
+                            English opens the door to the world, helping you communicate confidently and seize
+                            international
+                            opportunities.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1-of-4">
+                    <div class="skill-box">
+                        <i class=" skill-box__icon fas fa-book-open"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Endless treasure of knowledge</h3>
+                        <div class="skill-box__text">
+                            English is the key to accessing millions of quality documents, books, and courses worldwide.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1-of-4">
+                    <div class="skill-box">
+                        <i class=" skill-box__icon fas fa-users"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Take control of your life</h3>
+                        <div class="skill-box__text">
+                            When you are good at English, you are confident in expressing yourself, building
+                            relationships and
+                            developing your career.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1-of-4">
+                    <div class="skill-box">
+                        <i class=" skill-box__icon fas fa-hourglass-half"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Save time studying</h3>
+                        <div class="skill-box__text">
+                            Smart learning methods help you save time, grasp knowledge quickly and effectively.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-courses" id="section-courses">
+            <div class="u-center-text u-margin-bottom-big">
+                <h2 class="heading-secondary">
+                    our courses
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-1-of-3">
+                    <div class="card">
+                        <div class="card__side card__side--front">
+                            <div class="card__picture card__picture--1">
+                                &nbsp;
+                                <!--- KÍ TỰ RỖNG TRONG HTML -->
+                            </div>
+                            <h4 class="card__heading">
+                                <span class="card__heading-span card__heading-span--1">
+                                    TOEIC <br> 750
+                                </span>
+
+                            </h4>
+                            <div class="card__details">
+                                <ul>
+                                    <li>3 months</li>
+                                    <li>100 students</li>
+                                    <li>5 star rated</li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                        <div class="card__side card__side--back card__side--back-1">
+                            <div class="card__cta">
+                                <div class="card__price-box">
+                                    <p class="card__price-only">
+                                        Only
+                                    </p>
+                                    <p class="card__price-value">
+                                        $16
+                                    </p>
+                                    <a href="#popupForToeic" class="btn btn--white">Enroll now</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-1-of-3">
+                    <div class="card">
+                        <div class="card__side card__side--front">
+                            <div class="card__picture card__picture--2">
+                                &nbsp;
+                            </div>
+                            <h4 class="card__heading">
+                                <span class="card__heading-span card__heading-span--2">
+                                    IELTS <br> 7.5
+                                </span>
+
+                            </h4>
+                            <div class="card__details">
+                                <ul>
+                                    <li>10 months</li>
+                                    <li>50 students</li>
+                                    <li>5 star rated</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="card__side card__side--back card__side--back-2">
+                            <div class="card__cta">
+                                <div class="card__price-box">
+                                    <p class="card__price-only">
+                                        Only
+                                    </p>
+                                    <p class="card__price-value">
+                                        $20
+                                    </p>
+                                    <a href="#popupForIelts" class="btn btn--white">Enroll now</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-1-of-3">
+                    <div class="card">
+                        <div class="card__side card__side--front">
+                            <div class="card__picture card__picture--3">
+                                &nbsp;
+                            </div>
+                            <h4 class="card__heading">
+                                <span class="card__heading-span card__heading-span--3">
+                                    CEFR<br> B2
+                                </span>
+
+                            </h4>
+                            <div class="card__details">
+                                <ul>
+                                    <li>5 months</li>
+                                    <li>50 students</li>
+                                    <li>5 star rated</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="card__side card__side--back card__side--back-3">
+                            <div class="card__cta">
+                                <div class="card__price-box">
+                                    <p class="card__price-only">
+                                        Only
+                                    </p>
+                                    <p class="card__price-value">
+                                        $25
+                                    </p>
+                                    <a href="#popupForCefr" class="btn btn--white">Enroll now</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="u-center-text">
+                <a href="edu.html" class="btn btn--blue">See all our courses</a>
+            </div>
+        </section>
+
+        <section class="section-testimonials" id="testimonials">
+            <!--add this-->
+            <div class="bg-video">
+                <!--add this--><video class="bg-video__content" autoplay muted loop>
+                    <!--add this-->
+                    <source src="img/Boulevard.mp4" type="video/mp4">
+                    <!--add this-->
+                    <source src="img/Boulevard.webm" type="video/webm">
+                    <!--add this--> Your browser is not supported
+                    <!--add this-->
+                </video>
+            </div>
+            <div class="u-center-text u-margin-bottom-big">
+                <h2 class="heading-secondary">
+                    testimonials
+                </h2>
+            </div>
+            <div class="row">
+                <div class="testimonial">
+                    <figure class="testimonial__shape">
+                        <img src="./img/person2.jpg" class="testimonial__img" alt="photo1">
+                        <figcaption class="testimonial__caption">
+                            Nguyen Minh Anh
+                        </figcaption>
+                    </figure>
+                    <div class="testimonial__text">
+                        <h3 class="heading-tertiary u-margin-bottom-small">
+                            Thanks for the kind guidance
+                        </h3>
+                        <p>
+                            The courses here are really useful and help me improve my English quickly. I am very
+                            impressed
+                            with the easy-to-understand, practical teaching methods and enthusiastic support from the
+                            lecturers. Thanks to that, I am more confident in communicating and using English every day.
+                        </p>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <figure class="testimonial__shape">
+                        <img src="./img/person1.jpg" class="testimonial__img" alt="photo2">
+                        <figcaption class="testimonial__caption">
+                            Tran Hoang Nam
+                        </figcaption>
+                    </figure>
+                    <div class="testimonial__text">
+                        <h3 class="heading-tertiary u-margin-bottom-small">
+                            Extremely helpful course
+                        </h3>
+                        <p>
+                            I have attended many English courses but this is where I feel the most obvious progress.
+                            Interesting lessons, rich practice, helping me improve my listening, speaking and writing
+                            skills effectively. I really recommend everyone to join.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="u-center-text u-margin-top-big u-margin-bottom-big">
+                <a href="#" class="btn-text">read all the testimonials &rarr;</a>
+            </div>
+        </section>
+        <section class="section-enroll" id="enroll">
+            <div class="row">
+                <div class="enroll">
+                    <div class="enroll__form">
+                        <form class="form">
+                            <div>
+                                <h2 class="heading-secondary">
+                                    enroll now
+                                </h2>
+                            </div>
+                            <div class="form__group">
+                                <input id="username" type="text" class="form__input" placeholder="username" required>
+                                <label for="username" class="form__label">Username</label>
+                            </div>
+                            <div class="form__group">
+                                <input id="password" type="password" class="form__input" placeholder="password" required>
+                                <label for="password" class="form__label">Password</label>
+                            </div>
+                            <div class="form__group">
+                                <input id="fullName" type="text" class="form__input" placeholder="full name" required>
+                                <label for="fullName" class="form__label">Full name</label>
+                            </div>
+                            <div class="form__group">
+                                <input id="email" type="email" class="form__input" placeholder="email" required>
+                                <label for="email" class="form__label">Email</label>
+                            </div>
+                            <div class="form__group">
+                                <input id="phoneNumber" type="text" class="form__input" placeholder="phone number" required>
+                                <label for="phoneNumber" class="form__label">Phone number</label>
+                            </div>
+                            <div class="form__group" style="display: none;">
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" id="male" name="gender">
+                                    <label for="male" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Male
+                                    </label>
+                                </div>
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" id="female" name="gender">
+                                    <label for="female" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Female
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form__group">
+                                <button onclick="saveUser(event)" class="btnSaveUser">
+                                    Submit &rarr;
+                                </button>                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="footer__logo-box">
+            <picture>
+                <source media="(max-width: 600px)" srcset="./img/logopng-small.png 1x" sizes="">
+                <img srcset="./img/logopng.png 1x" class="footer__logo">
+            </picture>
+            <h3 class="heading-secondary footer__title">
+                SelfTaught
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-1-of-2">
+                <div class="footer__navigation">
+                    <ul class="footer__list">
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Address</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Contacts</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Policy</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Sponsors</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-1-of-2">
+                <p class="footer__copyright">
+                    Copyright &copy; by Selftaught Team. You are 100% allowed to use this webpages for both personal and
+                    commercial use, but NOT to claim it as your personal design.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="popup" id="popupForToeic">
+        <div class="popup__content">
+            <div class="popup__left">
+                <img src="img/popup1.jpg" alt="Tour photo" class="popup__img">
+                <img src="img/popup2.jpg" alt="Tour photo" class="popup__img">
+            </div>
+            <div class="popup__right">
+                <a href="#section-courses" class="popup__close">&times;</a>
+                <h2 class="heading-secondary u-margin-bottom-small">Enroll now</h2>
+                <h3 class="heading-tertiary u-margin-bottom-small">Important &ndash; Please read these terms before
+                    booking.</h3>
+                <p class="popup__text">
+                    Welcome to the TOEIC 750 course! This course is designed to help you achieve your goal of 750+ TOEIC 
+                    points through a detailed and effective learning path. You will have access to a system of quality 
+                    lectures, rich practice materials and dedicated support from a team of experienced instructors.
+                    <br>
+                    Please read the terms carefully before registering. Get ready to break through and conquer TOEIC 750 with us!
+                </p>
+                <a href="#enroll" class="btn btn--blue">Enroll now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="popupForIelts">
+        <div class="popup__content">
+            <div class="popup__left">
+                <img src="img/popup1.jpg" alt="Tour photo" class="popup__img">
+                <img src="img/popup2.jpg" alt="Tour photo" class="popup__img">
+            </div>
+            <div class="popup__right">
+                <a href="#section-courses" class="popup__close">&times;</a>
+                <h2 class="heading-secondary u-margin-bottom-small">Enroll now</h2>
+                <h3 class="heading-tertiary u-margin-bottom-small">Important &ndash; Please read these terms before
+                    booking.</h3>
+                <p class="popup__text">
+                    Welcome to the IELTS 7.5 course! This course is designed to help you achieve a band score of 7.5+ 
+                    through a systematic and effective learning path. You will learn with a system of quality lectures, 
+                    diverse practice materials and dedicated guidance from a team of experienced instructors.
+                    <br>
+                    Please read the terms carefully before registering. Start your journey to conquer IELTS 7.5 today!
+                </p>
+                <a href="#enroll" class="btn btn--blue">Enroll now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="popupForCefr">
+        <div class="popup__content">
+            <div class="popup__left">
+                <img src="img/popup1.jpg" alt="Tour photo" class="popup__img">
+                <img src="img/popup2.jpg" alt="Tour photo" class="popup__img">
+            </div>
+            <div class="popup__right">
+                <a href="#section-courses" class="popup__close">&times;</a>
+                <h2 class="heading-secondary u-margin-bottom-small">Enroll now</h2>
+                <h3 class="heading-tertiary u-margin-bottom-small">Important &ndash; Please read these terms before
+                    booking.</h3>
+                <p class="popup__text">
+                    Welcome to the CEFR B2 course! This course is designed to help you achieve B2 English proficiency 
+                    according to the CEFR reference framework, through a scientific and effective learning path. You 
+                    will have access to a system of quality lectures, diverse practice exercises and dedicated support 
+                    from a team of experienced instructors.
+                    <br>
+                    Please read the terms carefully before registering. Start your journey to conquer CEFR B2 today!
+                </p>
+                <a href="#enroll" class="btn btn--blue">Enroll now</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    $(document).ready(function () {
+        var user = JSON.parse(window.sessionStorage.getItem("user"));
+        function pagePermission() {
+            if (!user) {
+                $("#navi_student").hide();
+                $("#navi_instructor").hide();
+                $("#navi_admin").hide();
+                $("#navi_logout").hide();
+                $("#navi_login").show();
+                return;
+            }
+            if (user.role == "Instructor") {
+                location.href = "../../instructorPage.html";
+                return;
+            }
+            if (user.role == "Administrator") {
+                location.href = "../../adminPage.html";
+                return;
+            }
+            if (user.role == "Student") {
+                $("#navi_student").show();
+                $("#navi_instructor").hide();
+                $("#navi_admin").hide();
+                $("#navi_logout").show();
+                $("#navi_login").hide();
+                return;
+            }
+        }
+
+        pagePermission();
+
+        $("#navi_logout").click(function () {
+            window.sessionStorage.removeItem("user");
+            window.location.href = "mainpage.html";
+        })
+    })
+
+    // Lấy các phần tử DOM cần thiết
+    const navCheckbox = document.getElementById('navi-toggle');
+    const navLinks = document.querySelectorAll('.navigation__link');
+
+    // Thêm sự kiện click cho mỗi liên kết trong menu
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // Đóng menu bằng cách bỏ chọn checkbox
+            navCheckbox.checked = false;
+        });
+    });
+
+    // Khai báo URL cơ bản của API
+    const baseUrl = 'https://localhost:7026/api/User';
+
+    // Hàm lưu User
+    function saveUser(event) {
+        if(event) event.preventDefault(); // Ngăn reload trang
+
+        var userId = null;
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var fullName = $("#fullName").val();
+        var email = $("#email").val();
+        var phoneNumber = $("#phoneNumber").val();
+        var role = "Student";
+
+        if (!username || !password || !fullName || !email || !phoneNumber) {
+            alert('Vui lòng nhập đầy đủ thông tin!');
+            return;
+        }
+        insertUser(userId, username, password, fullName, email, phoneNumber, role);
+        alert('User saved!');
+    }
+
+    // Hàm thêm mới User
+    function insertUser(userId, username, password, fullName, email, phoneNumber, role) {
+        const url = `${baseUrl}/Insert?userId=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&fullName=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&phoneNumber=${encodeURIComponent(phoneNumber)}&role=${encodeURIComponent(role)}`;
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            success: function (response) {
+                alert('Thêm mới thành công!');
+                $("#username").val("");
+                $("#password").val("");
+                $("#fullName").val("");
+                $("#email").val("");
+                $("#phoneNumber").val("");
+            },
+            error: function (error) {
+                alert('Lỗi khi thêm dữ liệu');
+                console.error(error);
+            }
+        });
+    }
+</script>
+<style>
+    .btnSaveUser {
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+    }
+    
+    .btnSaveUser:hover {
+        background-color: #0056b3;
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        transform: translateY(-2px);
+    }
+    
+    .btnSaveUser:active {
+        transform: translateY(1px);
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.2);
+    }
+</style>
+</html>

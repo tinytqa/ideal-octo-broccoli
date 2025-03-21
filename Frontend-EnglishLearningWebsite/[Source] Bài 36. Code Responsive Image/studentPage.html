@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My course</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .course-card {
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .chapter-card {
+            margin: 10px 0;
+            border-left: 3px solid #6c757d;
+            background-color: #f8f9fa;
+        }
+
+        .lesson-card {
+            margin: 5px 0 5px 15px;
+            border-left: 2px solid #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .content-card {
+            margin: 5px 0 5px 30px;
+            border-left: 2px dashed #28a745;
+            padding: 8px;
+        }
+
+        .collapsed-icon {
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .rotate-icon {
+            transform: rotate(90deg);
+        }
+
+        .content-icon {
+            width: 24px;
+            text-align: center;
+            margin-right: 8px;
+        }
+
+        .search-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-link {
+            color: #495057;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .content-link:hover {
+            background-color: #e9ecef;
+            color: #007bff;
+        }
+
+        .price-badge {
+            background-color: #28a745;
+            color: white;
+            font-size: 14px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .status-badge {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            margin-right: 8px;
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .progress {
+            height: 8px;
+            margin: 10px 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <div class="header-container">
+            <h2 class="text-center mb-0">My courses</h2>
+        </div>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="search-container">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control"
+                    placeholder="Search course, chapter, lesson...">
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Vùng hiển thị khóa học -->
+        <div id="coursesContainer">
+            <!-- Dữ liệu khóa học sẽ được thêm vào đây -->
+        </div>
+    </div>
+
+    <!-- Template cho khóa học -->
+    <template id="courseTemplate">
+        <div class="course-card card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-chevron-right me-2 collapsed-icon rotate-icon"></i>
+                    <h5 class="mb-0 course-name"></h5>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="status-badge badge me-2">Not Started</span>
+                    <span class="price-badge"></span>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+                    style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            <div class="card-body">
+                <p class="course-description"></p>
+                <div class="chapters-container">
+                    <!-- Các chương sẽ được thêm vào đây -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template cho chương -->
+    <template id="chapterTemplate">
+        <div class="chapter-card card">
+            <div class="card-header d-flex align-items-center">
+                <i class="fas fa-chevron-right me-2 collapsed-icon rotate-icon"></i>
+                <h6 class="mb-0 chapter-title"></h6>
+            </div>
+            <div class="card-body">
+                <div class="lessons-container">
+                    <!-- Các bài học sẽ được thêm vào đây -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template cho bài học -->
+    <template id="lessonTemplate">
+        <div class="lesson-card card">
+            <div class="card-header d-flex align-items-center">
+                <i class="fas fa-chevron-right me-2 collapsed-icon rotate-icon"></i>
+                <h6 class="mb-0 lesson-title"></h6>
+            </div>
+            <div class="card-body">
+                <div class="contents-container">
+                    <!-- Nội dung bài học sẽ được thêm vào đây -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // Lấy userId từ localStorage
+        var user = JSON.parse(sessionStorage.getItem('user'));
+        var userId = user ? user.userId : '';
+
+        // Khai báo URL cơ bản của API
+        const baseUrl = 'https://localhost:7026/api/StudentCourses';
+
+        // Tải dữ liệu khi trang được load
+        $(document).ready(function () {
+            loadData(userId);
+            fetchProgress();
+
+            // Xử lý sự kiện click cho các biểu tượng thu gọn (sử dụng event delegation)
+            $(document).on('click', '.collapsed-icon', function () {
+                $(this).toggleClass('rotate-icon');
+                $(this).closest('.card-header').next('.card-body').slideToggle();
+            });
+        });
+
+        // Hàm tải dữ liệu từ API
+        function loadData(userId) {
+            $.ajax({
+                url: `${baseUrl}/${userId}`,
+                method: 'GET',
+                success: function (data) {
+                    processData(data);
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải dữ liệu');
+                    console.error(error);
+                }
+            });
+        }
+
+        // Hàm tải dữ liệu tiến độ khóa học
+        function fetchProgress() {
+            if (!userId) return;
+
+            // First, get the studentId that corresponds to this userId
+            $.ajax({
+                url: 'https://localhost:7026/api/Student/GetList',
+                method: 'GET',
+                success: function (students) {
+                    // Find the student record that has our userId
+                    const student = students.find(student => student.userId === userId);
+
+                    if (student) {
+                        const studentId = student.studentId;
+
+                        // Now fetch the status data
+                        $.ajax({
+                            url: 'https://localhost:7026/api/Status/GetList',
+                            method: 'GET',
+                            success: function (data) {
+                                // Filter statuses using studentId instead of userId
+                                const userStatuses = data.filter(status => status.studentId === studentId);
+
+                                // Store and update as before
+                                sessionStorage.setItem('userProgress', JSON.stringify(userStatuses));
+                                updateProgressBars();
+                            },
+                            error: function (error) {
+                                console.error('Lỗi khi tải dữ liệu tiến độ:', error);
+                            }
+                        });
+                    } else {
+                        console.error('Không tìm thấy thông tin học viên với userId:', userId);
+                    }
+                },
+                error: function (error) {
+                    console.error('Lỗi khi tải dữ liệu học viên:', error);
+                }
+            });
+        }
+
+        // Hàm cập nhật thanh tiến độ cho các khóa học
+        function updateProgressBars() {
+            const userProgress = JSON.parse(sessionStorage.getItem('userProgress')) || [];
+
+            // Cập nhật tiến độ cho từng khóa học
+            $('.course-card').each(function () {
+                const courseId = $(this).data('course-id');
+                const courseStatus = userProgress.find(status => status.courseId === courseId);
+
+                if (courseStatus) {
+                    const progressValue = parseFloat(courseStatus.progress);
+                    const progressBar = $(this).find('.progress-bar');
+
+                    progressBar.css('width', progressValue + '%').attr('aria-valuenow', progressValue);
+                    progressBar.text(progressValue + '%');
+
+                    // Cập nhật trạng thái khóa học
+                    const statusBadge = $(this).find('.status-badge');
+                    statusBadge.text(courseStatus.status1);
+
+                    // Thiết lập màu sắc cho badge dựa trên trạng thái
+                    if (courseStatus.status1 === 'Completed') {
+                        statusBadge.removeClass('bg-warning bg-primary bg-secondary').addClass('bg-success');
+                    } else if (courseStatus.status1 === 'In Progress') {
+                        statusBadge.removeClass('bg-success bg-primary bg-secondary').addClass('bg-warning');
+                    } else if (courseStatus.status1 === 'Not Started') {
+                        statusBadge.removeClass('bg-success bg-warning bg-secondary').addClass('bg-primary');
+                    } else {
+                        statusBadge.removeClass('bg-success bg-warning bg-primary').addClass('bg-secondary');
+                    }
+                }
+            });
+        }
+
+        // Hàm xử lý và nhóm dữ liệu
+        function processData(data) {
+            // Nhóm dữ liệu theo cấu trúc phân cấp
+            const courses = {};
+
+            data.forEach(item => {
+                // Tạo cấu trúc khóa học nếu chưa tồn tại
+                if (!courses[item.courseId]) {
+                    courses[item.courseId] = {
+                        id: item.courseId,
+                        name: item.courseName,
+                        description: item.description,
+                        price: item.price,
+                        chapters: {}
+                    };
+                }
+
+                // Tạo cấu trúc chương nếu chưa tồn tại
+                if (!courses[item.courseId].chapters[item.chapterId]) {
+                    courses[item.courseId].chapters[item.chapterId] = {
+                        id: item.chapterId,
+                        title: item.chapterTitle,
+                        lessons: {}
+                    };
+                }
+
+                // Tạo cấu trúc bài học nếu chưa tồn tại
+                if (!courses[item.courseId].chapters[item.chapterId].lessons[item.lessonId]) {
+                    courses[item.courseId].chapters[item.chapterId].lessons[item.lessonId] = {
+                        id: item.lessonId,
+                        title: item.lessonTitle,
+                        contents: {
+                            videos: [],
+                            documents: [],
+                            quizzes: []
+                        }
+                    };
+                }
+
+                // Thêm video nếu có
+                if (item.videoId) {
+                    courses[item.courseId].chapters[item.chapterId].lessons[item.lessonId].contents.videos.push({
+                        id: item.videoId,
+                        title: item.videoTitle,
+                        url: item.videoUrl
+                    });
+                }
+
+                // Thêm tài liệu nếu có
+                if (item.documentId) {
+                    courses[item.courseId].chapters[item.chapterId].lessons[item.lessonId].contents.documents.push({
+                        id: item.documentId,
+                        title: item.documentTitle,
+                        url: item.documentUrl
+                    });
+                }
+
+                // Thêm bài kiểm tra nếu có
+                if (item.quizzId) {
+                    courses[item.courseId].chapters[item.chapterId].lessons[item.lessonId].contents.quizzes.push({
+                        id: item.quizzId,
+                        title: item.quizzTitle,
+                        url: item.quizzUrl
+                    });
+                }
+            });
+
+            // Hiển thị dữ liệu đã được xử lý
+            renderCourses(courses);
+        }
+
+        // Hàm render khóa học
+        function renderCourses(courses) {
+            const container = $('#coursesContainer');
+            container.empty();
+
+            // Chuyển đổi object thành array để dễ dàng xử lý
+            const courseArray = Object.values(courses);
+
+            courseArray.forEach(course => {
+                const courseTemplate = document.getElementById('courseTemplate');
+                const courseNode = document.importNode(courseTemplate.content, true);
+
+                // Thêm courseId làm data attribute
+                const courseCard = courseNode.querySelector('.course-card');
+                courseCard.dataset.courseId = course.id;
+
+                // Thiết lập thông tin khóa học
+                courseNode.querySelector('.course-name').textContent = course.name;
+                courseNode.querySelector('.course-description').textContent = course.description;
+                courseNode.querySelector('.price-badge').textContent = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price);
+
+                const chaptersContainer = courseNode.querySelector('.chapters-container');
+
+                // Chuyển đổi object chương thành array để dễ dàng xử lý
+                const chapterArray = Object.values(course.chapters);
+
+                // Sắp xếp chương theo ID (giả định ID là số)
+                chapterArray.sort((a, b) => a.id - b.id);
+
+                chapterArray.forEach(chapter => {
+                    const chapterTemplate = document.getElementById('chapterTemplate');
+                    const chapterNode = document.importNode(chapterTemplate.content, true);
+
+                    // Thiết lập thông tin chương
+                    chapterNode.querySelector('.chapter-title').textContent = chapter.title;
+
+                    const lessonsContainer = chapterNode.querySelector('.lessons-container');
+
+                    // Chuyển đổi object bài học thành array để dễ dàng xử lý
+                    const lessonArray = Object.values(chapter.lessons);
+
+                    // Sắp xếp bài học theo ID (giả định ID là số)
+                    lessonArray.sort((a, b) => a.id - b.id);
+
+                    lessonArray.forEach(lesson => {
+                        const lessonTemplate = document.getElementById('lessonTemplate');
+                        const lessonNode = document.importNode(lessonTemplate.content, true);
+
+                        // Thiết lập thông tin bài học
+                        lessonNode.querySelector('.lesson-title').textContent = lesson.title;
+
+                        const contentsContainer = lessonNode.querySelector('.contents-container');
+
+                        // Hiển thị video
+                        lesson.contents.videos.forEach(video => {
+                            const videoElement = createContentElement('video', video);
+                            contentsContainer.appendChild(videoElement);
+                        });
+
+                        // Hiển thị tài liệu
+                        lesson.contents.documents.forEach(document => {
+                            const documentElement = createContentElement('document', document);
+                            contentsContainer.appendChild(documentElement);
+                        });
+
+                        // Hiển thị bài kiểm tra
+                        lesson.contents.quizzes.forEach(quiz => {
+                            const quizElement = createContentElement('quiz', quiz);
+                            contentsContainer.appendChild(quizElement);
+                        });
+
+                        lessonsContainer.appendChild(lessonNode);
+                    });
+
+                    chaptersContainer.appendChild(chapterNode);
+                });
+
+                container.append(courseNode);
+            });
+
+            // Cập nhật thanh tiến độ sau khi render xong
+            updateProgressBars();
+        }
+
+        // Hàm thêm số lần xem video
+        function xemvideo(url) {
+            // Gọi API để xử lý thủ tục đã tạo
+            var url = "https://localhost:7026/api/GetItemByForeignKey/UpdateCount/" + url + "/" + userId;
+            $.get(url, {}, function (data) {
+                // Cập nhật thanh tiến độ sau khi xem video
+                fetchProgress();
+            });
+        }
+
+        // Hàm tạo phần tử nội dung (video, tài liệu, bài kiểm tra)
+        function createContentElement(type, content) {
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'content-card';
+
+            const link = document.createElement('a');
+            link.href = content.url;
+
+            // Gọi hàm thêm số lần xem video và cập nhật tiến độ
+            if (type === 'video') {
+                link.onclick = function () {
+                    xemvideo(content.url);
+                    return true; // Cho phép link mở bình thường
+                };
+            }
+
+            link.className = 'content-link';
+            link.setAttribute('target', '_blank');
+
+            const icon = document.createElement('i');
+            icon.className = 'content-icon';
+
+            // Thiết lập biểu tượng phù hợp với loại nội dung
+            if (type === 'video') {
+                icon.className += ' fas fa-play-circle text-danger';
+            } else if (type === 'document') {
+                icon.className += ' fas fa-file-alt text-primary';
+            } else if (type === 'quiz') {
+                icon.className += ' fas fa-question-circle text-success';
+            }
+
+            const titleSpan = document.createElement('span');
+            titleSpan.textContent = content.title;
+
+            link.appendChild(icon);
+            link.appendChild(titleSpan);
+            contentDiv.appendChild(link);
+
+            return contentDiv;
+        }
+
+        // Hàm tìm kiếm
+        $("#searchInput").on("keyup", function () {
+            const searchValue = $(this).val().toLowerCase();
+
+            if (searchValue.length < 2) {
+                // Hiển thị tất cả nếu chuỗi tìm kiếm quá ngắn
+                $(".course-card, .chapter-card, .lesson-card, .content-card").show();
+                return;
+            }
+
+            // Kiểm tra từng khóa học
+            $(".course-card").each(function () {
+                const courseText = $(this).find(".course-name").text().toLowerCase();
+                const courseDesc = $(this).find(".course-description").text().toLowerCase();
+                const courseVisible = courseText.includes(searchValue) || courseDesc.includes(searchValue);
+
+                let hasVisibleContent = courseVisible;
+
+                // Kiểm tra từng chương
+                $(this).find(".chapter-card").each(function () {
+                    const chapterText = $(this).find(".chapter-title").text().toLowerCase();
+                    const chapterVisible = chapterText.includes(searchValue);
+
+                    let hasVisibleLesson = chapterVisible;
+
+                    // Kiểm tra từng bài học
+                    $(this).find(".lesson-card").each(function () {
+                        const lessonText = $(this).find(".lesson-title").text().toLowerCase();
+                        const lessonVisible = lessonText.includes(searchValue);
+
+                        let hasVisibleContent = lessonVisible;
+
+                        // Kiểm tra từng nội dung
+                        $(this).find(".content-card").each(function () {
+                            const contentText = $(this).text().toLowerCase();
+                            const contentVisible = contentText.includes(searchValue);
+
+                            $(this).toggle(contentVisible);
+                            hasVisibleContent = hasVisibleContent || contentVisible;
+                        });
+
+                        $(this).toggle(hasVisibleContent);
+                        hasVisibleLesson = hasVisibleLesson || hasVisibleContent;
+                    });
+
+                    $(this).toggle(hasVisibleLesson);
+                    hasVisibleContent = hasVisibleContent || hasVisibleLesson;
+                });
+
+                $(this).toggle(hasVisibleContent);
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

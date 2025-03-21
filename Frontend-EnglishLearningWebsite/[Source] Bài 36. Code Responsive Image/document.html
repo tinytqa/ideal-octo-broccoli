@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Document management</h2>
+        <div class="row mt-2">
+            <div class="col-md-10">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search document...">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="openDialog()">Add document</button>
+            </div>
+        </div>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Document Id</th>
+                    <th>Lesson Id</th>
+                    <th>Title</th>
+                    <th>File URL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable"></tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Document information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Document Id</label>
+                        <input type="text" id="documentId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lesson Id</label>
+                        <select id="lessonId" class="form-control">
+                            <option value="">Select lesson</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" id="title" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">File URL</label>
+                        <input type="text" id="fileUrl" class="form-control">
+                    </div>
+                    <button class="btn btn-success" onclick="saveDocument()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = 'https://localhost:7026/api/Document';
+
+        $(document).ready(function () {
+            loadData();
+        });
+
+        function loadData() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    renderTable(data);
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải dữ liệu');
+                    console.error(error);
+                }
+            });
+        }
+
+        function renderTable(data) {
+            let html = '';
+            data.forEach((item) => {
+                html += `
+                    <tr>
+                        <td>${item.documentId}</td>
+                        <td>${item.lessonId}</td>
+                        <td>${item.title || '-'}</td>
+                        <td>${item.fileUrl}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.documentId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteDocument('${item.documentId}')">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#dataTable').html(html);
+        }
+
+        function openDialog(id = null) {
+            $("#editModal").modal("show");
+
+            if (id) {
+                $.ajax({
+                    url: `${baseUrl}/GetList`,
+                    method: 'GET',
+                    success: function (data) {
+                        const document = data.find(x => x.documentId === id);
+                        if (document) {
+                            $("#documentId").val(document.documentId).prop("readonly", true);
+                            $("#lessonId").val(document.lessonId);
+                            $("#title").val(document.title);
+                            $("#fileUrl").val(document.fileUrl);
+                        }
+                    }
+                });
+            } else {
+                $("#documentId").val("").prop("readonly", false);
+                $("#lessonId").val("");
+                $("#title").val("");
+                $("#fileUrl").val("");
+            }
+        }
+
+        function saveDocument() {
+            var documentId = $("#documentId").val();
+            var lessonId = $("#lessonId").val();
+            var title = $("#title").val();
+            var fileUrl = $("#fileUrl").val();
+
+            if (!documentId || !title || !fileUrl) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            if ($("#documentId").prop("readonly")) {
+                updateDocument(documentId, lessonId, title, fileUrl);
+            } else {
+                insertDocument(documentId, lessonId, title, fileUrl);
+            }
+        }
+
+        function insertDocument(documentId, lessonId, title, fileUrl) {
+            const url = `documentId=${documentId}&lessonId=${lessonId}&title=${encodeURIComponent(title)}&fileUrl=${encodeURIComponent(fileUrl)}`;
+
+            $.post(`${baseUrl}/Insert?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Thêm mới tài liệu thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi thêm tài liệu');
+                    console.error(error);
+                });
+        }
+
+        function updateDocument(documentId, lessonId, title, fileUrl) {
+            const url = `documentId=${documentId}&lessonId=${lessonId}&title=${encodeURIComponent(title)}&fileUrl=${encodeURIComponent(fileUrl)}`;
+
+            $.post(`${baseUrl}/Update?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Cập nhật tài liệu thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi cập nhật tài liệu');
+                    console.error(error);
+                });
+        }
+
+        function deleteDocument(documentId) {
+            if (confirm('Bạn có chắc muốn xóa tài liệu này?')) {
+                $.post(`${baseUrl}/Delete?documentId=${documentId}`)
+                    .done(() => {
+                        loadData();
+                        alert('Xóa tài liệu thành công!');
+                    })
+                    .fail(error => {
+                        alert('Lỗi khi xóa tài liệu');
+                        console.error(error);
+                    });
+            }
+        }
+
+        $("#searchInput").on("keyup", function () {
+            let value = $(this).val().toLowerCase();
+            $("#dataTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+        async function loadLessons() {
+            try {
+                const response = await fetch('https://localhost:7026/api/Lesson/GetList');
+                const campaigns = await response.json();
+                const select = document.getElementById('lessonId');
+                campaigns.forEach(lesson => {
+                    const option = document.createElement('option');
+                    option.value = lesson.lessonId;
+                    option.textContent = lesson.title;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Lỗi khi load Campaign:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadLessons);
+    </script>
+</body>
+
+</html>

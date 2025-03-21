@@ -1,0 +1,198 @@
+// components/_card.scss
+.card {
+    perspective: 150rem;
+    position: relative;
+    height: 45rem;
+
+    &__side {
+        backface-visibility: hidden;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        color: white;
+        font-size: 2rem;
+        height: 45rem;
+        transition: all .8s ease;
+        border-radius: 5rem;
+        overflow: hidden;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+
+        &--front {
+            background-color: $color-white;
+        }
+
+        &--back {
+            transform: rotateY(180deg);
+
+            &-1 {
+                background-image: linear-gradient(to right, $color-secondary-light, $color-secondary-dark);
+            }
+
+            &-2 {
+                background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+            }
+
+            &-3 {
+                background-image: linear-gradient(to right, $color-tertiary-light, $color-tertiary-dark);
+            }
+        }
+    }
+
+    &:hover &__side--front {
+        transform: rotateY(-180deg);
+    }
+
+    &:hover &__side--back {
+        transform: rotateY(0);
+    }
+
+    &__picture {
+
+        background-size: cover;
+        background-blend-mode: screen;
+        height: 23rem;
+        clip-path: ellipse(80% 70% at 50% 30%);
+
+        &--1 {
+            background-image:
+                linear-gradient(to right, $color-secondary-light, $color-secondary-dark),
+                url('../img/involve1.jpg');
+        }
+
+        &--2 {
+            background-image:
+                linear-gradient(to right, $color-primary-light, $color-primary-dark),
+                url('../img/involve2.jpg');
+        }
+
+        &--3 {
+            background-image:
+                linear-gradient(to right, $color-tertiary-light, $color-tertiary-dark),
+                url('../img/involve3.jpg');
+        }
+    }
+
+    &__heading {
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-align: right;
+        text-transform: uppercase;
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+        width: 75%;
+    }
+
+    &__heading-span {
+
+        border-radius: 5rem;
+        padding: 1rem 1.5rem;
+        -webkit-box-decoration-break: clone;
+
+        &--1 {
+            background-image: linear-gradient(to right bottom,
+                    rgba($color-secondary-light, .85),
+                    rgba($color-secondary-dark, .85))
+        }
+
+        &--2 {
+            background-image: linear-gradient(to right bottom,
+                    rgba($color-primary-light, .85),
+                    rgba($color-primary-dark, .85))
+        }
+
+        &--3 {
+            background-image: linear-gradient(to right bottom,
+                    rgba($color-tertiary-light, .85),
+                    rgba($color-tertiary-dark, .85))
+        }
+    }
+
+    &__details {
+        padding: 3rem;
+        color: $color-grey;
+
+        ul {
+            list-style: none;
+            width: 70%;
+            margin: 0 auto;
+
+            li {
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid #dbdbdb;
+                }
+            }
+        }
+    }
+
+
+    &__cta {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        text-align: center;
+    }
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+    &__price-box {
+        text-align: center;
+        color: $color-white;
+        margin-bottom: 8rem;
+    }
+
+
+    &__price-value {
+        font-size: 6rem;
+        font-weight: 100;
+        margin-bottom: 5rem;
+    }
+
+    @include respond(tab-port) {
+        height: auto;
+
+        &__side {
+            height: auto;
+            border-radius: 5rem 5rem 0rem 0rem;
+            position: relative;
+
+            &--back {
+                transform: rotateY(0);
+                border-radius: 0rem 0rem 5rem 5rem;
+            }
+        }
+
+        &:hover &__side--front {
+            transform: rotateY(0);
+        }
+
+        &__cta {
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: translate(0);
+            width: 100%;
+            padding: 4rem;
+        }
+
+        &__price-box {
+            margin-bottom: 3rem;
+        }
+
+        &__price-value {
+            font-size: 6rem;
+        }
+    }
+}

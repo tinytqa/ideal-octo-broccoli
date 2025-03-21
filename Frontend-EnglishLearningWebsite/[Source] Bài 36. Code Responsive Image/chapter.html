@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Chapter management</h2>
+        <div class="row mt-2">
+            <div class="col-md-10">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search chapter...">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="openDialog()">Add chapter</button>
+            </div>
+        </div>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Chapter Id</th>
+                    <th>Course Id</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable"></tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chapter information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Chapter Id</label>
+                        <input type="text" id="chapterId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Course Id</label>
+                        <select id="courseId" class="form-control">
+                            <option value="">Select chapter</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" id="title" class="form-control">
+                    </div>
+                    <button class="btn btn-success" onclick="saveChapter()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = 'https://localhost:7026/api/Chapter';
+
+        $(document).ready(function () {
+            loadData();
+        });
+
+        function loadData() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    renderTable(data);
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải dữ liệu');
+                    console.error(error);
+                }
+            });
+        }
+
+        function renderTable(data) {
+            let html = '';
+            data.forEach((item) => {
+                html += `
+                    <tr>
+                        <td>${item.chapterId}</td>
+                        <td>${item.courseId}</td>
+                        <td>${item.title}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.chapterId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteChapter('${item.chapterId}')">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#dataTable').html(html);
+        }
+
+        function openDialog(id = null) {
+            $("#editModal").modal("show");
+
+            if (id) {
+                $.ajax({
+                    url: `${baseUrl}/GetList`,
+                    method: 'GET',
+                    success: function (data) {
+                        const chapter = data.find(x => x.chapterId === id);
+                        if (chapter) {
+                            $("#chapterId").val(chapter.chapterId).prop("readonly", true);
+                            $("#courseId").val(chapter.courseId);
+                            $("#title").val(chapter.title);
+                        }
+                    }
+                });
+            } else {
+                $("#chapterId").val("").prop("readonly", false);
+                $("#courseId").val("");
+                $("#title").val("");
+            }
+        }
+
+        function saveChapter() {
+            var chapterId = $("#chapterId").val();
+            var courseId = $("#courseId").val();
+            var title = $("#title").val();
+
+            if (!chapterId || !courseId || !title) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            if ($("#chapterId").prop("readonly")) {
+                updateChapter(chapterId, courseId, title);
+            } else {
+                insertChapter(chapterId, courseId, title);
+            }
+        }
+
+        function insertChapter(chapterId, courseId, title) {
+            const url = `chapterId=${chapterId}&courseId=${courseId}&title=${encodeURIComponent(title)}`;
+
+            $.post(`${baseUrl}/Insert?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Thêm mới thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi thêm dữ liệu');
+                    console.error(error);
+                });
+        }
+
+        function updateChapter(chapterId, courseId, title) {
+            const url = `chapterId=${chapterId}&courseId=${courseId}&title=${encodeURIComponent(title)}`;
+
+            $.post(`${baseUrl}/Update?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Cập nhật thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi cập nhật dữ liệu');
+                    console.error(error);
+                });
+        }
+
+        function deleteChapter(chapterId) {
+            if (confirm('Bạn có chắc muốn xóa chương này?')) {
+                $.post(`${baseUrl}/Delete?chapterId=${chapterId}`)
+                    .done(() => {
+                        loadData();
+                        alert('Xóa chương thành công!');
+                    })
+                    .fail(error => {
+                        alert('Lỗi khi xóa chương');
+                        console.error(error);
+                    });
+            }
+        }
+
+        // Hàm tìm kiếm
+        $("#searchInput").on("keyup", function () {
+            let value = $(this).val().toLowerCase();
+            $("#dataTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+        async function loadCourses() {
+            try {
+                const response = await fetch('https://localhost:7026/api/Course/GetList');
+                const campaigns = await response.json();
+                const select = document.getElementById('courseId');
+                campaigns.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.courseId;
+                    option.textContent = course.courseName;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Lỗi khi load Campaign:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCourses);
+    </script>
+</body>
+
+</html>

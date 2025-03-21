@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Payment management</h2>
+        <div class="row mt-2">
+            <div class="col-md-10">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search payment...">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="openDialog()">Add payment</button>
+            </div>
+        </div>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Payment Id</th>
+                    <th>Student Id</th>
+                    <th>Course Id</th>
+                    <th>Payment Date</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable"></tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Payment information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Payment Id</label>
+                        <input type="text" id="paymentId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Student Id</label>
+                        <input type="text" id="studentId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Course Id</label>
+                        <input type="text" id="courseId" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Date</label>
+                        <input type="datetime-local" id="paymentDate" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount</label>
+                        <input type="number" id="amount" class="form-control">
+                    </div>
+                    <button class="btn btn-success" onclick="savePayment()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = 'https://localhost:7026/api/Payment';
+
+        $(document).ready(function () {
+            loadData();
+        });
+
+        function loadData() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    renderTable(data);
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải dữ liệu thanh toán');
+                    console.error(error);
+                }
+            });
+        }
+
+        function renderTable(data) {
+            let html = '';
+            data.forEach((item) => {
+                html += `
+                    <tr>
+                        <td>${item.paymentId}</td>
+                        <td>${item.studentId}</td>
+                        <td>${item.courseId}</td>
+                        <td>${item.paymentDate ? new Date(item.paymentDate).toLocaleString() : ''}</td>
+                        <td>${item.amount}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.paymentId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deletePayment('${item.paymentId}')">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#dataTable').html(html);
+        }
+
+        function openDialog(id = null) {
+            $("#editModal").modal("show");
+
+            if (id) {
+                $.ajax({
+                    url: `${baseUrl}/GetList`,
+                    method: 'GET',
+                    success: function (data) {
+                        const payment = data.find(x => x.paymentId === id);
+                        if (payment) {
+                            $("#paymentId").val(payment.paymentId).prop("readonly", true);
+                            $("#studentId").val(payment.studentId);
+                            $("#courseId").val(payment.courseId);
+                            $("#paymentDate").val(payment.paymentDate ? new Date(payment.paymentDate).toISOString().slice(0, 16) : '');
+                            $("#amount").val(payment.amount);
+                        }
+                    }
+                });
+            } else {
+                $("#paymentId").val("").prop("readonly", false);
+                $("#studentId").val("");
+                $("#courseId").val("");
+                $("#paymentDate").val("");
+                $("#amount").val("");
+            }
+        }
+
+        function savePayment() {
+            var paymentId = $("#paymentId").val();
+            var studentId = $("#studentId").val();
+            var courseId = $("#courseId").val();
+            var paymentDate = $("#paymentDate").val();
+            var amount = $("#amount").val();
+
+            if (!paymentId) {
+                alert('Vui lòng nhập Payment Id!');
+                return;
+            }
+
+            if ($("#paymentId").prop("readonly")) {
+                updatePayment(paymentId, studentId, courseId, paymentDate, amount);
+            } else {
+                insertPayment(paymentId, studentId, courseId, paymentDate, amount);
+            }
+        }
+
+        function insertPayment(paymentId, studentId, courseId, paymentDate, amount) {
+    const url = `paymentId=${encodeURIComponent(paymentId)}&studentId=${encodeURIComponent(studentId)}&courseId=${encodeURIComponent(courseId)}&paymentDate=${encodeURIComponent(paymentDate)}&amount=${encodeURIComponent(amount)}`;
+
+    $.post(`${baseUrl}/Insert?${url}`)
+        .done(() => {
+            $("#editModal").modal("hide");
+            loadData();
+            alert('Thêm mới thanh toán thành công!');
+        })
+        .fail(error => {
+            alert('Lỗi khi thêm thanh toán');
+            console.error(error);
+        });
+}
+
+function updatePayment(paymentId, studentId, courseId, paymentDate, amount) {
+    const url = `paymentId=${encodeURIComponent(paymentId)}&studentId=${encodeURIComponent(studentId)}&courseId=${encodeURIComponent(courseId)}&paymentDate=${encodeURIComponent(paymentDate)}&amount=${encodeURIComponent(amount)}`;
+
+    $.post(`${baseUrl}/Update?${url}`)
+        .done(() => {
+            $("#editModal").modal("hide");
+            loadData();
+            alert('Cập nhật thanh toán thành công!');
+        })
+        .fail(error => {
+            alert('Lỗi khi cập nhật thanh toán');
+            console.error(error);
+        });
+}
+
+
+        function deletePayment(paymentId) {
+            if (confirm('Bạn có chắc muốn xóa thanh toán này?')) {
+                $.post(`${baseUrl}/Delete?paymentId=${paymentId}`)
+                    .done(() => {
+                        loadData();
+                        alert('Xóa thanh toán thành công!');
+                    })
+                    .fail(error => {
+                        alert('Lỗi khi xóa thanh toán');
+                        console.error(error);
+                    });
+            }
+        }
+
+        $("#searchInput").on("keyup", function () {
+            let value = $(this).val().toLowerCase();
+            $("#dataTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    </script>
+</body>
+
+</html>
