@@ -145,17 +145,28 @@
         // Lấy thông tin từ URL và sessionStorage
         const urlParams = new URLSearchParams(window.location.search);
         const courseId = urlParams.get('courseId');
-        const userId = sessionStorage.getItem('userId');
+        const userDataString = sessionStorage.getItem('user');
+        let userId;
+        let studentId = null; // Di chuyển khai báo ra khỏi hàm callback
 
-        // Kiểm tra xem có thông tin cần thiết không
-        // if (!courseId || !userId) {
-        //     alert('Thiếu thông tin cần thiết để thanh toán!');
-        //     window.location.href = 'index.html';
-        // }
+        if (userDataString) {
+            try {
+                // Parse the JSON string to get the user object
+                const userData = JSON.parse(userDataString);
+                userId = userData.userId;
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+            }
+        }
+
+        // Kiểm tra xem có thông tin cần thiết không - bỏ comment để kích hoạt kiểm tra
+        if (!courseId || !userId) {
+            alert('Thiếu thông tin cần thiết để thanh toán!');
+            window.location.href = 'index.html';
+        }
 
         // Các biến để lưu trữ thông tin
         let courseData = null;
-        let studentId = null;
 
         // Lấy thông tin khóa học từ API
         fetch(`https://localhost:7026/api/Course/GetCourseById/${courseId}`)
@@ -189,7 +200,7 @@
                 document.getElementById('courseName').textContent = 'Lỗi khi tải thông tin khóa học';
             });
 
-        // Lấy studentId từ userId
+        // Lấy studentId từ userId - Sửa lại để lưu biến studentId đúng cách
         // First, get the studentId that corresponds to this userId
         $.ajax({
             url: 'https://localhost:7026/api/Student/GetList',
@@ -199,13 +210,16 @@
                 const student = students.find(student => student.userId === userId);
 
                 if (student) {
-                    const studentId = student.studentId;
+                    studentId = student.studentId; // Gán giá trị cho biến toàn cục
+                    console.log("Đã tìm thấy studentId:", studentId);
                 } else {
                     console.error('Không tìm thấy thông tin học viên với userId:', userId);
+                    document.getElementById('paymentResult').innerHTML = '<div class="payment-error">Không tìm thấy thông tin học viên. Vui lòng đăng nhập lại.</div>';
                 }
             },
             error: function (error) {
                 console.error('Lỗi khi tải dữ liệu học viên:', error);
+                document.getElementById('paymentResult').innerHTML = '<div class="payment-error">Có lỗi khi tải thông tin học viên. Vui lòng thử lại sau.</div>';
             }
         });
 
@@ -235,41 +249,43 @@
 
             if (!amount || !studentId || !courseId) {
                 document.getElementById('paymentResult').innerHTML = '<div class="payment-error">Thiếu thông tin thanh toán. Vui lòng kiểm tra lại.</div>';
+                console.error('Thông tin thanh toán thiếu:', {
+                    amount: amount,
+                    studentId: studentId,
+                    courseId: courseId
+                });
                 return;
             }
 
             // Hiển thị đang xử lý
             document.getElementById('paymentResult').innerHTML = '<div class="text-info">Đang xử lý thanh toán...</div>';
 
-            // Gửi dữ liệu thanh toán đến API
-            fetch('/api/Payment/Insert', {
+            // Tạo URL với query string
+            const paymentDate = new Date().toISOString();
+            const url = `https://localhost:7026/api/Payment/Insert/?paymentId=null&studentId=${studentId}&courseId=${courseId}&paymentDate=${encodeURIComponent(paymentDate)}&amount=${parseFloat(amount)}`;
+
+            // Gửi dữ liệu thanh toán đến API bằng phương thức GET với query string
+            fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    paymentId: "null",  // Sẽ được tự sinh bởi API
-                    studentId: studentId,
-                    courseId: courseId,
-                    paymentDate: new Date().toISOString(),
-                    amount: parseFloat(amount)
-                })
+                    'Accept': 'application/json',
+                }
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         // Hiển thị thông báo thành công
                         document.getElementById('paymentResult').innerHTML = `
-                        <div class="payment-success">
-                            <h4>Thanh toán thành công!</h4>
-                            <p>Mã thanh toán: ${data.message.split(': ')[1].replace(' successfully!', '')}</p>
-                            <p>Cảm ơn bạn đã mua khóa học.</p>
-                            <div class="mt-3">
-                                <a href="course-view.html?id=${courseId}" class="btn btn-success">Học ngay</a>
-                                <a href="index.html" class="btn btn-outline-primary ms-2">Về trang chủ</a>
-                            </div>
+                    <div class="payment-success">
+                        <h4>Thanh toán thành công!</h4>
+                        <p>Mã thanh toán: ${data.message.split(': ')[1].replace(' successfully!', '')}</p>
+                        <p>Cảm ơn bạn đã mua khóa học.</p>
+                        <div class="mt-3">
+                            <a href="course-view.html?id=${courseId}" class="btn btn-success">Học ngay</a>
+                            <a href="index.html" class="btn btn-outline-primary ms-2">Về trang chủ</a>
                         </div>
-                    `;
+                    </div>
+                `;
 
                         // Lưu thông tin đã thanh toán vào sessionStorage
                         const purchasedCourses = JSON.parse(sessionStorage.getItem('purchasedCourses') || '[]');

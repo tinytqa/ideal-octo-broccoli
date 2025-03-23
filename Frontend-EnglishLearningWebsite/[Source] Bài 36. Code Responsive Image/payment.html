@@ -158,34 +158,34 @@
         }
 
         function insertPayment(paymentId, studentId, courseId, paymentDate, amount) {
-    const url = `paymentId=${encodeURIComponent(paymentId)}&studentId=${encodeURIComponent(studentId)}&courseId=${encodeURIComponent(courseId)}&paymentDate=${encodeURIComponent(paymentDate)}&amount=${encodeURIComponent(amount)}`;
+            const url = `paymentId=${encodeURIComponent(paymentId)}&studentId=${encodeURIComponent(studentId)}&courseId=${encodeURIComponent(courseId)}&paymentDate=${encodeURIComponent(paymentDate)}&amount=${encodeURIComponent(amount)}`;
 
-    $.post(`${baseUrl}/Insert?${url}`)
-        .done(() => {
-            $("#editModal").modal("hide");
-            loadData();
-            alert('Thêm mới thanh toán thành công!');
-        })
-        .fail(error => {
-            alert('Lỗi khi thêm thanh toán');
-            console.error(error);
-        });
-}
+            $.post(`${baseUrl}/Insert?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Thêm mới thanh toán thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi thêm thanh toán');
+                    console.error(error);
+                });
+        }
 
-function updatePayment(paymentId, studentId, courseId, paymentDate, amount) {
-    const url = `paymentId=${encodeURIComponent(paymentId)}&studentId=${encodeURIComponent(studentId)}&courseId=${encodeURIComponent(courseId)}&paymentDate=${encodeURIComponent(paymentDate)}&amount=${encodeURIComponent(amount)}`;
+        function updatePayment(paymentId, studentId, courseId, paymentDate, amount) {
+            const url = `paymentId=${encodeURIComponent(paymentId)}&studentId=${encodeURIComponent(studentId)}&courseId=${encodeURIComponent(courseId)}&paymentDate=${encodeURIComponent(paymentDate)}&amount=${encodeURIComponent(amount)}`;
 
-    $.post(`${baseUrl}/Update?${url}`)
-        .done(() => {
-            $("#editModal").modal("hide");
-            loadData();
-            alert('Cập nhật thanh toán thành công!');
-        })
-        .fail(error => {
-            alert('Lỗi khi cập nhật thanh toán');
-            console.error(error);
-        });
-}
+            $.post(`${baseUrl}/Update?${url}`)
+                .done(() => {
+                    $("#editModal").modal("hide");
+                    loadData();
+                    alert('Cập nhật thanh toán thành công!');
+                })
+                .fail(error => {
+                    alert('Lỗi khi cập nhật thanh toán');
+                    console.error(error);
+                });
+        }
 
 
         function deletePayment(paymentId) {
