@@ -8,6 +8,23 @@
     <link rel="stylesheet" href="css/edu_styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<style>
+.custom-detail-link {
+ 
+    
+    text-decoration: none;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    display: inline-block;
+}
+
+.custom-detail-link:hover {
+    color: #2C2A9A;
+}
+</style>
 
 <body>
     <!-- Header -->
@@ -337,7 +354,8 @@
                         <div class="course-price">
                             ${formatCurrency(course.price)}
                         </div>
-                        <button class="buy-btn">Mua Ngay</button>
+                        <a href="../../course-detail.html?id=${course.courseId}" class="custom-detail-link">Xem Chi Tiết</a>
+                        <button class="buy-btn" onclick ="buyCourse('${course.courseId}')">Mua Ngay</button>
                     </div>
                 </div>
             </div>
@@ -349,7 +367,9 @@
                 console.error("Lỗi khi tải khóa học:", error);
             }
         }
-
+        function buyCourse(courseId){
+            window.location.href = `../../paymentPage.html?courseId=${courseId}`;
+        }
 
         // 💰 Hàm định dạng tiền tệ
         function formatCurrency(price) {
