@@ -200,7 +200,7 @@
             window.location.href = "edu.html";
         }
 
-      
+
         // Tạo dropdown filter và gắn sự kiện cho search bar
         document.addEventListener('DOMContentLoaded', function () {
             // Lấy phần tử search bar
@@ -231,33 +231,15 @@
 
             // Hàm tìm kiếm và lọc khóa học
             function searchCourses() {
+                if (!Array.isArray(courses) || courses.length === 0) {
+                    console.warn("Danh sách khóa học chưa được tải.");
+                    return;
+                }
+
                 const searchText = searchInput.value.toLowerCase().trim();
                 const priceFilter = document.getElementById('price-filter').value;
 
-                // Lọc khóa học theo điều kiện
                 const filteredCourses = courses.filter(course => {
-                    // Nếu không có text tìm kiếm, bỏ qua điều kiện text
-                    if (searchText === '') {
-                        // Lọc theo giá
-                        let matchPrice = true;
-                        if (priceFilter === 'low') {
-                            matchPrice = course.price < 500000;
-                        } else if (priceFilter === 'medium') {
-                            matchPrice = course.price >= 500000 && course.price <= 700000;
-                        } else if (priceFilter === 'high') {
-                            matchPrice = course.price > 700000;
-                        }
-
-                        return matchPrice;
-                    }
-
-                    // Tìm kiếm theo từ khóa - tìm từng từ riêng biệt
-                    const words = searchText.split(/\s+/);
-                    const titleMatch = words.every(word => {
-                        return course.title.toLowerCase().includes(word);
-                    });
-
-                    // Lọc theo giá
                     let matchPrice = true;
                     if (priceFilter === 'low') {
                         matchPrice = course.price < 500000;
@@ -267,12 +249,19 @@
                         matchPrice = course.price > 700000;
                     }
 
+                    if (searchText === '') {
+                        return matchPrice;
+                    }
+
+                    const words = searchText.split(/\s+/);
+                    const titleMatch = words.every(word => course.courseName.toLowerCase().includes(word));
+
                     return titleMatch && matchPrice;
                 });
 
-                // Hiển thị kết quả
                 displayResults(filteredCourses);
             }
+
 
             // Hàm hiển thị kết quả tìm kiếm
             function displayResults(results) {
@@ -281,15 +270,12 @@
                 } else {
                     searchResults.innerHTML = results.map(course => `
                 <div class="search-result-item">
-                    <img src="${course.image}" alt="${course.title}">
+                    <img src="${course.courseImage}" alt="${course.courseName}">
                     <div class="search-result-info">
-                        <h4>${course.title}</h4>
-                        <div class="search-result-details">
-                            <span class="search-result-lessons">${course.lessons} bài học</span>
-                        </div>
+                        <h4>${course.courseName}</h4>
+                        
                         <div class="search-result-price">
-                            <span class="search-result-original-price">${formatPrice(course.originalPrice)}</span>
-                            <span class="search-result-current-price">${formatPrice(course.price)}</span>
+                            <span class="search-result-current-price">${formatCurrency(course.price)}</span>
                         </div>
                     </div>
                 </div>
@@ -299,10 +285,6 @@
                 searchResults.style.display = 'block';
             }
 
-            // Format giá tiền
-            function formatPrice(price) {
-                return price.toLocaleString('vi-VN') + 'đ';
-            }
 
             // Sự kiện tìm kiếm khi nhấn nút hoặc Enter
             searchButton.addEventListener('click', searchCourses);
@@ -330,41 +312,44 @@
             });
         });
         // hiển thị khóa học
+        let courses = [];
         document.addEventListener('DOMContentLoaded', loadCourses);
         async function loadCourses() {
             try {
                 const response = await fetch("https://localhost:7026/api/Course/GetList");
-                const courses = await response.json();
+                courses = await response.json(); // Gán trực tiếp vào biến toàn cục
 
                 const container = document.querySelector(".courses-container");
                 container.innerHTML = "";
 
                 courses.forEach(course => {
                     const courseHTML = `
-                <div class="course-card">
-                    <div class="course-image">
-                        <img src="${course.courseImage}" alt="${course.courseName}">
+            <div class="course-card">
+                <div class="course-image">
+                    <img src="${course.courseImage}" alt="${course.courseName}">
+                </div>
+                <div class="course-details">
+                    <h3 class="course-title">${course.courseName}</h3>
+                    <p class="course-description">${course.description}</p>
+                    <div class="course-info">
                     </div>
-                    <div class="course-details">
-                        <h3 class="course-title">${course.courseName}</h3>
-                        <p class="course-description">${course.description}</p>
-                        <div class="course-info">
+                    <div class="course-footer">
+                        <div class="course-price">
+                            ${formatCurrency(course.price)}
                         </div>
-                        <div class="course-footer">
-                            <div class="course-price">
-                                ${formatCurrency(course.price)}
-                            </div>
-                            <button class="buy-btn">Mua Ngay</button>
-                        </div>
+                        <button class="buy-btn">Mua Ngay</button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
                     container.innerHTML += courseHTML;
                 });
+
             } catch (error) {
                 console.error("Lỗi khi tải khóa học:", error);
             }
         }
+
 
         // 💰 Hàm định dạng tiền tệ
         function formatCurrency(price) {
