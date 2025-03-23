@@ -1,6 +1,7 @@
 ﻿using EnglishLearningWebsite1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LearningWebsiteAPI.Controllers
 {
@@ -25,7 +26,7 @@ namespace LearningWebsiteAPI.Controllers
         [HttpPost]
         [Route("Insert")]
 
-        public IActionResult AddCourse(String courseId, String courseName, String description, Decimal price, string instructorId)
+        public IActionResult AddCourse(String courseId, String courseName, String description, Decimal price, string instructorId, string image)
         {
             Course course = new Course();
             course.CourseId = courseId;
@@ -33,7 +34,7 @@ namespace LearningWebsiteAPI.Controllers
             course.Description = description;
             course.Price = price;
             course.InstructorId = instructorId;
-
+            course.CourseImage = image;
             dbc.Courses.Add(course);
             dbc.SaveChanges();
 
@@ -43,7 +44,7 @@ namespace LearningWebsiteAPI.Controllers
         [HttpPost]
         [Route("Update")]
 
-        public IActionResult UpdateCourse(String courseId, String courseName, String description, Decimal price, string instructorId)
+        public IActionResult UpdateCourse(String courseId, String courseName, String description, Decimal price, string instructorId, string image)
         {
             Course course = new Course();
             course.CourseId = courseId;
@@ -51,7 +52,7 @@ namespace LearningWebsiteAPI.Controllers
             course.Description = description;
             course.Price = price;
             course.InstructorId = instructorId;
-
+            course.CourseImage = image;
             dbc.Courses.Update(course);
             dbc.SaveChanges();
 

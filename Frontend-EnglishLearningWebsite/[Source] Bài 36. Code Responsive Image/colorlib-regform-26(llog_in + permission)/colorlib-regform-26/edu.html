@@ -49,89 +49,7 @@
             <a href="#" class="view-all">See all</a>
         </div>
         <div class="courses-container">
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="/api/placeholder/350/180" alt="Javascript">
-                </div>
-                <div class="course-details">
-                    <h3 class="course-title">JavaScript Toàn Tập Từ Cơ Bản Đến Nâng Cao</h3>
-                    <div class="course-info">
-                        <div class="course-lessons">
-                            <i class="fas fa-book"></i> 42 bài học
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            <span class="original-price">999.000đ</span>
-                            599.000đ
-                        </div>
-                        <button class="buy-btn">Mua Ngay</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="/api/placeholder/350/180" alt="Marketing">
-                </div>
-                <div class="course-details">
-                    <h3 class="course-title">Digital Marketing Từ A-Z Cho Người Mới Bắt Đầu</h3>
-                    <div class="course-info">
-                        <div class="course-lessons">
-                            <i class="fas fa-book"></i> 35 bài học
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            <span class="original-price">899.000đ</span>
-                            499.000đ
-                        </div>
-                        <button class="buy-btn">Mua Ngay</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="/api/placeholder/350/180" alt="English">
-                </div>
-                <div class="course-details">
-                    <h3 class="course-title">Tiếng Anh Giao Tiếp Thực Tế Cho Người Đi Làm</h3>
-                    <div class="course-info">
-                        <div class="course-lessons">
-                            <i class="fas fa-book"></i> 50 bài học
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            <span class="original-price">1.200.000đ</span>
-                            699.000đ
-                        </div>
-                        <button class="buy-btn">Mua Ngay</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="/api/placeholder/350/180" alt="Design">
-                </div>
-                <div class="course-details">
-                    <h3 class="course-title">Thiết Kế Đồ Họa với Adobe Photoshop và Illustrator</h3>
-                    <div class="course-info">
-                        <div class="course-lessons">
-                            <i class="fas fa-book"></i> 38 bài học
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            <span class="original-price">1.100.000đ</span>
-                            649.000đ
-                        </div>
-                        <button class="buy-btn">Mua Ngay</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -468,6 +386,47 @@
                 }
             });
         });
+        // hiển thị khóa học
+        document.addEventListener('DOMContentLoaded', loadCourses);
+        async function loadCourses() {
+            try {
+                const response = await fetch("https://localhost:7026/api/Course/GetList");
+                const courses = await response.json();
+
+                const container = document.querySelector(".courses-container");
+                container.innerHTML = "";
+
+                courses.forEach(course => {
+                    const courseHTML = `
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="${course.courseImage}" alt="${course.courseName}">
+                    </div>
+                    <div class="course-details">
+                        <h3 class="course-title">${course.courseName}</h3>
+                        <p class="course-description">${course.description}</p>
+                        <div class="course-info">
+                        </div>
+                        <div class="course-footer">
+                            <div class="course-price">
+                                ${formatCurrency(course.price)}
+                            </div>
+                            <button class="buy-btn">Mua Ngay</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+                    container.innerHTML += courseHTML;
+                });
+            } catch (error) {
+                console.error("Lỗi khi tải khóa học:", error);
+            }
+        }
+
+        // 💰 Hàm định dạng tiền tệ
+        function formatCurrency(price) {
+            return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
+        }
     </script>
 </body>
 

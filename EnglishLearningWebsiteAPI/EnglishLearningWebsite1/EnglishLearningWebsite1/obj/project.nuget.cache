@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RMdxzbfYEiY=",
+  "dgSpecHash": "6kbIzn2b85A=",
   "success": true,
-  "projectFilePath": "C:\\Users\\tranq\\OneDrive\\Documents\\IT\\Uni\\2\\2nd term\\Final Project\\dacn\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj",
+  "projectFilePath": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tranq\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\tranq\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
@@ -86,8 +86,8 @@
     "C:\\Users\\tranq\\.nuget\\packages\\system.threading.channels\\6.0.0\\system.threading.channels.6.0.0.nupkg.sha512",
     "C:\\Users\\tranq\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\tranq\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\tranq\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.14\\microsoft.windowsdesktop.app.ref.8.0.14.nupkg.sha512",
     "C:\\Users\\tranq\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.14\\microsoft.netcore.app.ref.8.0.14.nupkg.sha512",
+    "C:\\Users\\tranq\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.14\\microsoft.windowsdesktop.app.ref.8.0.14.nupkg.sha512",
     "C:\\Users\\tranq\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.14\\microsoft.aspnetcore.app.ref.8.0.14.nupkg.sha512",
     "C:\\Users\\tranq\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.14\\microsoft.netcore.app.host.win-x64.8.0.14.nupkg.sha512"
   ],

@@ -259,6 +259,11 @@
         "Name": "instructorId",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "image",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -293,6 +298,11 @@
       },
       {
         "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "image",
         "Type": "System.String",
         "IsRequired": false
       }
