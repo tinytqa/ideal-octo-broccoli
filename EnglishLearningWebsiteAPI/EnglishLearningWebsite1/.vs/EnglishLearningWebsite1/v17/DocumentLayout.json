@@ -130,7 +130,11 @@
               "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\CourseController.cs",
               "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\CourseController.cs",
               "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\CourseController.cs",
+<<<<<<< Updated upstream
               "ViewState": "AgIAAEMAAAAAAAAAAADwv0kAAAAAAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAAEUAAAAAAAAAAAAowFgAAAAAAAAAAAAAAA==",
+>>>>>>> Stashed changes
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-19T23:37:53.9Z",
               "EditorCaption": ""
