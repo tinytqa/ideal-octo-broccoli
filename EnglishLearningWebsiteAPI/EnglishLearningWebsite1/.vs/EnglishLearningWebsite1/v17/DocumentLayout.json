@@ -1,33 +1,45 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\",
+  "WorkspaceRootPath": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\tranq\\onedrive\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\tranq\\onedrive\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\studentbuycoursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\models\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\models\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\studentbuycoursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\controllers\\studentbuycoursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\tranq\\onedrive\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\models\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\models\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\models\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\tranq\\onedrive\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\tranq\\onedrive\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\instructorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\instructorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\controllers\\instructorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\tranq\\onedrive\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\models\\quizz.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\models\\quizz.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\models\\quizz.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\tranq\\onedrive\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|c:\\users\\admin\\documents\\github\\ideal-octo-broccoli\\englishlearningwebsiteapi\\englishlearningwebsite1\\englishlearningwebsite1\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41701232-4BFC-4E0B-8ECF-DC5DF7D6771C}|EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj|solutionrelative:englishlearningwebsite1\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -38,28 +50,84 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "PaymentController.cs",
-              "DocumentMoniker": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
-              "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
-              "ToolTip": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
-              "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAwwFIAAAAAAAAAAAAAAA==",
+              "Title": "TestController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\TestController.cs",
+              "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\TestController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\TestController.cs",
+              "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\TestController.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAADwv0MAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T01:23:45.549Z",
+              "WhenOpened": "2025-03-25T09:07:05.705Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
+              "Title": "Test.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Test.cs",
+              "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Models\\Test.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Test.cs",
+              "RelativeToolTip": "EnglishLearningWebsite1\\Models\\Test.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T09:06:54.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Program.cs",
+              "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Program.cs",
+              "RelativeToolTip": "EnglishLearningWebsite1\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T09:03:43.476Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PaymentController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
+              "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
+              "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\PaymentController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-24T01:23:45.549Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Quizz.cs",
-              "DocumentMoniker": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Quizz.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Quizz.cs",
               "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Models\\Quizz.cs",
-              "ToolTip": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Quizz.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Quizz.cs",
               "RelativeToolTip": "EnglishLearningWebsite1\\Models\\Quizz.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -67,11 +135,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Payment.cs",
-              "DocumentMoniker": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Payment.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Payment.cs",
               "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Models\\Payment.cs",
-              "ToolTip": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Payment.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Models\\Payment.cs",
               "RelativeToolTip": "EnglishLearningWebsite1\\Models\\Payment.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -79,11 +147,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\UserController.cs",
               "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\UserController.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAgwB8AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -91,11 +159,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "InstructorController.cs",
-              "DocumentMoniker": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\InstructorController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\InstructorController.cs",
               "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\InstructorController.cs",
-              "ToolTip": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\InstructorController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\InstructorController.cs",
               "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\InstructorController.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAAAuwFAAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -103,11 +171,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "CourseController.cs",
-              "DocumentMoniker": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\CourseController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\CourseController.cs",
               "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\CourseController.cs",
-              "ToolTip": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\CourseController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\CourseController.cs",
               "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\CourseController.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAADwv0kAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -115,11 +183,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "StudentBuyCourseController.cs",
-              "DocumentMoniker": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\StudentBuyCourseController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\StudentBuyCourseController.cs",
               "RelativeDocumentMoniker": "EnglishLearningWebsite1\\Controllers\\StudentBuyCourseController.cs",
-              "ToolTip": "C:\\Users\\tranq\\OneDrive\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\StudentBuyCourseController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Documents\\GitHub\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\Controllers\\StudentBuyCourseController.cs",
               "RelativeToolTip": "EnglishLearningWebsite1\\Controllers\\StudentBuyCourseController.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAYwB8AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
