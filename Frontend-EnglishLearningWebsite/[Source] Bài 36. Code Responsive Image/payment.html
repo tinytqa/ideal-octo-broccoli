@@ -25,8 +25,8 @@
             <thead>
                 <tr>
                     <th>Payment Id</th>
-                    <th>Student Id</th>
-                    <th>Course Id</th>
+                    <th>Student Name</th>
+                    <th>Course Name</th>
                     <th>Payment Date</th>
                     <th>Amount</th>
                     <th>Action</th>
@@ -49,12 +49,12 @@
                         <input type="text" id="paymentId" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Student Id</label>
-                        <input type="text" id="studentId" class="form-control">
+                        <label class="form-label">Student</label>
+                        <select id="studentId" class="form-control"></select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Course Id</label>
-                        <input type="text" id="courseId" class="form-control">
+                        <label class="form-label">Course</label>
+                        <select id="courseId" class="form-control"></select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Payment Date</label>
@@ -71,11 +71,73 @@
     </div>
 
     <script>
+        // Khai báo URL cơ bản của API
         const baseUrl = 'https://localhost:7026/api/Payment';
+        const studentApiUrl = 'https://localhost:7026/api/Student/GetStudentById';
+        const userApiUrl = 'https://localhost:7026/api/User/GetById';
+        const courseApiUrl = 'https://localhost:7026/api/Course/GetCourseById';
 
+        // Tải dữ liệu khi trang được load
         $(document).ready(function () {
             loadData();
+            loadStudents();
+            loadCourses();
         });
+
+        // Hàm tải danh sách sinh viên
+        function loadStudents() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    let studentPromises = data.map(item =>
+                        $.ajax({
+                            url: `${studentApiUrl}/${item.studentId}`,
+                            method: 'GET'
+                        }).then(student =>
+                            $.ajax({
+                                url: `${userApiUrl}/${student.userId}`,
+                                method: 'GET'
+                            })
+                        )
+                    );
+
+                    Promise.all(studentPromises).then(users => {
+                        let uniqueStudents = [...new Set(users.map(user => user.userId))];
+                        let studentOptions = uniqueStudents.map(userId => {
+                            let user = users.find(u => u.userId === userId);
+                            return `<option value="${userId}">${user.fullName}</option>`;
+                        }).join('');
+                        $('#studentId').html(studentOptions);
+                    });
+                }
+            });
+        }
+
+        // Hàm tải danh sách khóa học
+        function loadCourses() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    let coursePromises = data.map(item =>
+                        $.ajax({
+                            url: `${courseApiUrl}/${item.courseId}`,
+                            method: 'GET'
+                        })
+                    );
+
+                    Promise.all(coursePromises).then(courses => {
+                        let uniqueCourses = [...new Set(courses.map(course => course.courseId))];
+                        let courseOptions = uniqueCourses.map(courseId => {
+                            let course = courses.find(c => c.courseId === courseId);
+                            return `<option value="${courseId}">${course.courseName}</option>`;
+                        }).join('');
+                        $('#courseId').html(courseOptions);
+                    });
+                }
+            });
+        }
 
         function loadData() {
             $.ajax({
@@ -92,23 +154,47 @@
         }
 
         function renderTable(data) {
-            let html = '';
-            data.forEach((item) => {
-                html += `
+            // Lưu trữ promises để lấy thông tin chi tiết
+            let promises = data.map(item => {
+                return Promise.all([
+                    $.ajax({
+                        url: `${studentApiUrl}/${item.studentId}`,
+                        method: 'GET'
+                    }).then(student =>
+                        $.ajax({
+                            url: `${userApiUrl}/${student.userId}`,
+                            method: 'GET'
+                        })
+                    ),
+                    $.ajax({
+                        url: `${courseApiUrl}/${item.courseId}`,
+                        method: 'GET'
+                    })
+                ]).then(([user, course]) => ({
+                    paymentId: item.paymentId,
+                    studentName: user.fullName,
+                    courseName: course.courseName,
+                    paymentDate: item.paymentDate ? new Date(item.paymentDate).toLocaleString() : '',
+                    amount: item.amount
+                }));
+            });
+
+            Promise.all(promises).then(details => {
+                let html = details.map(item => `
                     <tr>
                         <td>${item.paymentId}</td>
-                        <td>${item.studentId}</td>
-                        <td>${item.courseId}</td>
-                        <td>${item.paymentDate ? new Date(item.paymentDate).toLocaleString() : ''}</td>
+                        <td>${item.studentName}</td>
+                        <td>${item.courseName}</td>
+                        <td>${item.paymentDate}</td>
                         <td>${item.amount}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="openDialog('${item.paymentId}')">Sửa</button>
                             <button class="btn btn-danger btn-sm" onclick="deletePayment('${item.paymentId}')">Xóa</button>
                         </td>
                     </tr>
-                `;
+                `).join('');
+                $('#dataTable').html(html);
             });
-            $('#dataTable').html(html);
         }
 
         function openDialog(id = null) {
@@ -121,17 +207,34 @@
                     success: function (data) {
                         const payment = data.find(x => x.paymentId === id);
                         if (payment) {
-                            $("#paymentId").val(payment.paymentId).prop("readonly", true);
-                            $("#studentId").val(payment.studentId);
-                            $("#courseId").val(payment.courseId);
-                            $("#paymentDate").val(payment.paymentDate ? new Date(payment.paymentDate).toISOString().slice(0, 16) : '');
-                            $("#amount").val(payment.amount);
+                            // Lấy thông tin sinh viên và khóa học
+                            Promise.all([
+                                $.ajax({
+                                    url: `${studentApiUrl}/${payment.studentId}`,
+                                    method: 'GET'
+                                }).then(student =>
+                                    $.ajax({
+                                        url: `${userApiUrl}/${student.userId}`,
+                                        method: 'GET'
+                                    })
+                                ),
+                                $.ajax({
+                                    url: `${courseApiUrl}/${payment.courseId}`,
+                                    method: 'GET'
+                                })
+                            ]).then(([user, course]) => {
+                                $("#paymentId").val(payment.paymentId).prop("readonly", true);
+                                $("#studentId").val(user.userId).prop("disabled", true);
+                                $("#courseId").val(course.courseId);
+                                $("#paymentDate").val(payment.paymentDate ? new Date(payment.paymentDate).toISOString().slice(0, 16) : '');
+                                $("#amount").val(payment.amount);
+                            });
                         }
                     }
                 });
             } else {
                 $("#paymentId").val("").prop("readonly", false);
-                $("#studentId").val("");
+                $("#studentId").prop("disabled", false).val("");
                 $("#courseId").val("");
                 $("#paymentDate").val("");
                 $("#amount").val("");
@@ -186,7 +289,6 @@
                     console.error(error);
                 });
         }
-
 
         function deletePayment(paymentId) {
             if (confirm('Bạn có chắc muốn xóa thanh toán này?')) {

@@ -1017,6 +1017,22 @@
   },
   {
     "ContainingType": "EnglishLearningWebsite.Controllers.StudentController",
+    "Method": "GetStudentById",
+    "RelativePath": "api/Student/GetStudentById/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.StudentController",
     "Method": "AddStudent",
     "RelativePath": "api/Student/Insert",
     "HttpMethod": "POST",

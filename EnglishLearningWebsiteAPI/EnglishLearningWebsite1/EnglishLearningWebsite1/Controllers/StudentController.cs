@@ -69,5 +69,17 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Delete Student ID " + studentId + " successfully!");
         }
+
+        [HttpGet]
+        [Route("GetStudentById/{studentId}")]
+        public IActionResult GetStudentById(string studentId)
+        {
+            var student = dbc.Students.Find(studentId);
+            if (student == null)
+            {
+                return NotFound(new { success = false, message = "Student not found" });
+            }
+            return Ok(student);
+        }
     }
 }

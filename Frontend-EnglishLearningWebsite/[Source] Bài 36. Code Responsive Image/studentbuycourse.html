@@ -30,8 +30,8 @@
             <thead>
                 <tr>
                     <th>Enrollment Id</th>
-                    <th>Student Id</th>
-                    <th>Course Id</th>
+                    <th>Student Name</th>
+                    <th>Course Name</th>
                     <th>Enrollment Date</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -55,20 +55,24 @@
                         <input type="text" id="enrollmentId" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Student Id</label>
-                        <input type="text" id="studentId" class="form-control">
+                        <label class="form-label">Student</label>
+                        <select id="studentId" class="form-control"></select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Course Id</label>
-                        <input type="text" id="courseId" class="form-control">
+                        <label class="form-label">Course</label>
+                        <select id="courseId" class="form-control"></select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Enrollment Date</label>
                         <input type="date" id="enrollmentDate" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <input type="text" id="status" class="form-control">
+                        <label class="form-label" for="status">Status</label>
+                        <select id="status" class="form-control">
+                            <option value="">Select status</option>
+                            <option value="pending">Pending</option>
+                            <option value="purchased">Purchased</option>
+                        </select>
                     </div>
                     <button class="btn btn-success" onclick="saveStudentBuyCourse()">Save</button>
                 </div>
@@ -79,11 +83,71 @@
     <script>
         // Khai báo URL cơ bản của API
         const baseUrl = 'https://localhost:7026/api/StudentBuyCourse';
+        const studentApiUrl = 'https://localhost:7026/api/Student/GetStudentById';
+        const userApiUrl = 'https://localhost:7026/api/User/GetById';
+        const courseApiUrl = 'https://localhost:7026/api/Course/GetCourseById';
 
         // Tải dữ liệu khi trang được load
         $(document).ready(function () {
             loadData();
+            loadStudents();
+            loadCourses();
         });
+
+        // Hàm tải danh sách sinh viên
+        function loadStudents() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    let studentPromises = data.map(item =>
+                        $.ajax({
+                            url: `${studentApiUrl}/${item.studentId}`,
+                            method: 'GET'
+                        }).then(student =>
+                            $.ajax({
+                                url: `${userApiUrl}/${student.userId}`,
+                                method: 'GET'
+                            })
+                        )
+                    );
+
+                    Promise.all(studentPromises).then(users => {
+                        let uniqueStudents = [...new Set(users.map(user => user.userId))];
+                        let studentOptions = uniqueStudents.map(userId => {
+                            let user = users.find(u => u.userId === userId);
+                            return `<option value="${userId}">${user.fullName}</option>`;
+                        }).join('');
+                        $('#studentId').html(studentOptions);
+                    });
+                }
+            });
+        }
+
+        // Hàm tải danh sách khóa học
+        function loadCourses() {
+            $.ajax({
+                url: `${baseUrl}/GetList`,
+                method: 'GET',
+                success: function (data) {
+                    let coursePromises = data.map(item =>
+                        $.ajax({
+                            url: `${courseApiUrl}/${item.courseId}`,
+                            method: 'GET'
+                        })
+                    );
+
+                    Promise.all(coursePromises).then(courses => {
+                        let uniqueCourses = [...new Set(courses.map(course => course.courseId))];
+                        let courseOptions = uniqueCourses.map(courseId => {
+                            let course = courses.find(c => c.courseId === courseId);
+                            return `<option value="${courseId}">${course.courseName}</option>`;
+                        }).join('');
+                        $('#courseId').html(courseOptions);
+                    });
+                }
+            });
+        }
 
         // Hàm tải dữ liệu từ API
         function loadData() {
@@ -102,23 +166,46 @@
 
         // Hàm render bảng với dữ liệu
         function renderTable(data) {
-            let html = '';
-            data.forEach((item) => {
-                html += `
+            // Lưu trữ promises để lấy thông tin chi tiết
+            let promises = data.map(item => {
+                return Promise.all([
+                    $.ajax({
+                        url: `${studentApiUrl}/${item.studentId}`,
+                        method: 'GET'
+                    }).then(student =>
+                        $.ajax({
+                            url: `${userApiUrl}/${student.userId}`,
+                            method: 'GET'
+                        })
+                    ),
+                    $.ajax({
+                        url: `${courseApiUrl}/${item.courseId}`,
+                        method: 'GET'
+                    })
+                ]).then(([user, course]) => ({
+                    enrollmentId: item.enrollmentId,
+                    studentName: user.fullName,
+                    courseName: course.courseName,
+                    enrollmentDate: item.enrollmentDate,
+                    status: item.status
+                }));
+            });
+
+            Promise.all(promises).then(details => {
+                let html = details.map(item => `
                     <tr>
                         <td>${item.enrollmentId}</td>
-                        <td>${item.studentId}</td>
-                        <td>${item.courseId}</td>
+                        <td>${item.studentName}</td>
+                        <td>${item.courseName}</td>
                         <td>${item.enrollmentDate}</td>
                         <td>${item.status}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="openDialog('${item.enrollmentId}')">Sửa</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteStudentBuyCourse('${item.enrollmentId}')">Xóa</button>
                         </td>
                     </tr>
-                `;
+                `).join('');
+                $('#dataTable').html(html);
             });
-            $('#dataTable').html(html);
         }
 
         // Hàm mở dialog
@@ -133,11 +220,28 @@
                     success: function (data) {
                         const studentBuyCourse = data.find(x => x.enrollmentId === id);
                         if (studentBuyCourse) {
-                            $("#enrollmentId").val(studentBuyCourse.enrollmentId).prop("readonly", true);
-                            $("#studentId").val(studentBuyCourse.studentId);
-                            $("#courseId").val(studentBuyCourse.courseId);
-                            $("#enrollmentDate").val(studentBuyCourse.enrollmentDate);
-                            $("#status").val(studentBuyCourse.status);
+                            // Lấy thông tin sinh viên và khóa học
+                            Promise.all([
+                                $.ajax({
+                                    url: `${studentApiUrl}/${studentBuyCourse.studentId}`,
+                                    method: 'GET'
+                                }).then(student =>
+                                    $.ajax({
+                                        url: `${userApiUrl}/${student.userId}`,
+                                        method: 'GET'
+                                    })
+                                ),
+                                $.ajax({
+                                    url: `${courseApiUrl}/${studentBuyCourse.courseId}`,
+                                    method: 'GET'
+                                })
+                            ]).then(([user, course]) => {
+                                $("#enrollmentId").val(studentBuyCourse.enrollmentId).prop("readonly", true);
+                                $("#studentId").val(user.userId).prop("disabled", true);
+                                $("#courseId").val(course.courseId).prop("disabled", true);
+                                $("#enrollmentDate").val(studentBuyCourse.enrollmentDate);
+                                $("#status").val(studentBuyCourse.status);
+                            });
                         }
                     }
                 });

@@ -1461,6 +1461,28 @@
         }
       }
     },
+    "/api/Student/GetStudentById/{studentId}": {
+      "get": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/StudentBuyCourse/GetList": {
       "get": {
         "tags": [

@@ -130,7 +130,6 @@
                         <td>${item.role}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="openDialog('${item.userId}')">Sửa</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${item.userId}')">Xóa</button>
                         </td>
                     </tr>
                 `;
@@ -151,11 +150,11 @@
                         const user = data.find(x => x.userId === id);
                         if (user) {
                             $("#userId").val(user.userId).prop("readonly", true);
-                            $("#username").val(user.username);
-                            $("#password").val(user.password);
-                            $("#fullName").val(user.fullName);
-                            $("#email").val(user.email);
-                            $("#phoneNumber").val(user.phoneNumber);
+                            $("#username").val(user.username).prop("readonly", true);
+                            $("#password").val(user.password).prop("readonly", true);
+                            $("#fullName").val(user.fullName).prop("readonly", true);
+                            $("#email").val(user.email).prop("readonly", true);
+                            $("#phoneNumber").val(user.phoneNumber).prop("readonly", true);
                             $("#role").val(user.role);
                         }
                     }

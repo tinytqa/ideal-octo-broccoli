@@ -30,7 +30,7 @@
             <thead>
                 <tr>
                     <th>Student Id</th>
-                    <th>User Id</th>
+                    <th>Full Name</th>
                     <th>DoB</th>
                     <th>Address</th>
                     <th>Action</th>
@@ -54,8 +54,10 @@
                         <input type="text" id="studentId" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">User Id</label>
-                        <input type="text" id="userId" class="form-control">
+                        <label class="form-label">User</label>
+                        <select id="userId" class="form-control">
+                            <!-- Users will be populated dynamically -->
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">DoB</label>
@@ -74,11 +76,41 @@
     <script>
         // Khai báo URL cơ bản của API
         const baseUrl = 'https://localhost:7026/api/Student';
+        let users = []; // Biến toàn cục để lưu danh sách người dùng
+        let students = []; // Biến toàn cục để lưu danh sách sinh viên
 
         // Tải dữ liệu khi trang được load
         $(document).ready(function () {
-            loadData();
+            // Load users first, then load students
+            loadUsers().then(() => {
+                loadData();
+            });
         });
+
+        // Hàm tải danh sách người dùng
+        function loadUsers() {
+            return $.ajax({
+                url: 'https://localhost:7026/api/User/GetList',
+                method: 'GET',
+                success: function (data) {
+                    users = data;
+                    populateUserDropdown();
+                },
+                error: function (error) {
+                    alert('Lỗi khi tải danh sách người dùng');
+                    console.error(error);
+                }
+            });
+        }
+
+        // Hàm điền danh sách người dùng vào dropdown
+        function populateUserDropdown() {
+            const userSelect = $('#userId');
+            userSelect.empty();
+            users.forEach(user => {
+                userSelect.append(`<option value="${user.userId}">${user.fullName}</option>`);
+            });
+        }
 
         // Hàm tải dữ liệu từ API
         function loadData() {
@@ -86,7 +118,8 @@
                 url: `${baseUrl}/GetList`,
                 method: 'GET',
                 success: function (data) {
-                    renderTable(data);
+                    students = data;
+                    renderTable();
                 },
                 error: function (error) {
                     alert('Lỗi khi tải dữ liệu');
@@ -96,13 +129,17 @@
         }
 
         // Hàm render bảng với dữ liệu
-        function renderTable(data) {
+        function renderTable() {
             let html = '';
-            data.forEach((item) => {
+            students.forEach((item) => {
+                // Tìm tên đầy đủ của người dùng
+                const user = users.find(u => u.userId === item.userId);
+                const fullName = user ? user.fullName : item.userId;
+
                 html += `
                     <tr>
-                        <td>${item.userId}</td>
                         <td>${item.studentId}</td>
+                        <td>${fullName}</td>
                         <td>${item.dob}</td>
                         <td>${item.address}</td>
                         <td>
@@ -121,19 +158,13 @@
 
             if (id) {
                 // Chế độ sửa - load dữ liệu và khóa Student Id
-                $.ajax({
-                    url: `${baseUrl}/GetList`,
-                    method: 'GET',
-                    success: function (data) {
-                        const student = data.find(x => x.studentId === id);
-                        if (student) {
-                            $("#studentId").val(student.studentId).prop("readonly", true);
-                            $("#userId").val(student.userId);
-                            $("#dob").val(student.dob);
-                            $("#address").val(student.address);
-                        }
-                    }
-                });
+                const student = students.find(x => x.studentId === id);
+                if (student) {
+                    $("#studentId").val(student.studentId).prop("readonly", true);
+                    $("#userId").val(student.userId);
+                    $("#dob").val(student.dob);
+                    $("#address").val(student.address);
+                }
             } else {
                 // Chế độ thêm mới - xóa form và cho phép nhập Student Id
                 $("#studentId").val("").prop("readonly", false);
