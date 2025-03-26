@@ -5,53 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Detail</title>
-    <style>
-        .course-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-
-        .course-header {
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .course-info {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .course-description {
-            margin-top: 20px;
-        }
-
-        .price {
-            font-size: 24px;
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .back-button {
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .buy-button {
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="css/course-details_styles.css">
 </head>
 
 <body>
@@ -61,8 +15,8 @@
         </div>
         <div class="course-info">
             <div>
-                <p><strong>Course ID:</strong> <span id="courseId"></span></p>
-                <p><strong>Instructor ID:</strong> <span id="instructorId"></span></p>
+                <p><strong>Course Name:</strong> <span id="displayCourseName"></span></p>
+                <p><strong>Instructor:</strong> <span id="instructorName"></span></p>
             </div>
             <div>
                 <p class="price" id="price"></p>
@@ -91,13 +45,36 @@
                 return response.json();
             })
             .then(course => {
+                // Set course details
                 document.getElementById('courseName').textContent = course.courseName;
-                document.getElementById('courseId').textContent = course.courseId;
-                document.getElementById('instructorId').textContent = course.instructorId;
+                document.getElementById('displayCourseName').textContent = course.courseName;
                 document.getElementById('price').textContent = `$${course.price}`;
                 document.getElementById('description').textContent = course.description;
 
-                // Thêm nút Buy This Course
+                // Fetch instructor details to get user ID
+                return fetch(`${baseUrl}/api/Instructor/GetInstructorById/${course.instructorId}`);
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Instructor not found');
+                }
+                return response.json();
+            })
+            .then(instructor => {
+                // Fetch user details using userId from instructor
+                return fetch(`${baseUrl}/api/User/GetById/${instructor.userId}`);
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('User not found');
+                }
+                return response.json();
+            })
+            .then(user => {
+                // Set instructor name from user's full name
+                document.getElementById('instructorName').textContent = user.fullName;
+
+                // Add Buy This Course button
                 const actionsDiv = document.createElement('div');
                 actionsDiv.className = 'course-actions';
 
@@ -105,7 +82,7 @@
                 buyButton.className = 'buy-button';
                 buyButton.textContent = 'Buy This Course';
                 buyButton.onclick = () => {
-                    window.location.href = `paymentPage.html?courseId=${course.courseId}`;
+                    window.location.href = `paymentPage.html?courseId=${courseId}`;
                 };
 
                 actionsDiv.appendChild(buyButton);
@@ -113,7 +90,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.querySelector('.course-container').innerHTML = '<h2>Course not found</h2>';
+                document.querySelector('.course-container').innerHTML = '<h2>Course, Instructor, or User not found</h2>';
             });
     </script>
 </body>
