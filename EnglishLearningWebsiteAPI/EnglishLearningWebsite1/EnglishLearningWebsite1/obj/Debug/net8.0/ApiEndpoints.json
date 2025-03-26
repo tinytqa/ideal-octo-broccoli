@@ -447,6 +447,22 @@
   },
   {
     "ContainingType": "EnglishLearningWebsite.Controllers.GetItemByForeignKeyController",
+    "Method": "GetUserViewedVideos",
+    "RelativePath": "api/GetItemByForeignKey/GetUserViewedVideos/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.GetItemByForeignKeyController",
     "Method": "UpdateCount",
     "RelativePath": "api/GetItemByForeignKey/UpdateCount/{url}/{userid}",
     "HttpMethod": "GET",

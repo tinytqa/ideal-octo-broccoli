@@ -541,6 +541,28 @@
         }
       }
     },
+    "/api/GetItemByForeignKey/GetUserViewedVideos/{userId}": {
+      "get": {
+        "tags": [
+          "GetItemByForeignKey"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetItemByForeignKey/UpdateCount/{url}/{userid}": {
       "get": {
         "tags": [

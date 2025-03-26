@@ -12,7 +12,35 @@ namespace EnglishLearningWebsite.Controllers
     {
         private readonly string _connectionString = "Data Source=cmcsv.ric.vn,10000;Initial Catalog=duc_dacn;Persist Security Info=True;User ID=cmcsv;Password=cM!@#2025;encrypt=false";
 
-        
+        [HttpGet("GetUserViewedVideos/{userId}")]
+        public IActionResult GetUserViewedVideos(string userId)
+        {
+            List<string> viewedVideoUrls = new List<string>();
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(@"
+                    SELECT DISTINCT v.fileUrl 
+                    FROM tblViewCount vc
+                    JOIN Video v ON vc.vc_videoId = v.videoId
+                    WHERE vc.vc_userId = @userId AND vc.vc_count > 0", conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            viewedVideoUrls.Add(reader["fileUrl"].ToString());
+                        }
+                    }
+                }
+            }
+
+            return Ok(viewedVideoUrls);
+        }
+
         [HttpGet("UpdateCount/{url}/{userid}")]
         public IActionResult UpdateCount(string url,string userid)
         {
