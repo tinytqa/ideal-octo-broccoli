@@ -26,12 +26,22 @@
             <h2>Description</h2>
             <p id="description"></p>
         </div>
+
+        <div class="instructor-bio">
+            <h2>About the Instructor</h2>
+            <p id="instructorBio"></p>
+        </div>
+
+        <div class="course-syllabus">
+            <h2>Course Syllabus</h2>
+            <ul id="chaptersList" class="syllabus-list"></ul>
+        </div>
+
         <button class="back-button" onclick="window.history.back()">Back to Course List</button>
     </div>
 
     <script>
         var baseUrl = "https://localhost:7026";
-
         // Get course ID from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const courseId = urlParams.get('id');
@@ -62,17 +72,40 @@
             })
             .then(instructor => {
                 // Fetch user details using userId from instructor
-                return fetch(`${baseUrl}/api/User/GetById/${instructor.userId}`);
+                return Promise.all([
+                    fetch(`${baseUrl}/api/User/GetById/${instructor.userId}`),
+                    Promise.resolve(instructor)
+                ]);
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('User not found');
-                }
-                return response.json();
+            .then(([userResponse, instructor]) => {
+                return Promise.all([
+                    userResponse.json(),
+                    fetch(`${baseUrl}/api/GetItemByForeignKey/GetChapters/${courseId}`),
+                    Promise.resolve(instructor)
+                ]);
             })
-            .then(user => {
+            .then(([user, chaptersResponse, instructor]) => {
                 // Set instructor name from user's full name
                 document.getElementById('instructorName').textContent = user.fullName;
+
+                // Set instructor bio
+                document.getElementById('instructorBio').textContent = instructor.bio || 'No bio available';
+
+                // Fetch and display chapters
+                return chaptersResponse.json();
+            })
+            .then(chapters => {
+                const chaptersList = document.getElementById('chaptersList');
+
+                // Clear any existing chapters
+                chaptersList.innerHTML = '';
+
+                // Add chapters to the list
+                chapters.forEach(chapter => {
+                    const li = document.createElement('li');
+                    li.textContent = chapter.chapterTitle;
+                    chaptersList.appendChild(li);
+                });
 
                 // Add Buy This Course button
                 const actionsDiv = document.createElement('div');
