@@ -9,21 +9,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <style>
-.custom-detail-link {
- 
-    
-    text-decoration: none;
-    padding: 6px 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    display: inline-block;
-}
+    .custom-detail-link {
 
-.custom-detail-link:hover {
-    color: #2C2A9A;
-}
+
+        text-decoration: none;
+        padding: 6px 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .custom-detail-link:hover {
+        color: #2C2A9A;
+    }
 </style>
 
 <body>
@@ -35,7 +35,6 @@
                 <ul>
                     <li><a href="mainpage.html">Home</a></li>
                     <li><a href="#courses">Course</a></li>
-                    <li><a href="#features">Feature</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
@@ -67,64 +66,6 @@
         </div>
         <div class="courses-container">
 
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="features-container">
-            <h2>Why Choose SelfLearn?</h2>
-            <p>We provide high quality learning experience with many outstanding features</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-laptop"></i>
-                    </div>
-                    <h3>Learn Anytime Anywhere</h3>
-                    <p>Access the course from your computer, tablet or phone. Study flexibly on your schedule.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                    <h3>High Quality Teachers</h3>
-                    <p>The faculty are leading experts in the field, experienced and passionate about teaching.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>Certificate of Value</h3>
-                    <p>Receive a valuable certificate upon completion of the course, enhancing your profile and career
-                        opportunities.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>Interactive Support</h3>
-                    <p>Interact directly with instructors and other students through online discussion forums and Q&A
-                        sessions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <h3>Regular Updates</h3>
-                    <p>Course content is constantly updated to ensure knowledge is always up-to-date and relevant to the
-                        market.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-hand-holding-usd"></i>
-                    </div>
-                    <h3>Reasonable Price</h3>
-                    <p>We are committed to providing quality courses at affordable prices, with many incentives and
-                        scholarships.</p>
-                </div>
-            </div>
         </div>
     </section>
     <!-- Footer -->
@@ -367,7 +308,7 @@
                 console.error("Lỗi khi tải khóa học:", error);
             }
         }
-        function buyCourse(courseId){
+        function buyCourse(courseId) {
             window.location.href = `../../paymentPage.html?courseId=${courseId}`;
         }
 
