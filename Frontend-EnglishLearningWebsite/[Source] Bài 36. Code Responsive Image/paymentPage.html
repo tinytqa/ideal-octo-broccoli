@@ -7,61 +7,7 @@
     <title>Thanh toán khóa học</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .payment-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .course-info {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .payment-methods {
-            margin: 30px 0;
-        }
-
-        .payment-method {
-            border: 1px solid #dee2e6;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .payment-method:hover,
-        .payment-method.active {
-            border-color: #007bff;
-            background-color: #f0f7ff;
-        }
-
-        .payment-method.active {
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-        }
-
-        .submit-button {
-            padding: 12px 30px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .payment-error {
-            color: #dc3545;
-            margin-top: 15px;
-        }
-
-        .payment-success {
-            color: #28a745;
-            margin-top: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/payment_page.css">
 </head>
 
 <body>
@@ -212,6 +158,9 @@
                 if (student) {
                     studentId = student.studentId; // Gán giá trị cho biến toàn cục
                     console.log("Đã tìm thấy studentId:", studentId);
+
+                    // Sau khi có studentId, kiểm tra xem học viên đã mua khóa học này chưa
+                    checkExistingPurchase(studentId, courseId);
                 } else {
                     console.error('Không tìm thấy thông tin học viên với userId:', userId);
                     document.getElementById('paymentResult').innerHTML = '<div class="payment-error">Không tìm thấy thông tin học viên. Vui lòng đăng nhập lại.</div>';
@@ -222,6 +171,38 @@
                 document.getElementById('paymentResult').innerHTML = '<div class="payment-error">Có lỗi khi tải thông tin học viên. Vui lòng thử lại sau.</div>';
             }
         });
+
+        // Function to check if the student has already purchased the course
+        function checkExistingPurchase(studentId, courseId) {
+            fetch('https://localhost:7026/api/StudentBuyCourse/GetList')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch purchase data');
+                    }
+                    return response.json();
+                })
+                .then(purchaseData => {
+                    // Check if there's an existing purchase with matching studentId and courseId
+                    const existingPurchase = purchaseData.find(purchase =>
+                        purchase.studentId === studentId && purchase.courseId === courseId
+                    );
+
+                    if (existingPurchase) {
+                        console.log("Student has already purchased this course:", existingPurchase);
+                        document.getElementById('paymentResult').innerHTML = '<div class="payment-error">You have already bought this course.</div>';
+                        document.querySelector('.submit-button').disabled = true;
+                        document.getElementById('amount').disabled = true;
+                        document.querySelectorAll('.payment-method').forEach(method => {
+                            method.classList.add('disabled');
+                            const radio = method.querySelector('input[type="radio"]');
+                            radio.disabled = true;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking purchase status:', error);
+                });
+        }
 
         // Xử lý chọn phương thức thanh toán
         document.querySelectorAll('.payment-method').forEach(method => {
@@ -257,6 +238,30 @@
                 return;
             }
 
+            // Kiểm tra lại một lần nữa xem học viên đã mua khóa học này chưa
+            fetch('https://localhost:7026/api/StudentBuyCourse/GetList')
+                .then(response => response.json())
+                .then(purchaseData => {
+                    const existingPurchase = purchaseData.find(purchase =>
+                        purchase.studentId === studentId && purchase.courseId === courseId
+                    );
+
+                    if (existingPurchase) {
+                        document.getElementById('paymentResult').innerHTML = '<div class="payment-error">You have already bought this course.</div>';
+                        return;
+                    }
+
+                    // Nếu chưa mua, tiếp tục xử lý thanh toán
+                    processPayment(amount, studentId, courseId);
+                })
+                .catch(error => {
+                    console.error('Error checking purchase status:', error);
+                    document.getElementById('paymentResult').innerHTML = '<div class="payment-error">Có lỗi khi kiểm tra thông tin khóa học. Vui lòng thử lại sau.</div>';
+                });
+        });
+
+        // Function to process payment after validation
+        function processPayment(amount, studentId, courseId) {
             // Hiển thị đang xử lý
             document.getElementById('paymentResult').innerHTML = '<div class="text-info">Đang xử lý thanh toán...</div>';
 
@@ -276,16 +281,16 @@
                     if (data.success) {
                         // Hiển thị thông báo thành công
                         document.getElementById('paymentResult').innerHTML = `
-                    <div class="payment-success">
-                        <h4>Thanh toán thành công!</h4>
-                        <p>Mã thanh toán: ${data.message.split(': ')[1].replace(' successfully!', '')}</p>
-                        <p>Cảm ơn bạn đã mua khóa học.</p>
-                        <div class="mt-3">
-                            <a href="studentPage.html?id=${courseId}" class="btn btn-success">Học ngay</a>
-                            <a href="index.html" class="btn btn-outline-primary ms-2">Về trang chủ</a>
-                        </div>
-                    </div>
-                `;
+            <div class="payment-success">
+                <h4>Thanh toán thành công!</h4>
+                <p>Mã thanh toán: ${data.message.split(': ')[1].replace(' successfully!', '')}</p>
+                <p>Cảm ơn bạn đã mua khóa học.</p>
+                <div class="mt-3">
+                    <a href="studentPage.html?id=${courseId}" class="btn btn-success">Học ngay</a>
+                    <a href="index.html" class="btn btn-outline-primary ms-2">Về trang chủ</a>
+                </div>
+            </div>
+        `;
 
                         // Lưu thông tin đã thanh toán vào sessionStorage
                         const purchasedCourses = JSON.parse(sessionStorage.getItem('purchasedCourses') || '[]');
@@ -301,7 +306,7 @@
                     console.error('Error:', error);
                     document.getElementById('paymentResult').innerHTML = '<div class="payment-error">Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại sau.</div>';
                 });
-        });
+        }
     </script>
 </body>
 
