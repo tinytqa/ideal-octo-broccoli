@@ -59,31 +59,28 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Update Test ID " + testId + " successfully!");
         }
-        [HttpGet]
-        [Route("GetTestsByInstructor")]
-        public IActionResult GetTestsByInstructor(string instructorId)
+        [HttpGet("GetByInstructor")]
+        public IActionResult GetTestsByInstructor(string userId)
         {
-            // Lấy tất cả các khóa học của giảng viên
-            var courses = dbc.Courses.Where(c => c.InstructorId == instructorId).ToList();
-
-            if (courses == null || !courses.Any())
-            {
-                return NotFound(new { success = false, message = "No courses found for this instructor." });
-            }
-
-            // Lọc các bài kiểm tra của các khóa học mà giảng viên đang dạy
             var tests = dbc.Tests
-                .Include(t => t.Course)  // Bao gồm thông tin khóa học
-                .Where(t => courses.Any(c => c.CourseId == t.CourseId))  // Lọc bài kiểm tra thuộc về các khóa học giảng viên đang dạy
+                .Include(t => t.Course)
+                .Where(t =>
+                    t.Course != null &&
+                    t.Course.Instructor != null &&
+                    t.Course.Instructor.UserId == userId)
+                .Select(t => new {
+                    t.TestId,
+                    t.CourseId,
+                    t.Field,
+                    t.TestContent,
+                    t.Type
+                })
                 .ToList();
 
-            if (tests == null || !tests.Any())
-            {
-                return NotFound(new { success = false, message = "No tests found for the instructor's courses." });
-            }
-
-            return Ok(tests);  // Trả về danh sách bài kiểm tra
+            return Ok(tests);
         }
+
+
 
         [HttpPost]
         [Route("Delete")]

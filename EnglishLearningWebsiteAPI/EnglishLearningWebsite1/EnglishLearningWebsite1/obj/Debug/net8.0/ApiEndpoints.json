@@ -1358,28 +1358,28 @@
   },
   {
     "ContainingType": "EnglishLearningWebsite.Controllers.StudentDoTestController",
+    "Method": "GetByInstructor",
+    "RelativePath": "api/StudentDoTest/GetByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.StudentDoTestController",
     "Method": "GetList",
     "RelativePath": "api/StudentDoTest/GetList",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EnglishLearningWebsite.Controllers.StudentDoTestController",
-    "Method": "GetStudentDoTestsByInstructor",
-    "RelativePath": "api/StudentDoTest/GetStudentDoTestsByInstructor",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "instructorId",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
     "ReturnTypes": []
   },
   {
@@ -1472,28 +1472,28 @@
   },
   {
     "ContainingType": "EnglishLearningWebsite.Controllers.TestController",
+    "Method": "GetTestsByInstructor",
+    "RelativePath": "api/Test/GetByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.TestController",
     "Method": "GetList",
     "RelativePath": "api/Test/GetList",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EnglishLearningWebsite.Controllers.TestController",
-    "Method": "GetTestsByInstructor",
-    "RelativePath": "api/Test/GetTestsByInstructor",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "instructorId",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
     "ReturnTypes": []
   },
   {
@@ -1712,6 +1712,22 @@
     "Parameters": [
       {
         "Name": "videoId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.VideoController",
+    "Method": "GetVideosByInstructor",
+    "RelativePath": "api/Video/GetByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
         "Type": "System.String",
         "IsRequired": false
       }

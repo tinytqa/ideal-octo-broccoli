@@ -1825,27 +1825,6 @@
         }
       }
     },
-    "/api/StudentDoTest/GetStudentDoTestsByInstructor": {
-      "get": {
-        "tags": [
-          "StudentDoTest"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/StudentDoTest/Insert": {
       "post": {
         "tags": [
@@ -1883,6 +1862,27 @@
           },
           {
             "name": "result",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/StudentDoTest/GetByInstructor": {
+      "get": {
+        "tags": [
+          "StudentDoTest"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -2077,14 +2077,14 @@
         }
       }
     },
-    "/api/Test/GetTestsByInstructor": {
+    "/api/Test/GetByInstructor": {
       "get": {
         "tags": [
           "Test"
         ],
         "parameters": [
           {
-            "name": "instructorId",
+            "name": "userId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -2348,6 +2348,27 @@
           },
           {
             "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Video/GetByInstructor": {
+      "get": {
+        "tags": [
+          "Video"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
             "in": "query",
             "schema": {
               "type": "string"

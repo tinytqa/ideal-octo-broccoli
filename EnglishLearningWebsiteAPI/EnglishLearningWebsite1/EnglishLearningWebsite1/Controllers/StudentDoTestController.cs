@@ -23,19 +23,7 @@ namespace EnglishLearningWebsite.Controllers
         {
             return Ok(dbc.StudentDoTests.ToList());
         }
-        [HttpGet("GetStudentDoTestsByInstructor")]
-        public async Task<IActionResult> GetStudentDoTestsByInstructor(string instructorId)
-        {
-            var result = await dbc.StudentDoTests
-                .Include(sdt => sdt.Test)
-                    .ThenInclude(test => test.Course)
-                .Where(sdt => sdt.Test != null
-                    && sdt.Test.Course != null
-                    && sdt.Test.Course.InstructorId == instructorId)
-                .ToListAsync();
-
-            return Ok(result);
-        }
+        
 
         [HttpPost]
         [Route("Insert")]
@@ -54,8 +42,31 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Insert StudentDoTest ID: " + doId + " successfully!");
         }
-       
 
+
+        [HttpGet("GetByInstructor")]
+        public IActionResult GetByInstructor(string userId)
+        {
+            var list = dbc.StudentDoTests
+                .Include(sdt => sdt.Test)
+                    .ThenInclude(t => t.Course)
+                        .ThenInclude(c => c.Instructor)
+                .Where(sdt => sdt.Test != null &&
+                              sdt.Test.Course != null &&
+                              sdt.Test.Course.Instructor != null &&
+                              sdt.Test.Course.Instructor.UserId == userId)
+                .Select(sdt => new
+                {
+                    sdt.DoId,
+                    sdt.TestId,
+                    sdt.StudentId,
+                    sdt.TestDate,
+                    sdt.Result
+                })
+                .ToList();
+
+            return Ok(list);
+        }
 
 
 

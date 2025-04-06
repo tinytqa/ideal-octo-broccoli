@@ -86,24 +86,43 @@
         });
 
         // Hàm tải dữ liệu từ API
+        // function loadData() {
+        //     const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
+
+        //     $.ajax({
+        //         url: `${baseUrl}/GetList`,
+        //         method: 'GET',
+        //         success: function (data) {
+        //             renderTable(data);
+        //         },
+        //         error: function (error) {
+        //             alert('Lỗi khi tải bài thi');
+        //             console.error(error);
+        //         }
+        //     });
+        // }
+
+
+        // Hàm render bảng với dữ liệu
+
+
         function loadData() {
-            const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
+            const userId = JSON.parse(sessionStorage.getItem("user")).userId;
 
             $.ajax({
-                url: `${baseUrl}/GetList`,
+                url: `${baseUrl}/GetByInstructor?userId=${userId}`,
                 method: 'GET',
                 success: function (data) {
                     renderTable(data);
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải bài thi');
+                    alert('Lỗi khi tải bài thi của học viên');
                     console.error(error);
                 }
             });
         }
 
 
-        // Hàm render bảng với dữ liệu
         function renderTable(data) {
             let html = '';
             data.forEach((item) => {

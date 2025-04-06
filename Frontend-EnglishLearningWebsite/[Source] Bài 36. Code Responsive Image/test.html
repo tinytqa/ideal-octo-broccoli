@@ -88,18 +88,23 @@
 
         // Hàm tải dữ liệu từ API
         function loadData() {
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            const userId = user.userId; // userId để xác định Instructor
+
             $.ajax({
-                url: `${baseUrl}/GetList`,
+                url: `${baseUrl}/GetByInstructor?userId=${userId}`, // gọi đúng API cho Test
                 method: 'GET',
                 success: function (data) {
-                    renderTable(data);
+                    console.log("Danh sách bài kiểm tra:", data);
+                    renderTable(data); // Hàm hiển thị dữ liệu (bạn đã có)
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải dữ liệu');
+                    alert('Lỗi khi tải dữ liệu bài kiểm tra');
                     console.error(error);
                 }
             });
         }
+
 
         // Hàm render bảng với dữ liệu
         function renderTable(data) {
