@@ -1,6 +1,7 @@
 ﻿using EnglishLearningWebsite1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EnglishLearningWebsite.Controllers
 {
@@ -22,6 +23,19 @@ namespace EnglishLearningWebsite.Controllers
         {
             return Ok(dbc.StudentDoTests.ToList());
         }
+        [HttpGet("GetStudentDoTestsByInstructor")]
+        public async Task<IActionResult> GetStudentDoTestsByInstructor(string instructorId)
+        {
+            var result = await dbc.StudentDoTests
+                .Include(sdt => sdt.Test)
+                    .ThenInclude(test => test.Course)
+                .Where(sdt => sdt.Test != null
+                    && sdt.Test.Course != null
+                    && sdt.Test.Course.InstructorId == instructorId)
+                .ToListAsync();
+
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("Insert")]
@@ -40,6 +54,11 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Insert StudentDoTest ID: " + doId + " successfully!");
         }
+       
+
+
+
+
 
         [HttpPost]
         [Route("Update")]

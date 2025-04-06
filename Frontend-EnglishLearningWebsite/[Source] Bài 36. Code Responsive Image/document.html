@@ -75,14 +75,16 @@
         });
 
         function loadData() {
+            const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
+
             $.ajax({
-                url: `${baseUrl}/GetList`,
+                url: `${baseUrl}/GetDocumentsByInstructor?instructorId=${instructorId}`,
                 method: 'GET',
                 success: function (data) {
                     renderTable(data);
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải dữ liệu');
+                    alert('Lỗi khi tải tài liệu');
                     console.error(error);
                 }
             });

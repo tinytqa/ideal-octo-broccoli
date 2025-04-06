@@ -126,6 +126,31 @@ namespace LearningWebsiteAPI.Controllers
                 return StatusCode(500, new { success = false, message = "Error: " + ex.Message });
             }
         }
+        [HttpGet]
+        [Route("CountSoldCoursesByInstructor")]
+        public IActionResult CountSoldCoursesByInstructor(string instructorId)
+        {
+            try
+            {
+                // Lấy danh sách khóa học mà giảng viên này đang dạy
+                var courseIds = dbc.Courses
+                                   .Where(c => c.InstructorId == instructorId)
+                                   .Select(c => c.CourseId)
+                                   .ToList();
+
+                // Lấy danh sách thanh toán đã thực hiện cho các khóa học của giảng viên
+                var soldCourses = dbc.Payments
+                                      .Where(p => courseIds.Contains(p.CourseId))
+                                      .GroupBy(p => p.CourseId) // nhóm theo khóa học
+                                      .Count(); // đếm số khóa học đã bán
+
+                return Ok(new { count = soldCourses });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Error: " + ex.Message });
+            }
+        }
 
         [HttpPost]
         [Route("Delete")]

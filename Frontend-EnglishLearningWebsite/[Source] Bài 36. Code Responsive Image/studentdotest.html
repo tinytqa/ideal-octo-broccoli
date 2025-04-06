@@ -87,6 +87,8 @@
 
         // Hàm tải dữ liệu từ API
         function loadData() {
+            const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
+
             $.ajax({
                 url: `${baseUrl}/GetList`,
                 method: 'GET',
@@ -94,11 +96,12 @@
                     renderTable(data);
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải dữ liệu');
+                    alert('Lỗi khi tải bài thi');
                     console.error(error);
                 }
             });
         }
+
 
         // Hàm render bảng với dữ liệu
         function renderTable(data) {

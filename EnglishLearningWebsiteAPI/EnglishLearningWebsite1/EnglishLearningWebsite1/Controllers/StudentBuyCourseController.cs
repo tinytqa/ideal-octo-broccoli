@@ -40,6 +40,25 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Insert StudentBuyCourse ID: " + enrollmentId + " successfully!");
         }
+        [HttpGet]
+        [Route("CountStudentsByInstructor")]
+        public IActionResult CountStudentsByInstructor(string instructorId)
+        {
+            // Lấy danh sách các khóa học mà giảng viên này dạy
+            var courseIds = dbc.Courses
+                               .Where(c => c.InstructorId == instructorId)
+                               .Select(c => c.CourseId)
+                               .ToList();
+
+            // Lấy danh sách học viên tham gia các khóa học đó (nếu một học viên học nhiều khóa, tính duy nhất)
+            var studentCount = dbc.StudentBuyCourses
+                                  .Where(sbc => courseIds.Contains(sbc.CourseId))
+                                  .Select(sbc => sbc.StudentId)
+                                  .Distinct()
+                                  .Count();
+
+            return Ok(new { count = studentCount });
+        }
 
         [HttpPost]
         [Route("Update")]

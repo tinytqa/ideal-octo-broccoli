@@ -152,26 +152,61 @@
             });
         }
 
+        // function renderTable(data) {
+        //     let html = '';
+        //     data.forEach((item) => {
+        //         html += `
+        //             <tr>
+        //                 <td>${item.courseId}</td>
+        //                 <td>${item.instructorId}</td>
+        //                 <td>${item.courseName}</td>
+        //                 <td>${item.description}</td>
+        //                 <td>${item.price}</td>
+        //                 <td>
+        //                     <button class="btn btn-warning btn-sm" onclick="openDialog('${item.courseId}')">Fix</button>
+        //                     <button class="btn btn-danger btn-sm" onclick="deleteCourse('${item.courseId}')">Delete</button>
+        //                     <button class="btn btn-danger btn-sm" onclick="showChapter('${item.courseId}')">Show chapter</button>
+        //                 </td>
+        //             </tr>
+        //         `;
+        //     });
+        //     $('#dataTable').html(html);
+        // }
+
+
         function renderTable(data) {
-            let html = '';
-            data.forEach((item) => {
-                html += `
-                    <tr>
-                        <td>${item.courseId}</td>
-                        <td>${item.instructorId}</td>
-                        <td>${item.courseName}</td>
-                        <td>${item.description}</td>
-                        <td>${item.price}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.courseId}')">Fix</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCourse('${item.courseId}')">Delete</button>
-                            <button class="btn btn-danger btn-sm" onclick="showChapter('${item.courseId}')">Show chapter</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            $('#dataTable').html(html);
-        }
+    const user = JSON.parse(sessionStorage.getItem("user"));
+
+    if (!user || !user.instructorId) {
+        console.error("Không tìm thấy instructorId trong session.");
+        return;
+    }
+
+    const instructorId = user.instructorId;
+
+    // Lọc khóa học của instructor đang đăng nhập
+    const filteredCourses = data.filter(course => course.instructorId === instructorId);
+
+    let html = '';
+    filteredCourses.forEach((item) => {
+        html += `
+            <tr>
+                <td>${item.courseId}</td>
+                <td>${item.instructorId}</td>
+                <td>${item.courseName}</td>
+                <td>${item.description}</td>
+                <td>${item.price}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="openDialog('${item.courseId}')">Fix</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteCourse('${item.courseId}')">Delete</button>
+                    <button class="btn btn-danger btn-sm" onclick="showChapter('${item.courseId}')">Show chapter</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    $('#dataTable').html(html);
+}
 
         function openDialog(id = null) {
             $("#editModal").modal("show");

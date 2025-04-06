@@ -1,7 +1,9 @@
 
 using EnglishLearningWebsite1.Models;
 using Microsoft.EntityFrameworkCore;
-
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 namespace EnglishLearningWebsite1
 {
     public class Program
@@ -10,6 +12,24 @@ namespace EnglishLearningWebsite1
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Add services to the container.
+            var key = builder.Configuration["jwtSetting:key"];
+            byte[] keyMahoa = Encoding.UTF8.GetBytes(key);
+
+            //thêm authentication
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1234567890qwertyuiopasdfghjklzxcvbnm")),
+                        ValidateIssuer = false, 
+                        ValidateAudience = false, 
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true
+                    };
+                });
             // Add services to the container.
 
             builder.Services.AddControllers();

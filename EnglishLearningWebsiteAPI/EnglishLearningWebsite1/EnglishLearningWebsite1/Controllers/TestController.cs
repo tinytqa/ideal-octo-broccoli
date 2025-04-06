@@ -1,6 +1,7 @@
 ﻿using EnglishLearningWebsite1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EnglishLearningWebsite.Controllers
 {
@@ -57,6 +58,31 @@ namespace EnglishLearningWebsite.Controllers
             dbc.SaveChanges();
 
             return Ok("Update Test ID " + testId + " successfully!");
+        }
+        [HttpGet]
+        [Route("GetTestsByInstructor")]
+        public IActionResult GetTestsByInstructor(string instructorId)
+        {
+            // Lấy tất cả các khóa học của giảng viên
+            var courses = dbc.Courses.Where(c => c.InstructorId == instructorId).ToList();
+
+            if (courses == null || !courses.Any())
+            {
+                return NotFound(new { success = false, message = "No courses found for this instructor." });
+            }
+
+            // Lọc các bài kiểm tra của các khóa học mà giảng viên đang dạy
+            var tests = dbc.Tests
+                .Include(t => t.Course)  // Bao gồm thông tin khóa học
+                .Where(t => courses.Any(c => c.CourseId == t.CourseId))  // Lọc bài kiểm tra thuộc về các khóa học giảng viên đang dạy
+                .ToList();
+
+            if (tests == null || !tests.Any())
+            {
+                return NotFound(new { success = false, message = "No tests found for the instructor's courses." });
+            }
+
+            return Ok(tests);  // Trả về danh sách bài kiểm tra
         }
 
         [HttpPost]

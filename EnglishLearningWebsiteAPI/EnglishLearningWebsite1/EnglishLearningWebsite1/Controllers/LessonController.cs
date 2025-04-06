@@ -37,6 +37,31 @@ namespace LearningWebsiteAPI.Controllers
 
             return Ok("Insert Lesson ID: " + lessonId + " successfully!");
         }
+        [HttpGet]
+        [Route("GetLessonsByInstructor")]
+        public IActionResult GetLessonsByInstructor(string instructorId)
+        {
+            // Lấy tất cả các khóa học mà giảng viên này dạy
+            var courses = dbc.Courses.Where(c => c.InstructorId == instructorId).ToList();
+
+            // Lấy tất cả các LessonId của các bài học thuộc về các khóa học mà giảng viên dạy
+            var lessonIds = dbc.Lessons
+                                .Where(l => courses.Select(c => c.CourseId).Contains(l.Chapter.CourseId))
+                                .Select(l => l.LessonId)
+                                .ToList();
+
+            // Lọc các bài học (lessons) thuộc về các khóa học của giảng viên
+            var lessons = dbc.Lessons
+                .Where(l => lessonIds.Contains(l.LessonId))
+                .ToList();
+
+            if (lessons == null || !lessons.Any())
+            {
+                return NotFound(new { success = false, message = "No lessons found for this instructor." });
+            }
+
+            return Ok(lessons);
+        }
 
         [HttpPost]
         [Route("Update")]

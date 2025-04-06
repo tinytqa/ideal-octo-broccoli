@@ -1,6 +1,7 @@
 ﻿using EnglishLearningWebsite1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningWebsiteAPI.Controllers
 {
@@ -36,6 +37,22 @@ namespace LearningWebsiteAPI.Controllers
             dbc.SaveChanges();
 
             return Ok("Insert Chapter ID: " + chapterId + " successfully!");
+        }
+        [HttpGet("GetChaptersByInstructor")]
+        public IActionResult GetChaptersByInstructor(string instructorId)
+        {
+            var chapters = dbc.Chapters
+                .Include(c => c.Course) // Include để lấy thông tin Course
+                .Where(c => c.Course.InstructorId == instructorId) // Lọc theo Instructor
+                .Select(c => new {
+                    c.ChapterId,
+                    c.Title,
+                    c.CourseId,
+                    InstructorId = c.Course.InstructorId // thêm vào để client dễ xử lý nếu cần
+                })
+                .ToList();
+
+            return Ok(chapters);
         }
 
         [HttpPost]

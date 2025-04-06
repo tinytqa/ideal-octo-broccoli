@@ -30,10 +30,12 @@
         <div class="value" id="student-count">...</div>
         <div class="icon">👥</div>
       </div>
-      <div class="summary-card">
-        <h3>Total number of instructor</h3>
-        <div class="value" id="instructor-count">...</div>
-        <div class="icon">👨‍🏫</div>
+      <div id="admin-section" style="display: none;">
+        <div class="summary-card">
+          <h3>Total number of instructor</h3>
+          <div class="value" id="instructor-count">...</div>
+          <div class="icon">👨‍🏫</div>
+        </div>
       </div>
       <div class="summary-card">
         <h3>Total course sold</h3>
@@ -66,6 +68,17 @@
 <script>
   let showingAllCourses = false;
 
+
+  // Lấy dữ liệu user từ sessionStorage
+  const userData = JSON.parse(sessionStorage.getItem('user'));
+
+  // Kiểm tra nếu có dữ liệu và vai trò là Administrator thì hiển thị phần admin
+  if (userData && userData.role === "Administrator") {
+    document.getElementById("admin-section").style.display = "block";
+  }
+
+
+
   // Hiển thị thời gian hiện tại
   function updateDate() {
     const now = new Date();
@@ -78,8 +91,38 @@
     document.getElementById('current-date').textContent = dateStr;
   }
 
-  // Lấy tổng số khóa học từ API
+
   async function fetchCourseCount() {
+    try {
+      const user = JSON.parse(window.sessionStorage.getItem("user"));
+      if (!user || user.role !== "Instructor" || !user.instructorId) {
+        console.error('Người dùng không phải giảng viên hoặc không có thông tin giảng viên.');
+        return;
+      }
+
+      const instructorId = user.instructorId;
+
+      const response = await fetch(`https://localhost:7026/api/Instructor/api/courses?instructorId=${instructorId}`);
+      const courses = await response.json();
+
+      document.getElementById('course-count').textContent = courses.length;
+    } catch (error) {
+      console.error('Lỗi khi gọi API:', error);
+      document.getElementById('course-count').textContent = 'Lỗi';
+    }
+  }
+
+  async function fetchInstructorCount() {
+    try {
+      const response = await fetch('https://localhost:7026/api/Instructor/GetList');
+      const instructors = await response.json();
+      document.getElementById('instructor-count').textContent = instructors.length;
+    } catch (error) {
+      console.error('Lỗi khi gọi API:', error);
+      document.getElementById('instructor-count').textContent = 'Lỗi';
+    }
+  }
+  async function fetchCourseCountAdmin() {
     try {
       const response = await fetch('https://localhost:7026/api/Course/GetList');
       const courses = await response.json();
@@ -89,9 +132,23 @@
       document.getElementById('course-count').textContent = 'Lỗi';
     }
   }
+  // Lấy tổng số giảng viên từ API
 
-  // Lấy tổng số học viên từ API
   async function fetchStudentCount() {
+    try {
+      const user = JSON.parse(window.sessionStorage.getItem("user"));
+      const instructorId = user.instructorId;
+
+      const response = await fetch(`https://localhost:7026/api/StudentBuyCourse/CountStudentsByInstructor?instructorId=${instructorId}`);
+      const data = await response.json();
+
+      document.getElementById('student-count').textContent = data.count;
+    } catch (error) {
+      console.error('Lỗi khi gọi API:', error);
+      document.getElementById('student-count').textContent = 'Lỗi';
+    }
+  }
+  async function fetchStudentCountAdmin() {
       try {
         const response = await fetch('https://localhost:7026/api/Student/GetList');
         const students = await response.json();
@@ -102,64 +159,143 @@
       }
     }
 
-    // Lấy tổng số giảng viên từ API
-    async function fetchInstructorCount() {
-      try {
-        const response = await fetch('https://localhost:7026/api/Instructor/GetList');
-        const instructors = await response.json();
-        document.getElementById('instructor-count').textContent = instructors.length;
-      } catch (error) {
-        console.error('Lỗi khi gọi API:', error);
-        document.getElementById('instructor-count').textContent = 'Lỗi';
-      }
+
+  async function fetchTotalSoldCoursesAdmin() {
+    try {
+      const response = await fetch('https://localhost:7026/api/Payment/GetList');
+      const payments = await response.json();
+      document.getElementById('total-sold-courses').textContent = payments.length;
+    } catch (error) {
+      console.error('Lỗi khi gọi API:', error);
+    }
+  }
+  async function fetchTotalSoldCourses() {
+    try {
+      const user = JSON.parse(window.sessionStorage.getItem("user"));
+      const instructorId = user.instructorId;
+
+      const response = await fetch(`https://localhost:7026/api/Payment/CountSoldCoursesByInstructor?instructorId=${instructorId}`);
+      const data = await response.json();
+
+      // Hiển thị số khóa học đã bán
+      document.getElementById('total-sold-courses').textContent = data.count;
+
+    } catch (error) {
+      console.error('Lỗi khi gọi API:', error);
+      document.getElementById('total-sold-courses').textContent = 'Lỗi';
+    }
+  }
+
+
+
+  // async function toggleCourses(event) {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await fetch('https://localhost:7026/api/Course/GetList');
+  //     const courses = await response.json();
+  //     if (!showingAllCourses) {
+  //       renderCourses(courses.slice(0, 4));
+  //       document.getElementById('toggle-courses').textContent = 'Xem tất cả';
+  //     } else {
+  //       renderCourses(courses);
+  //       document.getElementById('toggle-courses').textContent = 'Thu gọn';
+  //     }
+  //     showingAllCourses = !showingAllCourses;
+  //   } catch (error) {
+  //     console.error('Lỗi khi gọi API:', error);
+  //   }
+  // }
+
+  
+  async function toggleCourses(event) {
+  if (event && event.preventDefault) {
+    event.preventDefault();
+  }
+
+  try {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const response = await fetch('https://localhost:7026/api/Course/GetList');
+    const courses = await response.json();
+
+    if (!user) {
+      console.error("Không tìm thấy thông tin người dùng.");
+      return;
     }
 
-    async function fetchTotalSoldCourses() {
-      try {
-        const response = await fetch('https://localhost:7026/api/Payment/GetList');
-        const payments = await response.json();
-        document.getElementById('total-sold-courses').textContent = payments.length;
-      } catch (error) {
-        console.error('Lỗi khi gọi API:', error);
-      }
+    const isAdmin = user.role === "Administrator";
+    const instructorId = user.instructorId;
+
+    // Nếu chưa hiển thị tất cả khóa học
+    if (!showingAllCourses) {
+      const toRender = isAdmin ? courses.slice(0, 4) : courses.filter(c => c.instructorId === instructorId).slice(0, 4);
+      isAdmin ? renderCoursesAdmin(toRender) : renderCourses(toRender);
+      document.getElementById('toggle-courses').textContent = 'Xem tất cả';
+    } else {
+      const toRender = isAdmin ? courses : courses.filter(c => c.instructorId === instructorId);
+      isAdmin ? renderCoursesAdmin(toRender) : renderCourses(toRender);
+      document.getElementById('toggle-courses').textContent = 'Thu gọn';
     }
 
-    async function toggleCourses(event) {
-      event.preventDefault();
-      try {
-        const response = await fetch('https://localhost:7026/api/Course/GetList');
-        const courses = await response.json();
-        if (!showingAllCourses) {
-          renderCourses(courses.slice(0, 4));
-          document.getElementById('toggle-courses').textContent = 'Xem tất cả';
-        } else {
-          renderCourses(courses);
-          document.getElementById('toggle-courses').textContent = 'Thu gọn';
-        }
-        showingAllCourses = !showingAllCourses;
-      } catch (error) {
-        console.error('Lỗi khi gọi API:', error);
-      }
-    }
+    showingAllCourses = !showingAllCourses;
+  } catch (error) {
+    console.error('Lỗi khi gọi API:', error);
+  }
+}
 
-    function renderCourses(courses) {
-      const courseList = document.getElementById('course-list');
-      courseList.innerHTML = courses.map(course => `
+  function renderCoursesAdmin(courses) {
+    const courseList = document.getElementById('course-list');
+    courseList.innerHTML = courses.map(course => `
         <tr>
           <td>${course.courseName}</td>
           <td>${course.description}</td>
           <td>${course.price}</td>
         </tr>
       `).join('');
-    }
+  }
 
-    // Gọi các hàm khi tải trang
-    updateDate();
-    fetchCourseCount();
-    fetchStudentCount();
-    fetchInstructorCount();
-    fetchTotalSoldCourses();
-    toggleCourses(new Event('init'));
+  // Gọi các hàm khi tải trang
+
+  function renderCourses(courses) {
+    // Lấy instructorId từ sessionStorage (hoặc từ nơi bạn lưu thông tin người dùng)
+    const instructorId = JSON.parse(window.sessionStorage.getItem("user")).instructorId;
+
+    // Lọc khóa học chỉ những khóa học của instructor hiện tại
+    const filteredCourses = courses.filter(course => course.instructorId === instructorId);
+
+    // Lấy phần tử bảng để render danh sách khóa học
+    const courseList = document.getElementById('course-list');
+
+    // Render các khóa học của instructor này
+    courseList.innerHTML = filteredCourses.map(course => `
+        <tr>
+            <td>${course.courseName}</td>
+            <td>${course.description}</td>
+            <td>${course.price}</td>
+        </tr>
+    `).join('');
+  }
+
+
+  updateDate();
+
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  if (user) {
+    if (user.role === "Administrator") {
+      document.getElementById("admin-section").style.display = "block";
+      fetchInstructorCount();
+      fetchCourseCountAdmin();
+      fetchTotalSoldCoursesAdmin();
+      fetchStudentCountAdmin();
+      
+    } else if (user.role === "Instructor") {
+      fetchCourseCount();
+      fetchStudentCount();
+      fetchTotalSoldCourses();
+    }
+  }
+
+  toggleCourses(new Event('init'));
+
 </script>
 
 </html>

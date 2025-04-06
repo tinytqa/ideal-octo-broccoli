@@ -125,6 +125,22 @@
   },
   {
     "ContainingType": "LearningWebsiteAPI.Controllers.ChapterController",
+    "Method": "GetChaptersByInstructor",
+    "RelativePath": "api/Chapter/GetChaptersByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LearningWebsiteAPI.Controllers.ChapterController",
     "Method": "GetList",
     "RelativePath": "api/Chapter/GetList",
     "HttpMethod": "GET",
@@ -327,6 +343,22 @@
   },
   {
     "ContainingType": "LearningWebsiteAPI.Controllers.DocumentController",
+    "Method": "GetDocumentsByInstructor",
+    "RelativePath": "api/Document/GetDocumentsByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LearningWebsiteAPI.Controllers.DocumentController",
     "Method": "GetList",
     "RelativePath": "api/Document/GetList",
     "HttpMethod": "GET",
@@ -484,6 +516,22 @@
   },
   {
     "ContainingType": "LearningWebsiteAPI.Controllers.InstructorController",
+    "Method": "GetInstructorCourses",
+    "RelativePath": "api/Instructor/api/courses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LearningWebsiteAPI.Controllers.InstructorController",
     "Method": "DeleteInstructor",
     "RelativePath": "api/Instructor/Delete",
     "HttpMethod": "POST",
@@ -604,6 +652,22 @@
   },
   {
     "ContainingType": "LearningWebsiteAPI.Controllers.LessonController",
+    "Method": "GetLessonsByInstructor",
+    "RelativePath": "api/Lesson/GetLessonsByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LearningWebsiteAPI.Controllers.LessonController",
     "Method": "GetList",
     "RelativePath": "api/Lesson/GetList",
     "HttpMethod": "GET",
@@ -679,6 +743,43 @@
       },
       {
         "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.Login2Controller",
+    "Method": "Login",
+    "RelativePath": "api/Login2/login",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LearningWebsiteAPI.Controllers.PaymentController",
+    "Method": "CountSoldCoursesByInstructor",
+    "RelativePath": "api/Payment/CountSoldCoursesByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -807,6 +908,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.QuizzController",
+    "Method": "GetQuizzsByInstructor",
+    "RelativePath": "api/Quizz/GetQuizzsByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1095,6 +1212,22 @@
   },
   {
     "ContainingType": "EnglishLearningWebsite.Controllers.StudentBuyCourseController",
+    "Method": "CountStudentsByInstructor",
+    "RelativePath": "api/StudentBuyCourse/CountStudentsByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.StudentBuyCourseController",
     "Method": "DeleteStudentBuyCourse",
     "RelativePath": "api/StudentBuyCourse/Delete",
     "HttpMethod": "POST",
@@ -1235,6 +1368,22 @@
   },
   {
     "ContainingType": "EnglishLearningWebsite.Controllers.StudentDoTestController",
+    "Method": "GetStudentDoTestsByInstructor",
+    "RelativePath": "api/StudentDoTest/GetStudentDoTestsByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.StudentDoTestController",
     "Method": "AddStudentDoTest",
     "RelativePath": "api/StudentDoTest/Insert",
     "HttpMethod": "POST",
@@ -1329,6 +1478,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.TestController",
+    "Method": "GetTestsByInstructor",
+    "RelativePath": "api/Test/GetTestsByInstructor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "instructorId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

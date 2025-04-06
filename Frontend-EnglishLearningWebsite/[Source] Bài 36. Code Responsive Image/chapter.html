@@ -69,37 +69,58 @@
             loadData();
         });
 
+        // function loadData() {
+        //     $.ajax({
+        //         url: `${baseUrl}/GetList`,
+        //         method: 'GET',
+        //         success: function (data) {
+        //             renderTable(data);
+        //         },
+        //         error: function (error) {
+        //             alert('Lỗi khi tải dữ liệu');
+        //             console.error(error);
+        //         }
+        //     });
+        // }
+
         function loadData() {
+            const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
+
             $.ajax({
-                url: `${baseUrl}/GetList`,
+                url: `https://localhost:7026/api/Chapter/GetChaptersByInstructor?instructorId=${instructorId}`,
                 method: 'GET',
                 success: function (data) {
+                    console.log("Chapters from API:", data);
                     renderTable(data);
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải dữ liệu');
+                    alert('Lỗi khi tải chương học');
                     console.error(error);
                 }
             });
         }
 
+
         function renderTable(data) {
             let html = '';
             data.forEach((item) => {
                 html += `
-                    <tr>
-                        <td>${item.chapterId}</td>
-                        <td>${item.courseId}</td>
-                        <td>${item.title}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.chapterId}')">Sửa</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteChapter('${item.chapterId}')">Xóa</button>
-                        </td>
-                    </tr>
-                `;
+            <tr>
+                <td>${item.chapterId}</td>
+                <td>${item.courseId}</td>
+                <td>${item.title}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="openDialog('${item.chapterId}')">Sửa</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteChapter('${item.chapterId}')">Xóa</button>
+                </td>
+            </tr>
+        `;
             });
+
+            // Gán vào tbody
             $('#dataTable').html(html);
         }
+
 
         function openDialog(id = null) {
             $("#editModal").modal("show");
