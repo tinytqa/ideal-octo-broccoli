@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor Dashboard</title>
     <link rel="stylesheet" href="css/admin_styles.css">
 </head>
+
 <body>
     <div class="dashboard">
         <!-- Sidebar với menu điều hướng -->
@@ -42,9 +44,9 @@
                 <li class="nav-item" data-page="video.html">
                     <span>Video management</span>
                 </li>
-                <li class="nav-item" data-page="status.html">
+                <!-- <li class="nav-item" data-page="status.html">
                     <span>Status management</span>
-                </li>
+                </li> -->
                 <li class="nav-item" data-page="notifications.html">
                     <span>Notification</span>
                 </li>
@@ -72,16 +74,16 @@
 
         // Xử lý sự kiện click trên menu
         menuItems.forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', function () {
                 // Xóa trạng thái active từ tất cả các menu items
                 menuItems.forEach(i => i.classList.remove('active'));
-                
+
                 // Thêm trạng thái active cho item được click
                 this.classList.add('active');
-                
+
                 // Cập nhật tiêu đề trang
                 pageTitle.textContent = this.querySelector('span').textContent;
-                
+
                 // Cập nhật src của iframe để load trang mới
                 const page = this.getAttribute('data-page');
                 iframe.src = page;
@@ -89,4 +91,5 @@
         });
     </script>
 </body>
+
 </html>
