@@ -7,6 +7,30 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="css/admin_styles.css">
 </head>
+<style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 20px;
+        position: relative;
+    }
+
+    .logout-top-right {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .logout-top-right:hover {
+        background-color: #e60000;
+    }
+</style>
 
 <body>
     <div class="dashboard">
@@ -30,21 +54,25 @@
                     <span>User management</span>
                 </li>
                 <li class="nav-item" data-page="payment.html">
-                    <span>Payment management</span>
+                    <span>Payment</span>
                 </li>
-                <li class="nav-item" data-page="notifications.html">
+                <!-- <li class="nav-item" data-page="notifications.html">
                     <span>Notification</span>
                 </li>
                 <li class="nav-item" data-page="settings.html">
                     <span>Setting</span>
-                </li>
+                </li> -->
             </ul>
+
+
         </div>
 
         <!-- Khu vực nội dung chính -->
         <div class="main-content">
+
             <div class="header">
                 <h1 class="page-title">Overview</h1>
+                <button class="logout-top-right" onclick="handleLogout()">Log out</button>
             </div>
             <!-- iframe để hiển thị nội dung -->
             <iframe id="content-frame" class="content-frame" src="dashboard.html"></iframe>
@@ -74,6 +102,15 @@
                 iframe.src = page;
             });
         });
+        function handleLogout() {
+            // Xóa token và user khỏi sessionStorage
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user");
+
+            // Thông báo và chuyển hướng về trang đăng nhập
+            alert("Log out sucessfully!");
+            window.location.href = "colorlib-regform-26(llog_in + permission)/colorlib-regform-26/edu_login.html"; // Cập nhật link nếu khác
+        }
     </script>
 </body>
 

@@ -1791,6 +1791,34 @@
         }
       }
     },
+    "/api/StudentBuyCourse/HasUserBoughtCourse": {
+      "get": {
+        "tags": [
+          "StudentBuyCourse"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "courseId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/StudentCourses/{userId}": {
       "get": {
         "tags": [

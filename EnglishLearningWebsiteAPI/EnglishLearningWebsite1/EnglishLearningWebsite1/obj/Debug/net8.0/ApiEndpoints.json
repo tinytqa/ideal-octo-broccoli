@@ -1254,6 +1254,27 @@
   },
   {
     "ContainingType": "EnglishLearningWebsite.Controllers.StudentBuyCourseController",
+    "Method": "HasUserBoughtCourse",
+    "RelativePath": "api/StudentBuyCourse/HasUserBoughtCourse",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "courseId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnglishLearningWebsite.Controllers.StudentBuyCourseController",
     "Method": "AddStudentBuyCourse",
     "RelativePath": "api/StudentBuyCourse/Insert",
     "HttpMethod": "POST",

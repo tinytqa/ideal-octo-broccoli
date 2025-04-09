@@ -87,7 +87,7 @@ namespace EnglishLearningWebsite.Controllers
 
             if (user == null)
             {
-                return BadRequest("Wrong username or password");
+                return BadRequest(new { message = "Wrong username or password" });
             }
 
             // Kiểm tra nếu người dùng là giảng viên, lấy thông tin giảng viên

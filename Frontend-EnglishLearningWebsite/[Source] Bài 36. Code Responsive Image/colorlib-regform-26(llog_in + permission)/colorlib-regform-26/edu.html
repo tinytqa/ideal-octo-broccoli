@@ -10,8 +10,6 @@
 </head>
 <style>
     .custom-detail-link {
-
-
         text-decoration: none;
         padding: 6px 10px;
         font-size: 14px;
@@ -24,6 +22,24 @@
     .custom-detail-link:hover {
         color: #2C2A9A;
     }
+
+    .search-result-item {
+        text-decoration: none;
+        /* Bỏ gạch chân */
+        color: inherit;
+        /* Giữ màu mặc định */
+        display: flex;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        transition: background 0.2s ease;
+    }
+
+    .search-result-item:hover {
+        background-color: #f9f9f9;
+        cursor: pointer;
+    }
 </style>
 
 <body>
@@ -35,10 +51,11 @@
                 <ul>
                     <li><a href="mainpage.html">Home</a></li>
                     <li><a href="#courses">Course</a></li>
+                    <li id="myCourseMenu"><a href="../../studentPage.html">My Course</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
-                <a href="#" class="login-btn" onclick="Logout(event)" style="display: none;" id="btnLogout">Logout</a>
+                <a href="#" class="login-btn" onclick="Logout(event)" style="display: none;" id="btnLogout">Log out</a>
                 <a href="edu_login.html" class="login-btn" style="display: inline-block;" id="btnLogin">Login</a>
                 <a href="edu_register.html" class="signup-btn" style="display: inline-block;"
                     id="btnRegister">Register</a>
@@ -224,20 +241,19 @@
             // Hàm hiển thị kết quả tìm kiếm
             function displayResults(results) {
                 if (results.length === 0) {
-                    searchResults.innerHTML = '<p class="no-results">Không tìm thấy khóa học phù hợp</p>';
+                    searchResults.innerHTML = '<p class="no-results">Course not found</p>';
                 } else {
                     searchResults.innerHTML = results.map(course => `
-                <div class="search-result-item">
-                    <img src="${course.courseImage}" alt="${course.courseName}">
-                    <div class="search-result-info">
-                        <h4>${course.courseName}</h4>
-                        
-                        <div class="search-result-price">
-                            <span class="search-result-current-price">${formatCurrency(course.price)}</span>
-                        </div>
+            <a href="../../course-detail.html?id=${course.courseId}" class="search-result-item">
+                <img src="${course.courseImage}" alt="${course.courseName}">
+                <div class="search-result-info">
+                    <h4>${course.courseName}</h4>
+                    <div class="search-result-price">
+                        <span class="search-result-current-price">${formatCurrency(course.price)}</span>
                     </div>
                 </div>
-            `).join('');
+            </a>
+        `).join('');
                 }
 
                 searchResults.style.display = 'block';
@@ -246,11 +262,16 @@
 
             // Sự kiện tìm kiếm khi nhấn nút hoặc Enter
             searchButton.addEventListener('click', searchCourses);
+
             searchInput.addEventListener('keyup', function (event) {
+                searchCourses(); // Gọi tìm kiếm mỗi khi gõ
+
+                // Nếu người dùng ấn Enter, cũng gọi lại (không bắt buộc nếu đã có dòng trên)
                 if (event.key === 'Enter') {
                     searchCourses();
                 }
             });
+
 
             // Sự kiện khi thay đổi bộ lọc
             document.getElementById('price-filter').addEventListener('change', searchCourses);
@@ -272,42 +293,122 @@
         // hiển thị khóa học
         let courses = [];
         document.addEventListener('DOMContentLoaded', loadCourses);
+
+        //         async function loadCourses() {
+        //     try {
+        //         const userId = sessionStorage.getItem("user");
+        //         const courseResponse = await fetch("https://localhost:7026/api/Course/GetList");
+        //         const courses = await courseResponse.json();
+
+        //         const container = document.querySelector(".courses-container");
+        //         container.innerHTML = "";
+
+        //         for (const course of courses) {
+        //             let hasBought = false;
+
+        //             // Nếu userId tồn tại thì gọi API kiểm tra đã mua khóa học chưa
+        //             if (userId) {
+        //                 const checkResponse = await fetch(`https://localhost:7026/api/StudentBuyCourse/HasUserBoughtCourse?userId=${userId}&courseId=${course.courseId}`);
+        //                 hasBought = await checkResponse.json(); // true hoặc false
+        //             }
+
+        //             const priceHtml = hasBought
+        //                 ? "" // Ẩn giá nếu đã mua
+        //                 : `<div class="course-price">${formatCurrency(course.price)}</div>`;
+
+        //             const buttonHtml = hasBought
+        //                 ? `<button class="buy-btn" onclick="event.stopPropagation(); learnCourse('${course.courseId}')">Learn This Course</button>`
+        //                 : `<button class="buy-btn" onclick="event.stopPropagation(); buyCourse('${course.courseId}')">Buy</button>`;
+
+        //             const courseHTML = `
+        //                 <div class="course-card" onclick="goToCourseDetail('${course.courseId}')">
+        //                     <div class="course-image">
+        //                         <img src="${course.courseImage}" alt="${course.courseName}">
+        //                     </div>
+        //                     <div class="course-details">
+        //                         <h3 class="course-title">${course.courseName}</h3>
+        //                         <p class="course-description">${course.description}</p>
+        //                         <div class="course-info"></div>
+        //                         <div class="course-footer">
+        //                             ${priceHtml}
+        //                             <a href="../../course-detail.html?id=${course.courseId}" class="custom-detail-link" onclick="event.stopPropagation();">Xem Chi Tiết</a>
+        //                             ${buttonHtml}
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             `;
+
+        //             container.innerHTML += courseHTML;
+        //         }
+
+        //     } catch (error) {
+        //         console.error("Lỗi khi tải khóa học:", error);
+        //     }
+        // }
+
         async function loadCourses() {
             try {
-                const response = await fetch("https://localhost:7026/api/Course/GetList");
-                courses = await response.json(); // Gán trực tiếp vào biến toàn cục
+                const userJson = sessionStorage.getItem("user");
+                const user = userJson ? JSON.parse(userJson) : null;
+                const userId = user?.userId;
+                console.log("userId from sessionStorage:", userId);
 
+                const courseResponse = await fetch("https://localhost:7026/api/Course/GetList");
+                const courses = await courseResponse.json();
+                courses.forEach(course => console.log("Checking courseId:", course.courseId));
                 const container = document.querySelector(".courses-container");
                 container.innerHTML = "";
 
-                courses.forEach(course => {
+                for (const course of courses) {
+                    let hasBought = false;
+
+                    if (userId) {
+                        const checkResponse = await fetch(`https://localhost:7026/api/StudentBuyCourse/HasUserBoughtCourse?userId=${userId}&courseId=${course.courseId}`);
+                        const result = await checkResponse.json();
+                        hasBought = result.hasBought; // <- Sửa chỗ này
+                    }
+                    const priceHtml = hasBought
+                        ? ""
+                        : `<div class="course-price">${formatCurrency(course.price)}</div>`;
+
+                    const buttonHtml = hasBought
+                        ? `<button class="buy-btn" onclick="event.stopPropagation(); learnCourse('${course.courseId}')">Learn This Course</button>`
+                        : `<button class="buy-btn" onclick="event.stopPropagation(); buyCourse('${course.courseId}')">Buy</button>`;
+
                     const courseHTML = `
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="${course.courseImage}" alt="${course.courseName}">
-                </div>
-                <div class="course-details">
-                    <h3 class="course-title">${course.courseName}</h3>
-                    <p class="course-description">${course.description}</p>
-                    <div class="course-info">
+                <div class="course-card" onclick="goToCourseDetail('${course.courseId}')">
+                    <div class="course-image">
+                        <img src="${course.courseImage}" alt="${course.courseName}">
                     </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            ${formatCurrency(course.price)}
+                    <div class="course-details">
+                        <h3 class="course-title">${course.courseName}</h3>
+                        <p class="course-description">${course.description}</p>
+                        <div class="course-info"></div>
+                        <div class="course-footer">
+                            ${priceHtml}
+                            <a href="../../course-detail.html?id=${course.courseId}" class="custom-detail-link" onclick="event.stopPropagation();">View details</a>
+                            ${buttonHtml}
                         </div>
-                        <a href="../../course-detail.html?id=${course.courseId}" class="custom-detail-link">Xem Chi Tiết</a>
-                        <button class="buy-btn" onclick ="buyCourse('${course.courseId}')">Mua Ngay</button>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+
                     container.innerHTML += courseHTML;
-                });
+                }
 
             } catch (error) {
                 console.error("Lỗi khi tải khóa học:", error);
             }
         }
+
+
+        function learnCourse(courseId) {
+            window.location.href = `../../studentPage.html?id=${courseId}`;
+        }
+        function goToCourseDetail(courseId) {
+            window.location.href = `../../course-detail.html?id=${courseId}`;
+        }
+
         function buyCourse(courseId) {
             window.location.href = `../../paymentPage.html?courseId=${courseId}`;
         }
@@ -315,6 +416,19 @@
         // 💰 Hàm định dạng tiền tệ
         function formatCurrency(price) {
             return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
+        }
+        const userData = sessionStorage.getItem('user');
+        if (userData) {
+            const user = JSON.parse(userData);
+            const role = user.role;
+
+            // Ẩn menu nếu role không phải là student
+            if (role !== 'Student') {
+                document.getElementById('myCourseMenu').style.display = 'none';
+            }
+        } else {
+            // Nếu chưa đăng nhập, ẩn luôn
+            document.getElementById('myCourseMenu').style.display = 'none';
         }
     </script>
 </body>
