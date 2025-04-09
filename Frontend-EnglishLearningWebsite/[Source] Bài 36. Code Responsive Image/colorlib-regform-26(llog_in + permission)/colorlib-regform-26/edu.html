@@ -125,9 +125,9 @@
     </footer>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script>
-        // JavaScript có thể được thêm vào đây
+        // JavaScript for the SelfLearn platform
         document.addEventListener('DOMContentLoaded', function () {
-            // Hiệu ứng trượt mượt cho các liên kết menu
+            // Handle smooth scrolling for menu links
             document.querySelectorAll('nav a').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     const targetId = this.getAttribute('href');
@@ -145,12 +145,14 @@
                     // For non-anchor links, let the default behavior happen (navigate to the page)
                 });
             });
-        });
 
-        // Đăng nhập và đăng xuất
-        $(document).ready(function () {
-            var user = JSON.parse(window.sessionStorage.getItem("user"));
+            // Check user login status and handle permissions
+            const user = JSON.parse(window.sessionStorage.getItem("user") || "null");
+
+            // Handle user permissions based on role
             function pagePermission() {
+                if (!user) return;
+
                 if (user.role == "Instructor") {
                     location.href = "../../instructorPage.html";
                     return;
@@ -165,56 +167,78 @@
                     document.getElementById("btnLogout").style.display = "inline-block";
                 }
             }
+
+            // Handle My Course menu visibility
+            if (user && user.role === 'Student') {
+                document.getElementById('myCourseMenu').style.display = 'block';
+            } else {
+                document.getElementById('myCourseMenu').style.display = 'none';
+            }
+
+            // Initialize page permissions
             pagePermission();
-        });
 
-        function Logout(event) {
-            event.preventDefault();
+            // Create and insert filter section after hero section
+            const filterSection = document.createElement('div');
+            filterSection.className = 'filter-section';
+            filterSection.innerHTML = `
+        <div class="filter-container">
+            <div class="filter-group">
+                <label for="price-filter">Price Range:</label>
+                <select id="price-filter">
+                    <option value="">All prices</option>
+                    <option value="low">Under 500,000 VND</option>
+                    <option value="medium">500,000 - 700,000 VND</option>
+                    <option value="high">Over 700,000 VND</option>
+                </select>
+            </div>
+            <button id="apply-filters" class="filter-button">Apply Filters</button>
+            <button id="clear-filters" class="filter-button">Clear Filters</button>
+        </div>
+    `;
 
-            window.sessionStorage.removeItem("user");
-            window.location.href = "edu.html";
-        }
+            const heroSection = document.querySelector('.hero');
+            heroSection.insertAdjacentElement('afterend', filterSection);
 
+            // Create a div to display filter results summary
+            const filterResults = document.createElement('div');
+            filterResults.className = 'filter-results';
+            filterResults.style.display = 'none';
+            const coursesContainer = document.querySelector('.courses-container');
+            coursesContainer.parentNode.insertBefore(filterResults, coursesContainer);
 
-        // Tạo dropdown filter và gắn sự kiện cho search bar
-        document.addEventListener('DOMContentLoaded', function () {
-            // Lấy phần tử search bar
+            // Get search elements
             const searchBar = document.querySelector('.search-bar');
             const searchInput = searchBar.querySelector('input');
             const searchButton = searchBar.querySelector('button');
 
-            // Thêm lựa chọn filter vào thanh tìm kiếm
-            const filterDropdown = document.createElement('div');
-            filterDropdown.className = 'filter-dropdown';
-            filterDropdown.innerHTML = `
-        <select id="price-filter">
-            <option value="">All prices</option>
-            <option value="low">Under 500,000 VND</option>
-            <option value="medium">500.000đ - 700.000đ</option>
-            <option value="high">Over 700,000 VND</option>
-        </select>
-    `;
+            // Store all courses for filtering
+            let allCourses = [];
 
-            // Thêm dropdown vào sau input và trước button
-            searchInput.insertAdjacentElement('afterend', filterDropdown);
+            // Load and initialize courses
+            loadCoursesAndInitFilters();
 
-            // Tạo div để hiển thị kết quả tìm kiếm
-            const searchResults = document.createElement('div');
-            searchResults.className = 'search-results';
-            searchResults.style.display = 'none';
-            searchBar.appendChild(searchResults);
+            async function loadCoursesAndInitFilters() {
+                try {
+                    const courseResponse = await fetch("https://localhost:7026/api/Course/GetList");
+                    allCourses = await courseResponse.json();
 
-            // Hàm tìm kiếm và lọc khóa học
-            function searchCourses() {
-                if (!Array.isArray(courses) || courses.length === 0) {
-                    console.warn("Danh sách khóa học chưa được tải.");
-                    return;
+                    // Display all courses initially
+                    displayFilteredCourses(allCourses);
+
+                } catch (error) {
+                    console.error("Error loading courses:", error);
+                    coursesContainer.innerHTML = '<div class="no-courses">Unable to load courses. Please try again later.</div>';
                 }
+            }
 
+            // Filter courses based on criteria
+            function filterCourses() {
                 const searchText = searchInput.value.toLowerCase().trim();
                 const priceFilter = document.getElementById('price-filter').value;
 
-                const filteredCourses = courses.filter(course => {
+                const filteredCourses = allCourses.filter(course => {
+                    // Price filter
                     let matchPrice = true;
                     if (priceFilter === 'low') {
                         matchPrice = course.price < 500000;
@@ -224,211 +248,156 @@
                         matchPrice = course.price > 700000;
                     }
 
-                    if (searchText === '') {
-                        return matchPrice;
+                    // Search text filter
+                    let matchSearch = true;
+                    if (searchText) {
+                        const words = searchText.split(/\s+/);
+                        matchSearch = words.every(word =>
+                            course.courseName.toLowerCase().includes(word) ||
+                            (course.description && course.description.toLowerCase().includes(word))
+                        );
                     }
 
-                    const words = searchText.split(/\s+/);
-                    const titleMatch = words.every(word => course.courseName.toLowerCase().includes(word));
-
-                    return titleMatch && matchPrice;
+                    return matchPrice && matchSearch;
                 });
 
-                displayResults(filteredCourses);
+                // Display filtered courses
+                displayFilteredCourses(filteredCourses);
+
+                // Show filter results summary
+                filterResults.style.display = 'block';
+                filterResults.innerHTML = `
+            <div class="filter-summary">
+                <h3>Filter Results</h3>
+                <p>Found ${filteredCourses.length} course(s) matching your criteria</p>
+            </div>
+        `;
             }
 
+            // Display courses in the container
+            async function displayFilteredCourses(courses) {
+                try {
+                    const userId = user?.userId;
 
-            // Hàm hiển thị kết quả tìm kiếm
-            function displayResults(results) {
-                if (results.length === 0) {
-                    searchResults.innerHTML = '<p class="no-results">Course not found</p>';
-                } else {
-                    searchResults.innerHTML = results.map(course => `
-            <a href="../../course-detail.html?id=${course.courseId}" class="search-result-item">
-                <img src="${course.courseImage}" alt="${course.courseName}">
-                <div class="search-result-info">
-                    <h4>${course.courseName}</h4>
-                    <div class="search-result-price">
-                        <span class="search-result-current-price">${formatCurrency(course.price)}</span>
+                    coursesContainer.innerHTML = "";
+
+                    if (courses.length === 0) {
+                        coursesContainer.innerHTML = '<div class="no-courses">No courses found matching your criteria</div>';
+                        return;
+                    }
+
+                    for (const course of courses) {
+                        let hasBought = false;
+
+                        if (userId) {
+                            try {
+                                const checkResponse = await fetch(`https://localhost:7026/api/StudentBuyCourse/HasUserBoughtCourse?userId=${userId}&courseId=${course.courseId}`);
+                                const result = await checkResponse.json();
+                                hasBought = result.hasBought;
+                            } catch (error) {
+                                console.error("Error checking purchase status:", error);
+                            }
+                        }
+
+                        const priceHtml = hasBought
+                            ? ""
+                            : `<div class="course-price">${formatCurrency(course.price)}</div>`;
+
+                        const buttonHtml = hasBought
+                            ? `<button class="buy-btn" onclick="event.stopPropagation(); learnCourse('${course.courseId}')">Learn This Course</button>`
+                            : `<button class="buy-btn" onclick="event.stopPropagation(); buyCourse('${course.courseId}')">Buy</button>`;
+
+                        const courseHTML = `
+                    <div class="course-card" onclick="goToCourseDetail('${course.courseId}')">
+                        <div class="course-image">
+                            <img src="${course.courseImage}" alt="${course.courseName}">
+                        </div>
+                        <div class="course-details">
+                            <h3 class="course-title">${course.courseName}</h3>
+                            <p class="course-description">${course.description}</p>
+                            <div class="course-info"></div>
+                            <div class="course-footer">
+                                ${priceHtml}
+                                <a href="../../course-detail.html?id=${course.courseId}" class="custom-detail-link" onclick="event.stopPropagation();">View details</a>
+                                ${buttonHtml}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </a>
-        `).join('');
-                }
+                `;
 
-                searchResults.style.display = 'block';
+                        coursesContainer.innerHTML += courseHTML;
+                    }
+
+                } catch (error) {
+                    console.error("Error displaying courses:", error);
+                    coursesContainer.innerHTML = '<div class="no-courses">Error displaying courses. Please try again later.</div>';
+                }
             }
 
+            // Attach event listeners for filters
+            document.getElementById('apply-filters').addEventListener('click', filterCourses);
 
-            // Sự kiện tìm kiếm khi nhấn nút hoặc Enter
-            searchButton.addEventListener('click', searchCourses);
+            document.getElementById('clear-filters').addEventListener('click', function () {
+                // Reset all filters
+                searchInput.value = '';
+                document.getElementById('price-filter').value = '';
 
+                // Display all courses
+                displayFilteredCourses(allCourses);
+
+                // Hide filter results summary
+                filterResults.style.display = 'none';
+            });
+
+            // Add search button event
+            searchButton.addEventListener('click', filterCourses);
+
+            // Add search input enter key event
             searchInput.addEventListener('keyup', function (event) {
-                searchCourses(); // Gọi tìm kiếm mỗi khi gõ
-
-                // Nếu người dùng ấn Enter, cũng gọi lại (không bắt buộc nếu đã có dòng trên)
                 if (event.key === 'Enter') {
-                    searchCourses();
-                }
-            });
-
-
-            // Sự kiện khi thay đổi bộ lọc
-            document.getElementById('price-filter').addEventListener('change', searchCourses);
-
-            // Ẩn kết quả khi click ra ngoài
-            document.addEventListener('click', function (event) {
-                if (!searchBar.contains(event.target)) {
-                    searchResults.style.display = 'none';
-                }
-            });
-
-            // Hiển thị lại kết quả khi focus vào ô tìm kiếm
-            searchInput.addEventListener('focus', function () {
-                if (searchResults.innerHTML !== '') {
-                    searchResults.style.display = 'block';
+                    filterCourses();
                 }
             });
         });
-        // hiển thị khóa học
-        let courses = [];
-        document.addEventListener('DOMContentLoaded', loadCourses);
 
-        //         async function loadCourses() {
-        //     try {
-        //         const userId = sessionStorage.getItem("user");
-        //         const courseResponse = await fetch("https://localhost:7026/api/Course/GetList");
-        //         const courses = await courseResponse.json();
-
-        //         const container = document.querySelector(".courses-container");
-        //         container.innerHTML = "";
-
-        //         for (const course of courses) {
-        //             let hasBought = false;
-
-        //             // Nếu userId tồn tại thì gọi API kiểm tra đã mua khóa học chưa
-        //             if (userId) {
-        //                 const checkResponse = await fetch(`https://localhost:7026/api/StudentBuyCourse/HasUserBoughtCourse?userId=${userId}&courseId=${course.courseId}`);
-        //                 hasBought = await checkResponse.json(); // true hoặc false
-        //             }
-
-        //             const priceHtml = hasBought
-        //                 ? "" // Ẩn giá nếu đã mua
-        //                 : `<div class="course-price">${formatCurrency(course.price)}</div>`;
-
-        //             const buttonHtml = hasBought
-        //                 ? `<button class="buy-btn" onclick="event.stopPropagation(); learnCourse('${course.courseId}')">Learn This Course</button>`
-        //                 : `<button class="buy-btn" onclick="event.stopPropagation(); buyCourse('${course.courseId}')">Buy</button>`;
-
-        //             const courseHTML = `
-        //                 <div class="course-card" onclick="goToCourseDetail('${course.courseId}')">
-        //                     <div class="course-image">
-        //                         <img src="${course.courseImage}" alt="${course.courseName}">
-        //                     </div>
-        //                     <div class="course-details">
-        //                         <h3 class="course-title">${course.courseName}</h3>
-        //                         <p class="course-description">${course.description}</p>
-        //                         <div class="course-info"></div>
-        //                         <div class="course-footer">
-        //                             ${priceHtml}
-        //                             <a href="../../course-detail.html?id=${course.courseId}" class="custom-detail-link" onclick="event.stopPropagation();">Xem Chi Tiết</a>
-        //                             ${buttonHtml}
-        //                         </div>
-        //                     </div>
-        //                 </div>
-        //             `;
-
-        //             container.innerHTML += courseHTML;
-        //         }
-
-        //     } catch (error) {
-        //         console.error("Lỗi khi tải khóa học:", error);
-        //     }
-        // }
-
-        async function loadCourses() {
-            try {
-                const userJson = sessionStorage.getItem("user");
-                const user = userJson ? JSON.parse(userJson) : null;
-                const userId = user?.userId;
-                console.log("userId from sessionStorage:", userId);
-
-                const courseResponse = await fetch("https://localhost:7026/api/Course/GetList");
-                const courses = await courseResponse.json();
-                courses.forEach(course => console.log("Checking courseId:", course.courseId));
-                const container = document.querySelector(".courses-container");
-                container.innerHTML = "";
-
-                for (const course of courses) {
-                    let hasBought = false;
-
-                    if (userId) {
-                        const checkResponse = await fetch(`https://localhost:7026/api/StudentBuyCourse/HasUserBoughtCourse?userId=${userId}&courseId=${course.courseId}`);
-                        const result = await checkResponse.json();
-                        hasBought = result.hasBought; // <- Sửa chỗ này
-                    }
-                    const priceHtml = hasBought
-                        ? ""
-                        : `<div class="course-price">${formatCurrency(course.price)}</div>`;
-
-                    const buttonHtml = hasBought
-                        ? `<button class="buy-btn" onclick="event.stopPropagation(); learnCourse('${course.courseId}')">Learn This Course</button>`
-                        : `<button class="buy-btn" onclick="event.stopPropagation(); buyCourse('${course.courseId}')">Buy</button>`;
-
-                    const courseHTML = `
-                <div class="course-card" onclick="goToCourseDetail('${course.courseId}')">
-                    <div class="course-image">
-                        <img src="${course.courseImage}" alt="${course.courseName}">
-                    </div>
-                    <div class="course-details">
-                        <h3 class="course-title">${course.courseName}</h3>
-                        <p class="course-description">${course.description}</p>
-                        <div class="course-info"></div>
-                        <div class="course-footer">
-                            ${priceHtml}
-                            <a href="../../course-detail.html?id=${course.courseId}" class="custom-detail-link" onclick="event.stopPropagation();">View details</a>
-                            ${buttonHtml}
-                        </div>
-                    </div>
-                </div>
-            `;
-
-                    container.innerHTML += courseHTML;
-                }
-
-            } catch (error) {
-                console.error("Lỗi khi tải khóa học:", error);
-            }
+        // Helper function to format currency
+        function formatCurrency(price) {
+            return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
         }
 
-
-        function learnCourse(courseId) {
-            window.location.href = `../../studentPage.html?id=${courseId}`;
-        }
+        // Function to navigate to course detail page
         function goToCourseDetail(courseId) {
             window.location.href = `../../course-detail.html?id=${courseId}`;
         }
 
+        // Function to handle buy course action
         function buyCourse(courseId) {
+            // Prevent event bubbling
+            event.stopPropagation();
+
+            // Check if user is logged in
+            const user = JSON.parse(window.sessionStorage.getItem("user") || "null");
+            if (!user) {
+                alert("Please login to buy this course.");
+                window.location.href = "edu_login.html";
+                return;
+            }
+
             window.location.href = `../../paymentPage.html?courseId=${courseId}`;
         }
 
-        // 💰 Hàm định dạng tiền tệ
-        function formatCurrency(price) {
-            return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
+        // Function to handle learn course action
+        function learnCourse(courseId) {
+            // Prevent event bubbling
+            event.stopPropagation();
+            window.location.href = `../../studentPage.html?id=${courseId}`;
         }
-        const userData = sessionStorage.getItem('user');
-        if (userData) {
-            const user = JSON.parse(userData);
-            const role = user.role;
 
-            // Ẩn menu nếu role không phải là student
-            if (role !== 'Student') {
-                document.getElementById('myCourseMenu').style.display = 'none';
-            }
-        } else {
-            // Nếu chưa đăng nhập, ẩn luôn
-            document.getElementById('myCourseMenu').style.display = 'none';
+        // Logout function
+        function Logout(event) {
+            event.preventDefault();
+            window.sessionStorage.removeItem("user");
+            window.location.href = "edu.html";
         }
     </script>
 </body>
