@@ -45,8 +45,6 @@
         // Get course ID from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const courseId = urlParams.get('id');
-        const currentUser = JSON.parse(sessionStorage.getItem("user"));
-        const currentUserId = currentUser?.userId;
 
         // Fetch course details
         fetch(`${baseUrl}/api/Course/GetCourseById/${courseId}`)
@@ -98,46 +96,31 @@
             })
             .then(chapters => {
                 const chaptersList = document.getElementById('chaptersList');
+
+                // Clear any existing chapters
                 chaptersList.innerHTML = '';
 
+                // Add chapters to the list
                 chapters.forEach(chapter => {
                     const li = document.createElement('li');
                     li.textContent = chapter.chapterTitle;
                     chaptersList.appendChild(li);
                 });
 
+                // Add Buy This Course button
                 const actionsDiv = document.createElement('div');
                 actionsDiv.className = 'course-actions';
 
-                const currentUser = JSON.parse(sessionStorage.getItem("user"));
-                const currentUserId = currentUser?.userId;
+                const buyButton = document.createElement('button');
+                buyButton.className = 'buy-button';
+                buyButton.textContent = 'Buy This Course';
+                buyButton.onclick = () => {
+                    window.location.href = `paymentPage.html?courseId=${courseId}`;
+                };
 
-                if (!currentUserId) return; // Nếu chưa đăng nhập
-
-                // Kiểm tra xem user đã mua khóa học chưa
-                fetch(`${baseUrl}/api/StudentBuyCourse/HasUserBoughtCourse?userId=${currentUserId}&courseId=${courseId}`)
-                    .then(res => res.json())
-                    .then(result => {
-                        const actionButton = document.createElement('button');
-
-                        if (result.hasBought) {
-                            actionButton.textContent = "Learn this course";
-                            actionButton.onclick = () => {
-                                window.location.href = `studentPage.html`; // hoặc trang học chi tiết nếu bạn có
-                            };
-                        } else {
-                            actionButton.textContent = "Buy This Course";
-                            actionButton.onclick = () => {
-                                window.location.href = `paymentPage.html?courseId=${courseId}`;
-                            };
-                        }
-
-                        actionButton.className = 'buy-button';
-                        actionsDiv.appendChild(actionButton);
-                        document.querySelector('.course-container').appendChild(actionsDiv);
-                    });
+                actionsDiv.appendChild(buyButton);
+                document.querySelector('.course-container').appendChild(actionsDiv);
             })
-
             .catch(error => {
                 console.error('Error:', error);
                 document.querySelector('.course-container').innerHTML = '<h2>Course, Instructor, or User not found</h2>';

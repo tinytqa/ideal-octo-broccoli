@@ -1,36 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor Dashboard</title>
     <link rel="stylesheet" href="css/admin_styles.css">
 </head>
-<style>
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-right: 20px;
-        position: relative;
-    }
-
-    .logout-top-right {
-        background-color: #ff4d4d;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .logout-top-right:hover {
-        background-color: #e60000;
-    }
-</style>
 <body>
     <div class="dashboard">
         <!-- Sidebar với menu điều hướng -->
@@ -59,7 +34,7 @@
                     <span>Quizz management</span>
                 </li>
                 <li class="nav-item" data-page="studentdotest.html">
-                    <span>Submitted Tests</span>
+                    <span>Doing test management</span>
                 </li>
                 <li class="nav-item" data-page="test.html">
                     <span>Test management</span>
@@ -67,9 +42,15 @@
                 <li class="nav-item" data-page="video.html">
                     <span>Video management</span>
                 </li>
-                <!-- <li class="nav-item" data-page="status.html">
+                <li class="nav-item" data-page="status.html">
                     <span>Status management</span>
-                </li> -->
+                </li>
+                <li class="nav-item" data-page="notifications.html">
+                    <span>Notification</span>
+                </li>
+                <li class="nav-item" data-page="settings.html">
+                    <span>Setting</span>
+                </li>
             </ul>
         </div>
 
@@ -77,7 +58,6 @@
         <div class="main-content">
             <div class="header">
                 <h1 class="page-title">Overview</h1>
-                <button class="logout-top-right" onclick="handleLogout()">Log out</button>
             </div>
             <!-- iframe để hiển thị nội dung -->
             <iframe id="content-frame" class="content-frame" src="dashboard.html"></iframe>
@@ -92,31 +72,21 @@
 
         // Xử lý sự kiện click trên menu
         menuItems.forEach(item => {
-            item.addEventListener('click', function () {
+            item.addEventListener('click', function() {
                 // Xóa trạng thái active từ tất cả các menu items
                 menuItems.forEach(i => i.classList.remove('active'));
-
+                
                 // Thêm trạng thái active cho item được click
                 this.classList.add('active');
-
+                
                 // Cập nhật tiêu đề trang
                 pageTitle.textContent = this.querySelector('span').textContent;
-
+                
                 // Cập nhật src của iframe để load trang mới
                 const page = this.getAttribute('data-page');
                 iframe.src = page;
             });
         });
-        function handleLogout() {
-            // Xóa token và user khỏi sessionStorage
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user");
-
-            // Thông báo và chuyển hướng về trang đăng nhập
-            alert("Log out sucessfully!");
-            window.location.href = "colorlib-regform-26(llog_in + permission)/colorlib-regform-26/edu_login.html"; // Cập nhật link nếu khác
-        }
     </script>
 </body>
-
 </html>

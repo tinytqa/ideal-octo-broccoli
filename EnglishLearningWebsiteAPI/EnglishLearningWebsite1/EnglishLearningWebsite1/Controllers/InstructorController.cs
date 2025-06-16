@@ -81,20 +81,5 @@ namespace LearningWebsiteAPI.Controllers
             return Ok(instructor);
         }
 
-        [HttpGet]
-        [Route("api/courses")]
-        public IActionResult GetInstructorCourses([FromQuery] string instructorId)
-        {
-            var courses = dbc.Courses.Where(c => c.InstructorId == instructorId).ToList();
-
-            if (courses == null || courses.Count == 0)
-            {
-                return NotFound("No courses found for this instructor.");
-            }
-
-            return Ok(courses);
-        }
-
-
     }
 }

@@ -509,97 +509,44 @@
 
 </body>
 <script>
-    // $(document).ready(function () {
-    //     var user = JSON.parse(window.sessionStorage.getItem("user"));
-    //     function pagePermission() {
-    //         if (!user) {
-    //             $("#navi_student").hide();
-    //             $("#navi_instructor").hide();
-    //             $("#navi_admin").hide();
-    //             $("#navi_logout").hide();
-    //             $("#navi_login").show();
-    //             return;
-    //         }
-    //         if (user.role == "Instructor") {
-    //             location.href = "../../instructorPage.html";
-    //             return;
-    //         }
-    //         if (user.role == "Administrator") {
-    //             location.href = "../../adminPage.html";
-    //             return;
-    //         }
-    //         if (user.role == "Student") {
-    //             $("#navi_student").show();
-    //             $("#navi_instructor").hide();
-    //             $("#navi_admin").hide();
-    //             $("#navi_logout").show();
-    //             $("#navi_login").hide();
-    //             return;
-    //         }
-    //     }
+    $(document).ready(function () {
+        var user = JSON.parse(window.sessionStorage.getItem("user"));
+        function pagePermission() {
+            if (!user) {
+                $("#navi_student").hide();
+                $("#navi_instructor").hide();
+                $("#navi_admin").hide();
+                $("#navi_logout").hide();
+                $("#navi_login").show();
+                return;
+            }
+            if (user.role == "Instructor") {
+                location.href = "../../instructorPage.html";
+                return;
+            }
+            if (user.role == "Administrator") {
+                location.href = "../../adminPage.html";
+                return;
+            }
+            if (user.role == "Student") {
+                $("#navi_student").show();
+                $("#navi_instructor").hide();
+                $("#navi_admin").hide();
+                $("#navi_logout").show();
+                $("#navi_login").hide();
+                return;
+            }
+        }
 
-    //     pagePermission();
+        pagePermission();
 
-    //     $("#navi_logout").click(function () {
-    //         window.sessionStorage.removeItem("user");
-    //         window.location.href = "mainpage.html";
-    //     })
-    // })
+        $("#navi_logout").click(function () {
+            window.sessionStorage.removeItem("user");
+            window.location.href = "mainpage.html";
+        })
+    })
 
     // Lấy các phần tử DOM cần thiết
-    $(document).ready(function () {
-    // Lấy thông tin người dùng từ sessionStorage
-    var user = JSON.parse(window.sessionStorage.getItem("user"));
-
-    function pagePermission() {
-        if (!user) {
-            // Nếu không có người dùng đăng nhập, ẩn tất cả các phần tử liên quan đến người dùng
-            $("#navi_student").hide();
-            $("#navi_instructor").hide();
-            $("#navi_admin").hide();
-            $("#navi_logout").hide();
-            $("#navi_login").show();
-            return;
-        }
-
-        // Kiểm tra vai trò người dùng và điều hướng giao diện
-        if (user.role == "Instructor") {
-            // Nếu là giảng viên, chuyển đến trang instructor
-            location.href = "../../instructorPage.html";
-            return;
-        }
-
-        if (user.role == "Administrator") {
-            // Nếu là quản trị viên, chuyển đến trang admin
-            location.href = "../../adminPage.html";
-            return;
-        }
-
-        if (user.role == "Student") {
-            // Nếu là học viên, hiển thị các phần tử cho học viên
-            $("#navi_student").show();
-            $("#navi_instructor").hide();
-            $("#navi_admin").hide();
-            $("#navi_logout").show();
-            $("#navi_login").hide();
-            return;
-        }
-
-        // Nếu không có vai trò hợp lệ
-        window.alert("Role not found or invalid");
-    }
-
-    // Gọi hàm pagePermission để xử lý quyền truy cập
-    pagePermission();
-
-    // Xử lý sự kiện logout
-    $("#navi_logout").click(function () {
-        window.sessionStorage.removeItem("user");  // Xóa thông tin người dùng
-        window.location.href = "mainpage.html";  // Quay lại trang chính
-    })
-});
-
-    
     const navCheckbox = document.getElementById('navi-toggle');
     const navLinks = document.querySelectorAll('.navigation__link');
 

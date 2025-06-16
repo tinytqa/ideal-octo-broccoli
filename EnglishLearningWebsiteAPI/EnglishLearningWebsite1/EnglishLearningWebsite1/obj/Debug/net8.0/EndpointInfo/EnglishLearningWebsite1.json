@@ -199,27 +199,6 @@
         }
       }
     },
-    "/api/Chapter/GetChaptersByInstructor": {
-      "get": {
-        "tags": [
-          "Chapter"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Chapter/Update": {
       "post": {
         "tags": [
@@ -331,7 +310,7 @@
             }
           },
           {
-            "name": "image",
+            "name": "courseImage",
             "in": "query",
             "schema": {
               "type": "string"
@@ -486,27 +465,6 @@
           },
           {
             "name": "fileUrl",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Document/GetDocumentsByInstructor": {
-      "get": {
-        "tags": [
-          "Document"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -840,27 +798,6 @@
         }
       }
     },
-    "/api/Instructor/api/courses": {
-      "get": {
-        "tags": [
-          "Instructor"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Lesson/GetList": {
       "get": {
         "tags": [
@@ -895,27 +832,6 @@
           },
           {
             "name": "chapterId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Lesson/GetLessonsByInstructor": {
-      "get": {
-        "tags": [
-          "Lesson"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -989,34 +905,6 @@
       "post": {
         "tags": [
           "Login"
-        ],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Login2/login": {
-      "get": {
-        "tags": [
-          "Login2"
         ],
         "parameters": [
           {
@@ -1155,27 +1043,6 @@
         }
       }
     },
-    "/api/Payment/CountSoldCoursesByInstructor": {
-      "get": {
-        "tags": [
-          "Payment"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Payment/Delete": {
       "post": {
         "tags": [
@@ -1294,27 +1161,6 @@
           },
           {
             "name": "keyUrl",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Quizz/GetQuizzsByInstructor": {
-      "get": {
-        "tags": [
-          "Quizz"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -1699,27 +1545,6 @@
         }
       }
     },
-    "/api/StudentBuyCourse/CountStudentsByInstructor": {
-      "get": {
-        "tags": [
-          "StudentBuyCourse"
-        ],
-        "parameters": [
-          {
-            "name": "instructorId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/StudentBuyCourse/Update": {
       "post": {
         "tags": [
@@ -1778,34 +1603,6 @@
         "parameters": [
           {
             "name": "enrollmentId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/StudentBuyCourse/HasUserBoughtCourse": {
-      "get": {
-        "tags": [
-          "StudentBuyCourse"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "courseId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -1890,27 +1687,6 @@
           },
           {
             "name": "result",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/StudentDoTest/GetByInstructor": {
-      "get": {
-        "tags": [
-          "StudentDoTest"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -2092,27 +1868,6 @@
           },
           {
             "name": "type",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Test/GetByInstructor": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -2376,27 +2131,6 @@
           },
           {
             "name": "description",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Video/GetByInstructor": {
-      "get": {
-        "tags": [
-          "Video"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
             "in": "query",
             "schema": {
               "type": "string"

@@ -1,7 +1,6 @@
 ﻿using EnglishLearningWebsite1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EnglishLearningWebsite.Controllers
 {
@@ -59,28 +58,6 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Update Test ID " + testId + " successfully!");
         }
-        [HttpGet("GetByInstructor")]
-        public IActionResult GetTestsByInstructor(string userId)
-        {
-            var tests = dbc.Tests
-                .Include(t => t.Course)
-                .Where(t =>
-                    t.Course != null &&
-                    t.Course.Instructor != null &&
-                    t.Course.Instructor.UserId == userId)
-                .Select(t => new {
-                    t.TestId,
-                    t.CourseId,
-                    t.Field,
-                    t.TestContent,
-                    t.Type
-                })
-                .ToList();
-
-            return Ok(tests);
-        }
-
-
 
         [HttpPost]
         [Route("Delete")]

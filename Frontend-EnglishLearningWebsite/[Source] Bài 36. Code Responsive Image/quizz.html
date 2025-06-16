@@ -88,18 +88,15 @@
         });
 
         // Hàm tải dữ liệu từ API
-
         function loadData() {
-            const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
-
             $.ajax({
-                url: `${baseUrl}/GetQuizzsByInstructor?instructorId=${instructorId}`,
+                url: `${baseUrl}/GetList`,
                 method: 'GET',
                 success: function (data) {
                     renderTable(data);
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải quiz');
+                    alert('Lỗi khi tải dữ liệu');
                     console.error(error);
                 }
             });
@@ -117,8 +114,8 @@
                         <td>${item.title}</td>
                         <td>${item.keyUrl}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.quizzId}')">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteQuizz('${item.quizzId}')">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.quizzId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteQuizz('${item.quizzId}')">Xóa</button>
                         </td>
                     </tr>
                 `;

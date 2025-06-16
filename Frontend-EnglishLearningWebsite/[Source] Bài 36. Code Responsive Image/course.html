@@ -29,6 +29,7 @@
                     <th>Course Name</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th>courseImage</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -63,6 +64,10 @@
                     <div class="mb-3">
                         <label class="form-label">Price</label>
                         <input type="number" id="price" class="form-control" step="0.01">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">courseImage</label>
+                        <input type="text" id="courseImage" class="form-control">
                     </div>
                     <button class="btn btn-success" onclick="saveCourse()">Save</button>
                 </div>
@@ -152,61 +157,27 @@
             });
         }
 
-        // function renderTable(data) {
-        //     let html = '';
-        //     data.forEach((item) => {
-        //         html += `
-        //             <tr>
-        //                 <td>${item.courseId}</td>
-        //                 <td>${item.instructorId}</td>
-        //                 <td>${item.courseName}</td>
-        //                 <td>${item.description}</td>
-        //                 <td>${item.price}</td>
-        //                 <td>
-        //                     <button class="btn btn-warning btn-sm" onclick="openDialog('${item.courseId}')">Fix</button>
-        //                     <button class="btn btn-danger btn-sm" onclick="deleteCourse('${item.courseId}')">Delete</button>
-        //                     <button class="btn btn-danger btn-sm" onclick="showChapter('${item.courseId}')">Show chapter</button>
-        //                 </td>
-        //             </tr>
-        //         `;
-        //     });
-        //     $('#dataTable').html(html);
-        // }
-
-
         function renderTable(data) {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-
-    if (!user || !user.instructorId) {
-        console.error("Không tìm thấy instructorId trong session.");
-        return;
-    }
-
-    const instructorId = user.instructorId;
-
-    // Lọc khóa học của instructor đang đăng nhập
-    const filteredCourses = data.filter(course => course.instructorId === instructorId);
-
-    let html = '';
-    filteredCourses.forEach((item) => {
-        html += `
-            <tr>
-                <td>${item.courseId}</td>
-                <td>${item.instructorId}</td>
-                <td>${item.courseName}</td>
-                <td>${item.description}</td>
-                <td>${item.price}</td>
-                <td>
-                    <button class="btn btn-warning btn-sm" onclick="openDialog('${item.courseId}')">Fix</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteCourse('${item.courseId}')">Delete</button>
-                    <button class="btn btn-danger btn-sm" onclick="showChapter('${item.courseId}')">Show chapter</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    $('#dataTable').html(html);
-}
+            let html = '';
+            data.forEach((item) => {
+                html += `
+                    <tr>
+                        <td>${item.courseId}</td>
+                        <td>${item.instructorId}</td>
+                        <td>${item.courseName}</td>
+                        <td>${item.description}</td>
+                        <td>${item.price}</td>
+                        <td>${item.courseImage}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.courseId}')">Fix</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCourse('${item.courseId}')">Delete</button>
+                            <button class="btn btn-danger btn-sm" onclick="showChapter('${item.courseId}')">Show chapter</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#dataTable').html(html);
+        }
 
         function openDialog(id = null) {
             $("#editModal").modal("show");
@@ -223,6 +194,7 @@
                             $("#courseName").val(course.courseName);
                             $("#description").val(course.description);
                             $("#price").val(course.price);
+                            $("#courseImage").val(course.courseImage);
                         }
                     }
                 });
@@ -232,6 +204,7 @@
                 $("#courseName").val("");
                 $("#description").val("");
                 $("#price").val("");
+                $("#courseImage").val("");
             }
         }
 
@@ -241,21 +214,22 @@
             var courseName = $("#courseName").val();
             var description = $("#description").val();
             var price = $("#price").val();
+            var courseImage = $("#courseImage").val();
 
-            if (!courseId || !courseName || !price || !instructorId || !description) {
+            if (!courseId || !courseName || !price || !instructorId || !description || !courseImage) {
                 alert('Vui lòng nhập đầy đủ thông tin!');
                 return;
             }
 
             if ($("#courseId").prop("readonly")) {
-                updateCourse(courseId, instructorId, courseName, description, price);
+                updateCourse(courseId, instructorId, courseName, description, price, courseImage);
             } else {
-                insertCourse(courseId, instructorId, courseName, description, price);
+                insertCourse(courseId, instructorId, courseName, description, price, courseImage);
             }
         }
 
-        function insertCourse(courseId, instructorId, courseName, description, price) {
-            const url = `courseId=${courseId}&instructorId=${instructorId}&courseName=${encodeURIComponent(courseName)}&description=${encodeURIComponent(description)}&price=${price}`;
+        function insertCourse(courseId, instructorId, courseName, description, price, courseImage) {
+            const url = `courseId=${courseId}&instructorId=${instructorId}&courseName=${encodeURIComponent(courseName)}&description=${encodeURIComponent(description)}&price=${price}&courseImage=${encodeURIComponent(courseImage)}`;
 
             $.post(`${baseUrl}/Insert?${url}`)
                 .done(() => {
@@ -269,8 +243,8 @@
                 });
         }
 
-        function updateCourse(courseId, instructorId, courseName, description, price) {
-            const url = `courseId=${courseId}&instructorId=${instructorId}&courseName=${encodeURIComponent(courseName)}&description=${encodeURIComponent(description)}&price=${price}`;
+        function updateCourse(courseId, instructorId, courseName, description, price, courseImage) {
+            const url = `courseId=${courseId}&instructorId=${instructorId}&courseName=${encodeURIComponent(courseName)}&description=${encodeURIComponent(description)}&price=${price}&courseImage=${encodeURIComponent(courseImage)}`;
 
             $.post(`${baseUrl}/Update?${url}`)
                 .done(() => {

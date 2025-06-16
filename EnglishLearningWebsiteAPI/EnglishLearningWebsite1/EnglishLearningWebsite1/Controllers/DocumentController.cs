@@ -39,33 +39,6 @@ namespace LearningWebsiteAPI.Controllers
             return Ok("Insert Document ID: " + documentId + " successfully!");
         }
 
-        [HttpGet]
-        [Route("GetDocumentsByInstructor")]
-        public IActionResult GetDocumentsByInstructor(string instructorId)
-        {
-            // Lấy tất cả các khóa học mà giảng viên dạy
-            var courses = dbc.Courses.Where(c => c.InstructorId == instructorId).ToList();
-
-            // Lấy tất cả các LessonId của các bài học thuộc về các khóa học mà giảng viên dạy
-            var lessonIds = dbc.Lessons
-                                .Where(l => courses.Select(c => c.CourseId).Contains(l.Chapter.CourseId))
-                                .Select(l => l.LessonId)
-                                .ToList();
-
-            // Lọc các tài liệu (documents) thuộc về các bài học của giảng viên
-            var documents = dbc.Documents
-                .Where(d => lessonIds.Contains(d.LessonId))
-                .ToList();
-
-            if (documents == null || !documents.Any())
-            {
-                return NotFound(new { success = false, message = "No documents found for this instructor." });
-            }
-
-            return Ok(documents);
-        }
-
-
         [HttpPost]
         [Route("Update")]
 

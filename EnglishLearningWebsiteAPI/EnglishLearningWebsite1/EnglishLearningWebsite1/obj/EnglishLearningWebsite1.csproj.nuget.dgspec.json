@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Desktop\\DACN\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj": {}
+    "C:\\Users\\Admin\\Desktop\\web\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Desktop\\DACN\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj": {
+    "C:\\Users\\Admin\\Desktop\\web\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\DACN\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\web\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj",
         "projectName": "EnglishLearningWebsite1",
-        "projectPath": "C:\\Users\\Admin\\Desktop\\DACN\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj",
+        "projectPath": "C:\\Users\\Admin\\Desktop\\web\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\EnglishLearningWebsite1.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Desktop\\DACN\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Desktop\\web\\ideal-octo-broccoli\\EnglishLearningWebsiteAPI\\EnglishLearningWebsite1\\EnglishLearningWebsite1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,16 +44,12 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[8.0.13, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.13, )"
@@ -98,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

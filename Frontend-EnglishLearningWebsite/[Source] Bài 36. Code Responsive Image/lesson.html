@@ -70,16 +70,14 @@
         });
 
         function loadData() {
-            const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
-
             $.ajax({
-                url: `${baseUrl}/GetLessonsByInstructor?instructorId=${instructorId}`,
+                url: `${baseUrl}/GetList`,
                 method: 'GET',
                 success: function (data) {
                     renderTable(data);
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải bài học');
+                    alert('Lỗi khi tải dữ liệu');
                     console.error(error);
                 }
             });
@@ -94,8 +92,8 @@
                         <td>${item.chapterId}</td>
                         <td>${item.title}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.lessonId}')">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteLesson('${item.lessonId}')">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.lessonId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteLesson('${item.lessonId}')">Xóa</button>
                         </td>
                     </tr>
                 `;

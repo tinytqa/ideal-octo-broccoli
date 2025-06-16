@@ -95,50 +95,22 @@
             });
         }
 
-        // function renderTable(data) {
-        //     let html = '';
-        //     data.forEach((item) => {
-        //         html += `
-        //             <tr>
-        //                 <td>${item.articleId}</td>
-        //                 <td>${item.title}</td>
-        //                 <td>${item.articalContent}</td>
-        //                 <td>${item.postedDate}</td>
-        //                 <td>
-        //                     <button class="btn btn-warning btn-sm" onclick="openDialog('${item.articleId}')">Edit</button>
-        //                     <button class="btn btn-danger btn-sm" onclick="deleteArticle('${item.articleId}')">Delete</button>
-        //                 </td>
-        //             </tr>
-        //         `;
-        //     });
-        //     $('#dataTable').html(html);
-        // }
-
         function renderTable(data) {
-            // Lấy instructorId từ sessionStorage (hoặc từ nơi bạn lưu thông tin người dùng)
-            const instructorId = JSON.parse(window.sessionStorage.getItem("user")).instructorId;
-
-            // Lọc bài viết (hoặc khóa học) chỉ của instructor hiện tại
-            const filteredData = data.filter(item => item.instructorId === instructorId);
-
-            // Tạo HTML để render dữ liệu
             let html = '';
-            filteredData.forEach((item) => {
+            data.forEach((item) => {
                 html += `
-            <tr>
-                <td>${item.articleId}</td>
-                <td>${item.title}</td>
-                <td>${item.articalContent}</td>
-                <td>${item.postedDate}</td>
-                <td>
-                    <button class="btn btn-warning btn-sm" onclick="openDialog('${item.articleId}')">Sửa</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteArticle('${item.articleId}')">Xóa</button>
-                </td>
-            </tr>
-        `;
+                    <tr>
+                        <td>${item.articleId}</td>
+                        <td>${item.title}</td>
+                        <td>${item.articalContent}</td>
+                        <td>${item.postedDate}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.articleId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteArticle('${item.articleId}')">Xóa</button>
+                        </td>
+                    </tr>
+                `;
             });
-
-            // Chèn HTML vào bảng
             $('#dataTable').html(html);
         }
 

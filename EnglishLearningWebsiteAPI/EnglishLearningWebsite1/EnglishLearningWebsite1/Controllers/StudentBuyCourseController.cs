@@ -1,7 +1,6 @@
 ﻿using EnglishLearningWebsite1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EnglishLearningWebsite.Controllers
 {
@@ -41,25 +40,6 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Insert StudentBuyCourse ID: " + enrollmentId + " successfully!");
         }
-        [HttpGet]
-        [Route("CountStudentsByInstructor")]
-        public IActionResult CountStudentsByInstructor(string instructorId)
-        {
-            // Lấy danh sách các khóa học mà giảng viên này dạy
-            var courseIds = dbc.Courses
-                               .Where(c => c.InstructorId == instructorId)
-                               .Select(c => c.CourseId)
-                               .ToList();
-
-            // Lấy danh sách học viên tham gia các khóa học đó (nếu một học viên học nhiều khóa, tính duy nhất)
-            var studentCount = dbc.StudentBuyCourses
-                                  .Where(sbc => courseIds.Contains(sbc.CourseId))
-                                  .Select(sbc => sbc.StudentId)
-                                  .Distinct()
-                                  .Count();
-
-            return Ok(new { count = studentCount });
-        }
 
         [HttpPost]
         [Route("Update")]
@@ -91,24 +71,5 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Delete StudentBuyCourse ID " + studentBuyCourse + " successfully!");
         }
-        [HttpGet("HasUserBoughtCourse")]
-        public IActionResult HasUserBoughtCourse(string userId, string courseId)
-        {
-            // Bước 1: Tìm studentId từ userId
-            var student =dbc.Students.FirstOrDefault(s => s.UserId == userId);
-
-            if (student == null)
-            {
-                return Ok(new { hasBought = false });
-            }
-
-            // Bước 2: Kiểm tra student đó đã mua khóa học chưa
-            bool hasBought = dbc.StudentBuyCourses
-                            .Any(sb => sb.StudentId == student.StudentId && sb.CourseId == courseId);
-
-            return Ok(new { hasBought });
-        }
-
-
     }
 }

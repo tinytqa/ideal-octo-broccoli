@@ -88,38 +88,18 @@
 
         // Hàm tải dữ liệu từ API
         function loadData() {
-            const instructorId = JSON.parse(sessionStorage.getItem("user")).instructorId;
             $.ajax({
-                url: `${baseUrl}/GetByInstructor?userId=${instructorId}`, // <-- đúng biến
+                url: `${baseUrl}/GetList`,
                 method: 'GET',
                 success: function (data) {
-                    renderTable(data); // Gọi hàm hiển thị
-                },
-                error: function (error) {
-                    alert('Lỗi khi tải dữ liệu video');
-                    console.error(error);
-                }
-            });
-        } function loadData() {
-            const user = JSON.parse(sessionStorage.getItem("user"));
-            const userId = user.userId; // <-- dùng đúng userId để truyền
-
-            $.ajax({
-                url: `${baseUrl}/GetByInstructor?userId=${userId}`,
-                method: 'GET',
-                success: function (data) {
-                    console.log("Dữ liệu nhận được:", data);
                     renderTable(data);
                 },
                 error: function (error) {
-                    alert('Lỗi khi tải dữ liệu video');
+                    alert('Lỗi khi tải dữ liệu');
                     console.error(error);
                 }
             });
         }
-
-
-
 
         // Hàm render bảng với dữ liệu
         function renderTable(data) {
@@ -132,8 +112,8 @@
                         <td>${item.fileUrl}</td>
                         <td>${item.description}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.videoId}')">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteVideo('${item.videoId}')">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.videoId}')">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteVideo('${item.videoId}')">Xóa</button>
                         </td>
                     </tr>
                 `;

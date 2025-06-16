@@ -58,31 +58,6 @@ namespace EnglishLearningWebsite.Controllers
 
             return Ok("Update Quizz ID " + quizzId + " successfully!");
         }
-        [HttpGet]
-        [Route("GetQuizzsByInstructor")]
-        public IActionResult GetQuizzsByInstructor(string instructorId)
-        {
-            // Lấy tất cả các khóa học mà giảng viên này dạy
-            var courses = dbc.Courses.Where(c => c.InstructorId == instructorId).ToList();
-
-            // Lấy tất cả các LessonId của các bài học thuộc về các khóa học mà giảng viên dạy
-            var lessonIds = dbc.Lessons
-                                .Where(l => courses.Select(c => c.CourseId).Contains(l.Chapter.CourseId))
-                                .Select(l => l.LessonId)
-                                .ToList();
-
-            // Lọc các quizz (quiz) thuộc về các bài học của giảng viên
-            var quizzs = dbc.Quizzs
-                .Where(q => lessonIds.Contains(q.LessonId))
-                .ToList();
-
-            if (quizzs == null || !quizzs.Any())
-            {
-                return NotFound(new { success = false, message = "No quizz found for this instructor." });
-            }
-
-            return Ok(quizzs);
-        }
 
         [HttpPost]
         [Route("Delete")]

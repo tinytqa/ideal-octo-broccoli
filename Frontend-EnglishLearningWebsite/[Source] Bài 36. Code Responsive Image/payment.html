@@ -12,12 +12,14 @@
 
 <body>
     <div class="container mt-4">
-        <h2 class="text-center">Payment</h2>
+        <h2 class="text-center">Payment management</h2>
         <div class="row mt-2">
             <div class="col-md-10">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search payment...">
             </div>
-            
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="openDialog()">Add payment</button>
+            </div>
         </div>
         <table class="table table-bordered mt-3">
             <thead>
@@ -27,7 +29,7 @@
                     <th>Course Name</th>
                     <th>Payment Date</th>
                     <th>Amount</th>
-                    
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="dataTable"></tbody>
@@ -185,7 +187,9 @@
                         <td>${item.courseName}</td>
                         <td>${item.paymentDate}</td>
                         <td>${item.amount}</td>
-                      
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="openDialog('${item.paymentId}')">Sửa</button>
+                        </td>
                     </tr>
                 `).join('');
                 $('#dataTable').html(html);
